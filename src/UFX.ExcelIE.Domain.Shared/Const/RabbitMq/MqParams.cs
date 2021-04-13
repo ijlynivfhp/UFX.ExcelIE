@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UFX.ExcelIE.Domain.Shared.Const
+namespace UFX.ExcelIE.Domain.Shared.Const.RabbitMq
 {
-    public static class QueryParams
+    public class MqParams
     {
         public const string Query = "query";
         public const string Fields = "fields";

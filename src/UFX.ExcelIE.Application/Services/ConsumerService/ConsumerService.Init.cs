@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UFX.ExcelIE.Application.Contracts.interfaces;
+using UFX.ExcelIE.Application.Contracts.interfaces.ExcelIE;
 
 namespace UFX.ExcelIE.Application.Services
 {

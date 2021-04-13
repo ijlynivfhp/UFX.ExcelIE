@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UFX.ExcelIE.Domain.Shared.Const
+namespace UFX.ExcelIE.Domain.Shared.Const.RabbitMq
 {
-    public static class CommonConst
+    public class MqConst
     {
+        /// <summary>
+        /// MQ--TopicName常量
+        /// </summary>
         public const string ExcelIETopicName = "ExcelIETopicName-topic";
     }
 }

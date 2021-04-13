@@ -6,8 +6,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UFX.ExcelIE.Application.Contracts;
+using UFX.ExcelIE.Application.Contracts.Dtos;
 using UFX.ExcelIE.Application.Contracts.Helper;
 using UFX.ExcelIE.Application.Contracts.interfaces;
+using UFX.ExcelIE.Application.Contracts.interfaces.ExcelIE;
 using UFX.Infra.Responses;
 
 namespace UFX.ExcelIE.HttpApi.Controllers
@@ -28,7 +30,7 @@ namespace UFX.ExcelIE.HttpApi.Controllers
         [HttpGet]
         public async Task<string> PushExcelExportMsg()
         {
-            await excelService.PushExcelExportMsg(this.Request.QueryString.ToString());
+            await excelService.PushExcelExportMsg(new MqMsgDto() { TemplateParams = this.Request.QueryString.ToString() });
             return default;
         }
     }

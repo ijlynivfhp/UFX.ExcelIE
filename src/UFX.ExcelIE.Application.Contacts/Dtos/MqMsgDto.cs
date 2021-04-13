@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UFX.ExcelIE.Domain.Shared.Enums;
+using UFX.ExcelIE.Domain.Shared.Enums.RabbitMq;
 using UFX.Infra.Attributes;
 
 namespace UFX.ExcelIE.Application.Contracts.Dtos
@@ -24,5 +25,15 @@ namespace UFX.ExcelIE.Application.Contracts.Dtos
         /// </summary>
         [Required]
         public Guid Id { get; set; }
+        /// <summary>
+        /// 导出模板编码
+        /// </summary>
+        [Required]
+        public string TemplateCode { get; set; }
+        /// <summary>
+        /// 导出模板参数
+        /// </summary>
+        [Required]
+        public string TemplateParams { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UFX.ExcelIE.Domain.Shared.Enums
+namespace UFX.ExcelIE.Domain.Shared.Enums.RabbitMq
 {
     /// <summary>
     /// 消息类型
