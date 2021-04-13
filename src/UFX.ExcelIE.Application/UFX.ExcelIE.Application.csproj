@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="UFX.Common.Application" Version="0.0.29.504" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\UFX.ExcelIE.Application.Contacts\UFX.ExcelIE.Application.Contracts.csproj" />
+    <ProjectReference Include="..\UFX.ExcelIE.Domain\UFX.ExcelIE.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

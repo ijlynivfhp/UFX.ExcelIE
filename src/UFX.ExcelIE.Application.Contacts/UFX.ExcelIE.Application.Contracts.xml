@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UFX.ExcelIE.Application.Contracts</name>
+    </assembly>
+    <members>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.MqMsgDto.Type">
+            <summary>
+            消息类型，拉取或推送
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.MqMsgDto.TntId">
+            <summary>
+            租户id
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.MqMsgDto.Id">
+            <summary>
+            消息id,直接使用FxApiQueue的id
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.MqSettingDto.UserName">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.MqSettingDto.Password">
+            <summary>
+            账户名
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.MqSettingDto.HostName">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="M:UFX.ExcelIE.Application.Contracts.Helper.HttpHelper.ParseToString(System.Collections.Generic.IDictionary{System.String,System.Collections.Generic.List{System.String}})">
+            <summary>
+            Dictionary Parse To String
+            </summary>
+            <param name="parameters">Dictionary</param>
+            <returns>String</returns>
+        </member>
+        <member name="M:UFX.ExcelIE.Application.Contracts.Helper.HttpHelper.ParseToDictionary(System.String)">
+            <summary>
+            String Parse To Dictionary
+            </summary>
+            <param name="parameter">String</param>
+            <returns>Dictionary</returns>
+        </member>
+        <member name="T:UFX.ExcelIE.Application.Contracts.IDbService">
+            <summary>
+            同步数据服务接口
+            </summary>
+        </member>
+        <member name="M:UFX.ExcelIE.Application.Contracts.IDbService.ChangeConnectionString(System.Guid)">
+            <summary>
+            修改数据库连接
+            </summary>
+            <param name="tntId"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

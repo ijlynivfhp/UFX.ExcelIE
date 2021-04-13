@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Users\xiaozhang\Downloads\UFX.ExcelIE-master\src\UFX.ExcelIE.Domain.Shared\UFX.ExcelIE.Domain.Shared.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="UFX.Common.Domain.Shared" Version="0.0.29.504" />
+  </ItemGroup>
+
+</Project>
