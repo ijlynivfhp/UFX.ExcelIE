@@ -13,12 +13,12 @@ using UFX.ExcelIE.Domain.Shared.Const.RabbitMq;
 
 namespace UFX.ExcelIE.Application.Services
 {
-    [CapSubscribe(MqConst.ExcelIETopicName)]
     /// <summary>
     /// 消费者
     /// </summary>
     public partial class ConsumerService : IConsumerService
     {
+        [CapSubscribe(MqConst.ExcelIETopicName)]
         public async Task PullMessage(MqMsgDto mqMsgDto)
         {
 

@@ -22,8 +22,6 @@ using System.IO;
 using IGeekFan.AspNetCore.Knife4jUI;
 using UFX.Infra.Middlewares;
 using UFX.ExcelIE.HttpApi.Client;
-using UFX.ExcelIE.Application.Contracts.interfaces;
-using UFX.ExcelIE.Application.Services;
 
 namespace UFX.ExcelIE.HttpApi
 {
@@ -39,7 +37,6 @@ namespace UFX.ExcelIE.HttpApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IConsumerService, ConsumerService>();
             services.AddRegisterAutoMaper();
             services.AddAppConfigures(Configuration);
             services.AddControllers();

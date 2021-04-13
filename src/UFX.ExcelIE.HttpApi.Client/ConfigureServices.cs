@@ -15,6 +15,8 @@ using UFX.Common.Domain;
 using UFX.EntityFrameworkCore.UnitOfWork;
 using UFX.Infra.Extensions;
 using UFX.Redis.Extensions;
+using UFX.ExcelIE.Application.Contracts.interfaces;
+using UFX.ExcelIE.Application.Services;
 
 namespace UFX.ExcelIE.HttpApi.Client
 {
@@ -45,6 +47,7 @@ namespace UFX.ExcelIE.HttpApi.Client
         /// <returns></returns>
         public static IServiceCollection AddMyCapConfigures(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddScoped<IConsumerService, ConsumerService>();
             services.AddCap(x =>
             {
                 //配置Cap的本地消息记录库，用于服务端保存Published消息记录表；客户端保存Received消息记录表
