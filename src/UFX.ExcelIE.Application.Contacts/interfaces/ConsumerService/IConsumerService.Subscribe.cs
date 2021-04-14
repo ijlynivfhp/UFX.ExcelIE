@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UFX.ExcelIE.Application.Contracts.Dtos;
+using UFX.ExcelIE.Application.Contracts.Dtos.Export;
 
 namespace UFX.ExcelIE.Application.Contracts.interfaces
 {
@@ -12,8 +12,8 @@ namespace UFX.ExcelIE.Application.Contracts.interfaces
         /// <summary>
         /// MQ消息接收
         /// </summary>
-        /// <param name="mqMsgDto"></param>
+        /// <param name="ieDto"></param>
         /// <returns></returns>
-        Task PullMessage(MqMsgDto mqMsgDto);
+        Task PullMessage(ExcelIEDto ieDto);
     }
 }

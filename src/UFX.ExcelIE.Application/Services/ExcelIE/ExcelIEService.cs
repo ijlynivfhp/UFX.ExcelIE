@@ -43,18 +43,14 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
         /// </summary>
         /// <param name="queryString"></param>
         /// <returns></returns>
-        public async Task<string> PushExcelExportMsg(MqMsgDto mqMsgDto)
+        public async Task<string> PushExcelExportMsg(ExcelIEDto ieDto)
         {
             string error = string.Empty;
-            if (!string.IsNullOrEmpty(mqMsgDto.TemplateParams))
-                mqMsgDto.TemplateParams = System.Web.HttpUtility.UrlDecode(mqMsgDto.TemplateParams);
-            var dictParams = HttpHelper.ParseToDictionary(mqMsgDto.TemplateParams);
-            if (dictParams.Count == 0 || !dictParams.ContainsKey(ExcelIEConsts.TemplateCode))
+            if (string.IsNullOrEmpty(ieDto.TemplateCode))
                 error = "模板编码不能为空！";
             else
             {
-                mqMsgDto.TemplateCode = dictParams[ExcelIEConsts.TemplateCode].First();
-                var template = await _excelIEDomainService.GetFirstExcelModelAsync(o => o.TemplateCode == mqMsgDto.TemplateCode);
+                var template = await _excelIEDomainService.GetFirstExcelModelAsync(o => o.TemplateCode == ieDto.TemplateCode);
                 if (template is null)
                     error = "模板不存在！";
                 else
@@ -64,26 +60,19 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                     templateLog.Id = _excelIEDomainService.NewGuid();
                     templateLog.ParentId = template.Id;
                     templateLog.TemplateSql = template.ExecSql;
-                    templateLog.ExportParameters = mqMsgDto.TemplateParams;
+                    templateLog.ExportParameters = JsonHelper.ToJsonString(ieDto);
                     templateLog.CreateTime = DateTime.Now;
-                    templateLog.CreateUserId = Guid.Empty;
-                    if (dictParams.ContainsKey(ExcelIEConsts.UserId))
-                        templateLog.CreateUserId = Guid.Parse(dictParams[ExcelIEConsts.UserId].First());
-                    templateLog.CreateUser = string.Empty;
-                    if (dictParams.ContainsKey(ExcelIEConsts.UserName))
-                        templateLog.CreateUser = dictParams[ExcelIEConsts.UserName].First();
+                    templateLog.CreateUserId = ieDto.UserId;
+                    templateLog.CreateUser = ieDto.UserName;
                     await _excelIEDomainService.AddAsyncExcelLogModel(templateLog);
                     #endregion
 
                     #region 导出消息收集
-                    mqMsgDto.Id = templateLog.Id;
-                    mqMsgDto.TntId = Guid.Empty;
-                    if (dictParams.ContainsKey(ExcelIEConsts.TntId))
-                        mqMsgDto.TntId = Guid.Parse(dictParams[ExcelIEConsts.TntId].First());
+                    ieDto.TemplateLogId = templateLog.Id;
                     #endregion
 
                     //消息发送(导出)
-                    await _capPublisher.PublishAsync(MqConst.ExcelIETopicName, mqMsgDto);
+                    await _capPublisher.PublishAsync(MqConst.ExcelIETopicName, ieDto);
                 }
             }
             return error;
@@ -93,12 +82,12 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
         /// </summary>
         /// <param name="templateLogId"></param>
         /// <returns></returns>
-        public async Task<string> ExcelExport(MqMsgDto mqMsgDto)
+        public async Task<string> ExcelExport(ExcelIEDto ieDto)
         {
             string errorMsg = string.Empty;
             try
             {
-                var templateLog = await _excelIEDomainService.GetFirstExcelLogModelAsync(o => o.Id == mqMsgDto.Id);
+                var templateLog = await _excelIEDomainService.GetFirstExcelLogModelAsync(o => o.Id == ieDto.TemplateLogId);
                 var template = await _excelIEDomainService.GetFirstExcelModelAsync(o => o.Id == templateLog.ParentId);
                 if (template.Id == Guid.Empty || templateLog.Id == Guid.Empty)
                     errorMsg = "导出异常！";

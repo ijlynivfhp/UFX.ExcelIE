@@ -29,10 +29,10 @@ namespace UFX.ExcelIE.HttpApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public async Task<string> PushExcelExportMsg(ExcelIEDto dto)
+        public async Task<MyJson> PushExcelExportMsg(ExcelIEDto dto)
         {
-            await excelService.PushExcelExportMsg(new MqMsgDto() { TemplateParams = this.Request.QueryString.ToString() });
-            return default;
+            await excelService.PushExcelExportMsg(dto);
+            return MyJson.ToSuccess("");
         }
     }
 }

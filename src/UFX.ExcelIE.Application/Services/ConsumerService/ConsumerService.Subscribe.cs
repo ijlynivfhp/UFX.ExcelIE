@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UFX.ExcelIE.Application.Contracts.Dtos;
+using UFX.ExcelIE.Application.Contracts.Dtos.Export;
 using UFX.ExcelIE.Application.Contracts.Helper;
 using UFX.ExcelIE.Application.Contracts.interfaces;
 using UFX.ExcelIE.Domain.Shared.Const;
@@ -19,14 +20,14 @@ namespace UFX.ExcelIE.Application.Services
     public partial class ConsumerService : IConsumerService
     {
         [CapSubscribe(MqConst.ExcelIETopicName)]
-        public async Task PullMessage(MqMsgDto mqMsgDto)
+        public async Task PullMessage(ExcelIEDto ieDto)
         {
 
             string errorMsg = string.Empty;
             _logger.LogInformation("开始导入！");
             try
             {
-                await _excelIEService.ExcelExport(mqMsgDto);
+                await _excelIEService.ExcelExport(ieDto);
                 _logger.LogInformation("导入成功！");
             }
             catch (Exception ex)

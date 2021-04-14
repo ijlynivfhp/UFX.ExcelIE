@@ -46,13 +46,18 @@ namespace UFX.ExcelIE.Application.Contracts.Dtos.Export
         /// </summary>
         public List<ExcelIEItemDto> MultIn { get; set; } = new List<ExcelIEItemDto>();
         /// <summary>
+        /// 导出模板编码
+        /// </summary>
+        [Required]
+        public string TemplateCode { get; set; }
+        /// <summary>
         /// 租户TntId
         /// </summary>
-        public Guid? TntId { get; set; }
+        public Guid TntId { get; set; } = default;
         /// <summary>
         /// 操作人Id
         /// </summary>
-        public Guid? UserId { get; set; }
+        public Guid UserId { get; set; } = default;
         /// <summary>
         /// 操作人
         /// </summary>
@@ -61,6 +66,18 @@ namespace UFX.ExcelIE.Application.Contracts.Dtos.Export
         /// 导出类型
         /// </summary>
         public int ExportType { get; set; } = 0;
+
+        #region 扩充字段
+        /// <summary>
+        /// 消息类型，拉取或推送
+        /// </summary>
+        public MqMsgType Type { get; set; } = MqMsgType.Push;
+        /// <summary>
+        /// 导出模板记录Id
+        /// </summary>
+        public Guid TemplateLogId { get; set; }
+        #endregion
+
     }
     /// <summary>
     /// Excel导出判断条件运行符对象集合

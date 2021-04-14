@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UFX.ExcelIE.Application.Contracts.Dtos;
+using UFX.ExcelIE.Application.Contracts.Dtos.Export;
 using UFX.Infra.Interfaces;
 
 namespace UFX.ExcelIE.Application.Contracts.interfaces.ExcelIE
@@ -16,14 +16,14 @@ namespace UFX.ExcelIE.Application.Contracts.interfaces.ExcelIE
         /// <summary>
         /// ExcelIE消息发送
         /// </summary>
-        /// <param name="mqMsgDto"></param>
+        /// <param name="ieDto"></param>
         /// <returns></returns>
-        Task<string> PushExcelExportMsg(MqMsgDto mqMsgDto);
+        Task<string> PushExcelExportMsg(ExcelIEDto ieDto);
         /// <summary>
         /// 具体导出操作
         /// </summary>
-        /// <param name="mqMsgDto"></param>
+        /// <param name="ieDto"></param>
         /// <returns></returns>
-        Task<string> ExcelExport(MqMsgDto mqMsgDto);
+        Task<string> ExcelExport(ExcelIEDto ieDto);
     }
 }
