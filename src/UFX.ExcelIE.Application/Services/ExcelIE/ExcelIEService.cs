@@ -64,11 +64,13 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                     templateLog.CreateTime = DateTime.Now;
                     templateLog.CreateUserId = ieDto.UserId;
                     templateLog.CreateUser = ieDto.UserName;
+                    GetSql(templateLog, ieDto);
                     await _excelIEDomainService.AddAsyncExcelLogModel(templateLog);
                     #endregion
 
                     #region 导出消息收集
-                    ieDto.TemplateLogId = templateLog.Id;
+                    ieDto.Template=template;
+                    ieDto.TemplateLog = templateLog;
                     #endregion
 
                     //消息发送(导出)
@@ -87,15 +89,11 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
             string errorMsg = string.Empty;
             try
             {
-                var templateLog = await _excelIEDomainService.GetFirstExcelLogModelAsync(o => o.Id == ieDto.TemplateLogId);
-                var template = await _excelIEDomainService.GetFirstExcelModelAsync(o => o.Id == templateLog.ParentId);
-                if (template.Id == Guid.Empty || templateLog.Id == Guid.Empty)
+                if (ieDto.Template.Id == Guid.Empty || ieDto.TemplateLog.Id == Guid.Empty)
                     errorMsg = "导出异常！";
                 else
                 {
-                    var dictParams = HttpHelper.ParseToDictionary(templateLog.ExportParameters);
-                    var execSql = GetSql(template.ExecSql, dictParams);
-                    var exportList = await _excelIEDomainService.QueryListSqlCommandAsync<ConsumerDto>(execSql);
+                    var exportList = await _excelIEDomainService.QueryListSqlCommandAsync<ConsumerDto>(ieDto.TemplateLog.ExportSql);
 
                 }
             }

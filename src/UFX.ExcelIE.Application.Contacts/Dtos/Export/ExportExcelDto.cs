@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UFX.ExcelIE.Domain.Models;
 using UFX.ExcelIE.Domain.Shared.Enums.RabbitMq;
 using UFX.Infra.Attributes;
 
@@ -61,7 +62,7 @@ namespace UFX.ExcelIE.Application.Contracts.Dtos.Export
         /// <summary>
         /// 操作人
         /// </summary>
-        public string UserName { get; set; }
+        public string UserName { get; set; } = string.Empty;
         /// <summary>
         /// 导出类型
         /// </summary>
@@ -73,9 +74,13 @@ namespace UFX.ExcelIE.Application.Contracts.Dtos.Export
         /// </summary>
         public MqMsgType Type { get; set; } = MqMsgType.Push;
         /// <summary>
-        /// 导出模板记录Id
+        /// 导出模板
         /// </summary>
-        public Guid TemplateLogId { get; set; }
+        public CoExcelExportSql Template { get; set; } = new CoExcelExportSql();
+        /// <summary>
+        /// 导出模板记录
+        /// </summary>
+        public CoExcelExportSqllog TemplateLog { get; set; } = new CoExcelExportSqllog();
         #endregion
 
     }

@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\UFX.ExcelIE.Domain.Shared\UFX.ExcelIE.Domain.Shared.csproj" />
+    <ProjectReference Include="..\UFX.ExcelIE.Domain\UFX.ExcelIE.Domain.csproj" />
   </ItemGroup>
 
 </Project>

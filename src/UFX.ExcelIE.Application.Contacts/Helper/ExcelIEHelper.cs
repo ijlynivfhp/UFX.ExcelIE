@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using UFX.ExcelIE.Application.Contracts.Dtos.Export;
+using UFX.ExcelIE.Domain.Models;
 using UFX.ExcelIE.Domain.Shared.Const;
 using UFX.ExcelIE.Domain.Shared.Const.RabbitMq;
 
@@ -14,54 +16,59 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
         /// <summary>
         /// 获取导出查询sql
         /// </summary>
-        /// <param name="templateSql"></param>
-        /// <param name="dictParams"></param>
+        /// <param name="templateLog"></param>
+        /// <param name="ieDto"></param>
         /// <returns></returns>
-        public static string GetSql(string templateSql, Dictionary<string, List<string>> dictParams)
+        public static void GetSql(CoExcelExportSqllog templateLog, ExcelIEDto ieDto)
         {
-
-
-            var query = dictParams.ContainsKey(MqParams.Query) ? dictParams[MqParams.Query].First() : "";
-            var queryFields = dictParams.ContainsKey(MqParams.Fields) ? dictParams[MqParams.Fields] : new List<string>();
-
-            //删除无用参数
-            RemoveDictParamsByKeys(dictParams);
-
-            StringBuilder sb = new StringBuilder(templateSql);
+            StringBuilder sb = new StringBuilder(templateLog.TemplateSql);
             sb.Append(" where 1=1 ");
-            foreach (var item in dictParams)
+            var type = typeof(ExcelIEDto);
+            var properties = type.GetProperties().Where(o => o.PropertyType.Name == ExcelIEConsts.PropertitySignName).ToList();
+            foreach (var propertity in properties)
             {
-                sb.AppendFormat("And {0}='{1}' ", item.Key, item.Value.First());
-            }
-            if (!string.IsNullOrEmpty(query) && queryFields.Count > 0)
-            {
-                sb.Append("And ( ");
-                foreach (var field in queryFields)
+                var listItem = propertity.GetValue(ieDto, null) as List<ExcelIEItemDto>;
+                var listFieldName = propertity.Name;
+                foreach (var item in listItem)
                 {
-                    if (queryFields.IndexOf(field) == queryFields.Count - 1)
-                        sb.AppendFormat(" {0} like '%{1}%' ", field, query);
-                    else
+                    if (item.FieldName.Count > 0 && item.FieldValue.Count > 0 && !string.IsNullOrEmpty(item.FieldName.First()) && !string.IsNullOrEmpty(item.FieldValue.First()))
                     {
-                        sb.AppendFormat(" {0} like '%{1}%' Or ", field, query);
+                        if (listFieldName == ExcelIEConsts.JustEqual)
+                            sb.AppendFormat(" And {0}='{1}' ", item.FieldName.First(), item.FieldValue.First());
+                        else if (listFieldName == ExcelIEConsts.BigThen)
+                            sb.AppendFormat(" And {0}>'{1}' ", item.FieldName.First(), item.FieldValue.First());
+                        else if (listFieldName == ExcelIEConsts.BigEqualThen)
+                            sb.AppendFormat(" And {0}>='{1}' ", item.FieldName.First(), item.FieldValue.First());
+                        else if (listFieldName == ExcelIEConsts.SmallThen)
+                            sb.AppendFormat(" And {0}<'{1}' ", item.FieldName.First(), item.FieldValue.First());
+                        else if (listFieldName == ExcelIEConsts.SmallEqualThen)
+                            sb.AppendFormat(" And {0}<='{1}' ", item.FieldName.First(), item.FieldValue.First());
+                        else if (listFieldName == ExcelIEConsts.Justlike)
+                            sb.AppendFormat(" And {0} like '%{1}%' ", item.FieldName.First(), item.FieldValue.First());
+                        else if (listFieldName == ExcelIEConsts.MultLike)
+                        {
+                            var likeValue = item.FieldValue.First();
+                            sb.Append("And ( ");
+                            foreach (var like in item.FieldName)
+                            {
+                                if (item.FieldName.IndexOf(like) == item.FieldName.Count - 1)
+                                    sb.AppendFormat(" {0} like '%{1}%' ", like, likeValue);
+                                else
+                                {
+                                    sb.AppendFormat(" {0} like '%{1}%' Or ", like, likeValue);
+                                }
+                            }
+                            sb.Append(" ) ");
+                        }
+                        else if (listFieldName == ExcelIEConsts.MultIn)
+                        {
+                            item.FieldValue.ForEach(o => { o = "'" + o + "'"; });
+                            sb.AppendFormat(" And {0} in '('{1}')' ", item.FieldName.First(), string.Join(',', item.FieldValue.ToArray()));
+                        }
                     }
                 }
-                sb.Append(" ) ");
             }
-            return Regex.Replace(sb.ToString(), @"[\r\n\t]", "");
-        }
-
-        /// <summary>
-        /// 构造sql时删除无用的参数
-        /// </summary>
-        /// <param name="dictParams"></param>
-        public static void RemoveDictParamsByKeys(Dictionary<string, List<string>> dictParams, List<string> removeKeys = default)
-        {
-            removeKeys = removeKeys ?? new List<string>() { ExcelIEConsts.TemplateCode, ExcelIEConsts.TntId, ExcelIEConsts.UserId, ExcelIEConsts.UserName, MqParams.Query, MqParams.Fields };
-            foreach (var item in removeKeys)
-            {
-                if (dictParams.ContainsKey(item))
-                    dictParams.Remove(item);
-            }
+            templateLog.ExportSql = Regex.Replace(sb.ToString(), @"[\r\n\t]", "");
         }
     }
 }

@@ -8,9 +8,14 @@ namespace UFX.ExcelIE.Domain.Shared.Const
 {
     public class ExcelIEConsts
     {
-        public const string TntId = "tntId";
-        public const string UserId = "userId";
-        public const string UserName = "userName";
-        public const string TemplateCode = "templateCode";
+        public const string PropertitySignName = "List`1";
+        public const string JustEqual = "JustEqual";
+        public const string BigThen = "BigThen";
+        public const string BigEqualThen = "BigEqualThen";
+        public const string SmallThen = "SmallThen";
+        public const string SmallEqualThen = "SmallEqualThen";
+        public const string Justlike = "Justlike";
+        public const string MultLike = "MultLike";
+        public const string MultIn = "MultIn";
     }
 }
