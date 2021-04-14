@@ -22,6 +22,7 @@ using System.IO;
 using IGeekFan.AspNetCore.Knife4jUI;
 using UFX.Infra.Middlewares;
 using UFX.ExcelIE.HttpApi.Client;
+using Exceptionless;
 
 namespace UFX.ExcelIE.HttpApi
 {

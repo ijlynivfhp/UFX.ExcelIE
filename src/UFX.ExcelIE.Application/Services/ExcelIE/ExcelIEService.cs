@@ -12,6 +12,7 @@ using UFX.Common.Domain;
 using UFX.EntityFrameworkCore.UnitOfWork;
 using UFX.ExcelIE.Application.Contracts;
 using UFX.ExcelIE.Application.Contracts.Dtos;
+using UFX.ExcelIE.Application.Contracts.Dtos.Export;
 using UFX.ExcelIE.Application.Contracts.Helper;
 using UFX.ExcelIE.Application.Contracts.interfaces;
 using UFX.ExcelIE.Application.Contracts.interfaces.ExcelIE;
@@ -22,6 +23,7 @@ using UFX.ExcelIE.Domain.Shared.Const.RabbitMq;
 using UFX.ExcelIE.Domain.Shared.Enums;
 using UFX.ExcelIE.Domain.Shared.Enums.RabbitMq;
 using UFX.Infra.Interfaces;
+using static UFX.ExcelIE.Application.Contracts.Helper.ExcelIEHelper;
 
 namespace UFX.ExcelIE.Application.Services.ExcelIE
 {
@@ -44,6 +46,8 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
         public async Task<string> PushExcelExportMsg(MqMsgDto mqMsgDto)
         {
             string error = string.Empty;
+            if (!string.IsNullOrEmpty(mqMsgDto.TemplateParams))
+                mqMsgDto.TemplateParams = System.Web.HttpUtility.UrlDecode(mqMsgDto.TemplateParams);
             var dictParams = HttpHelper.ParseToDictionary(mqMsgDto.TemplateParams);
             if (dictParams.Count == 0 || !dictParams.ContainsKey(ExcelIEConsts.TemplateCode))
                 error = "模板编码不能为空！";
@@ -92,45 +96,26 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
         public async Task<string> ExcelExport(MqMsgDto mqMsgDto)
         {
             string errorMsg = string.Empty;
-            var templateLog = await _excelIEDomainService.GetFirstExcelLogModelAsync(o => o.Id == mqMsgDto.Id);
-            var template = await _excelIEDomainService.GetFirstExcelModelAsync(o => o.Id == templateLog.ParentId);
-            if (template.Id == Guid.Empty || templateLog.Id == Guid.Empty)
-                errorMsg = "导出异常！";
-            else
+            try
             {
-                var dictParams = HttpHelper.ParseToDictionary(templateLog.ExportParameters);
-                var execSql = GetSql(template.ExecSql, dictParams);
-                var exportList = await _excelIEDomainService.QueryListSqlCommandAsync<dynamic>(execSql);
-
-            }
-            return string.Empty;
-        }
-        private string GetSql(string templateSql, Dictionary<string, List<string>> dictParams)
-        {
-            StringBuilder sb = new StringBuilder(templateSql);
-            sb.Append("where 1=1");
-            foreach (var item in dictParams)
-            {
-                if (item.Key == MqParams.Query)
-                {
-                    sb.Append(" And ( ");
-                    foreach (var nvc in item.Value)
-                    {
-                        if (item.Value.IndexOf(nvc) == item.Value.Count - 1)
-                            sb.AppendFormat(" {0} like '%{1}%' Or ", item.Key, item.Value);
-                        else
-                        {
-                            sb.AppendFormat(" {0} like '%{1}%' ", item.Key, item.Value);
-                        }
-                    }
-                    sb.Append(" ) ");
-                }
+                var templateLog = await _excelIEDomainService.GetFirstExcelLogModelAsync(o => o.Id == mqMsgDto.Id);
+                var template = await _excelIEDomainService.GetFirstExcelModelAsync(o => o.Id == templateLog.ParentId);
+                if (template.Id == Guid.Empty || templateLog.Id == Guid.Empty)
+                    errorMsg = "导出异常！";
                 else
                 {
-                    sb.AppendFormat(" {0}='{1}' ", item.Key, item.Value);
+                    var dictParams = HttpHelper.ParseToDictionary(templateLog.ExportParameters);
+                    var execSql = GetSql(template.ExecSql, dictParams);
+                    var exportList = await _excelIEDomainService.QueryListSqlCommandAsync<ConsumerDto>(execSql);
+
                 }
             }
-            return sb.ToString();
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return string.Empty;
         }
     }
 }

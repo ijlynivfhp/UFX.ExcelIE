@@ -12,6 +12,7 @@ namespace UFX.ExcelIE.Domain.Services.ExcelIE
         public async Task AddAsyncExcelLogModel(CoExcelExportSqllog excelLog)
         {
             await _scmUnit.GetRepository<CoExcelExportSqllog>().InsertAsync(excelLog);
+            await _scmUnit.SaveChangesAsync();
         }
     }
 }

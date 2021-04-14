@@ -18,7 +18,6 @@ namespace UFX.ExcelIE.Domain.Services.ExcelIE
         {
             return await _scmUnit.GetRepository<CoExcelExportSqllog>().GetFirstOrDefaultAsync(filter) ?? new CoExcelExportSqllog();
         }
-
         public async Task<List<T>> QueryListSqlCommandAsync<T>(string sql, params object[] parameters) where T : class, new()
         {
             return await _scmUnit.QueryListSqlCommandAsync<T>(sql, parameters);
