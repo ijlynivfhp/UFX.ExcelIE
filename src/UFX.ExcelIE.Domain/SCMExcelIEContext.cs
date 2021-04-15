@@ -119,7 +119,9 @@ namespace UFX.ExcelIE.Domain
                     .HasDefaultValueSql("((1))")
                     .HasComment("执行次数");
 
-                entity.Property(e => e.ExportDuration).HasComment("导出时间（秒）");
+                entity.Property(e => e.ExportDuration)
+                    .HasColumnType("decimal(18, 0)")
+                    .HasComment("导出时间（秒）");
 
                 entity.Property(e => e.ExportMsg)
                     .HasMaxLength(200)

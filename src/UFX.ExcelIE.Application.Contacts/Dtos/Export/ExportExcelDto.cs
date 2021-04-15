@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -85,6 +86,10 @@ namespace UFX.ExcelIE.Application.Contracts.Dtos.Export
         /// 导出模板记录
         /// </summary>
         public CoExcelExportSqllog TemplateLog { get; set; } = new CoExcelExportSqllog();
+        /// <summary>
+        /// 计时器
+        /// </summary>
+        public Stopwatch Watch { get; set; } = new Stopwatch();
         #endregion
 
     }

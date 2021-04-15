@@ -19,9 +19,9 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
         /// <param name="templateLog"></param>
         /// <param name="ieDto"></param>
         /// <returns></returns>
-        public static void GetSql(CoExcelExportSqllog templateLog, ExcelIEDto ieDto)
+        public static void GetSql(ExcelIEDto ieDto)
         {
-            StringBuilder sb = new StringBuilder(templateLog.TemplateSql);
+            StringBuilder sb = new StringBuilder(ieDto.TemplateLog.TemplateSql);
             sb.Append(" where 1=1 ");
             var type = typeof(ExcelIEDto);
             var properties = type.GetProperties().Where(o => o.PropertyType.Name == ExcelIEConsts.PropertitySignName).ToList();
@@ -71,7 +71,7 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
                     }
                 }
             }
-            templateLog.ExportSql = Regex.Replace(sb.ToString(), @"[\r\n\t]", "");
+            ieDto.TemplateLog.ExportSql = Regex.Replace(sb.ToString(), @"[\r\n\t]", "");
         }
     }
 }
