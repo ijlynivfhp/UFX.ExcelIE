@@ -17,6 +17,9 @@ using UFX.Infra.Extensions;
 using UFX.Redis.Extensions;
 using UFX.ExcelIE.Application.Contracts.interfaces;
 using UFX.ExcelIE.Application.Services;
+using Magicodes.ExporterAndImporter.Core;
+using Magicodes.ExporterAndImporter.Excel;
+using UFX.ExcelIE.Application.Contracts.interfaces.ExcelIE;
 
 namespace UFX.ExcelIE.HttpApi.Client
 {
@@ -47,6 +50,7 @@ namespace UFX.ExcelIE.HttpApi.Client
         /// <returns></returns>
         public static IServiceCollection AddMyCapConfigures(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddScoped<IExcelExporter, ExcelExporter>();
             services.AddScoped<IConsumerService, ConsumerService>();
             services.AddCap(x =>
             {

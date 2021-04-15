@@ -62,8 +62,11 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
                         }
                         else if (listFieldName == ExcelIEConsts.MultIn)
                         {
-                            item.FieldValue.ForEach(o => { o = "'" + o + "'"; });
-                            sb.AppendFormat(" And {0} in '('{1}')' ", item.FieldName.First(), string.Join(',', item.FieldValue.ToArray()));
+                            var multInValue = new List<string>();
+                            item.FieldValue.ForEach(o => {
+                                multInValue.Add("'" + o + "'");
+                            });
+                            sb.AppendFormat(" And {0} in ({1}) ", item.FieldName.First(), string.Join(',', multInValue.ToArray()));
                         }
                     }
                 }

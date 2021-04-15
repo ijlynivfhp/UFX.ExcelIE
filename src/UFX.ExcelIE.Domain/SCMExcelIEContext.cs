@@ -44,9 +44,14 @@ namespace UFX.ExcelIE.Domain
                     .HasComment("创建人");
 
                 entity.Property(e => e.ExecSql)
+                    .IsRequired()
                     .HasColumnType("text")
                     .HasColumnName("ExecSQL")
                     .HasComment("执行SQL");
+
+                entity.Property(e => e.ExportHead)
+                    .IsRequired()
+                    .HasColumnType("text");
 
                 entity.Property(e => e.IsDelete).HasComment("是否删除");
 
@@ -108,6 +113,8 @@ namespace UFX.ExcelIE.Domain
 
                 entity.Property(e => e.CreateUserId).HasComment("创建人Id");
 
+                entity.Property(e => e.DownLoadUrl).HasMaxLength(500);
+
                 entity.Property(e => e.ExecCount)
                     .HasDefaultValueSql("((1))")
                     .HasComment("执行次数");
@@ -115,7 +122,7 @@ namespace UFX.ExcelIE.Domain
                 entity.Property(e => e.ExportDuration).HasComment("导出时间（秒）");
 
                 entity.Property(e => e.ExportMsg)
-                    .HasMaxLength(2000)
+                    .HasMaxLength(200)
                     .HasComment("导出结果");
 
                 entity.Property(e => e.ExportParameters)

@@ -14,6 +14,7 @@ namespace UFX.ExcelIE.Domain.Models
         public string TemplateUrl { get; set; }
         public int SourceType { get; set; }
         public string SourceUrl { get; set; }
+        public string ExportHead { get; set; }
         public string ExecSql { get; set; }
         public byte Status { get; set; }
         public bool IsDelete { get; set; }

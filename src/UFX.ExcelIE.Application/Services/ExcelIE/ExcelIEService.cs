@@ -2,9 +2,11 @@
 using DotNetCore.CAP;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,11 +33,13 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
     {
         private readonly IExcelIEDomainService _excelIEDomainService;
         private readonly ICapPublisher _capPublisher;
+        private readonly IExcelExport _iExcelExport;
 
-        public ExcelIEService(IExcelIEDomainService excelIEDomainService, ICapPublisher capPublisher)
+        public ExcelIEService(IExcelIEDomainService excelIEDomainService, ICapPublisher capPublisher, IExcelExport iExcelExport)
         {
             _excelIEDomainService = excelIEDomainService;
             _capPublisher = capPublisher;
+            _iExcelExport = iExcelExport;
         }
 
         /// <summary>
@@ -69,7 +73,7 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                     #endregion
 
                     #region 导出消息收集
-                    ieDto.Template=template;
+                    ieDto.Template = template;
                     ieDto.TemplateLog = templateLog;
                     #endregion
 
@@ -93,14 +97,23 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                     errorMsg = "导出异常！";
                 else
                 {
-                    var exportList = await _excelIEDomainService.QueryListSqlCommandAsync<ConsumerDto>(ieDto.TemplateLog.ExportSql);
-
+                    var exportList = await _excelIEDomainService.QueryListSqlCommandAsync<CustomerQuotaManageFlowDto>(ieDto.TemplateLog.ExportSql);
+                    var excelRootPath = Path.Combine(Directory.GetCurrentDirectory(), "\\ExcelIE\\");
+                    var excelFilePath = Path.Combine(excelRootPath, "Export\\", string.IsNullOrEmpty(ieDto.UserName) ? "" : ieDto.UserName, ieDto.Template.TemplateName, DateTime.Now.ToString("yyyyMMddHHmmssfff"), ".xlxs");
+                    var excelTemplatePath = Path.Combine(excelRootPath, "Template\\" + ieDto.Template.TemplateName + ".xlxs");
+                    if (File.Exists(excelFilePath))
+                        File.Delete(excelFilePath);
+                    if (ieDto.ExportType == 0)
+                    {
+                        JObject Jobj = JsonHelper.ToJson<JObject>(ieDto.UserName); Jobj.Add(new JProperty("DataList", exportList));
+                        var fileInfo = await _iExcelExport.ExportExcel(excelFilePath, Jobj, excelTemplatePath);
+                    }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                return ex.Message;
             }
             return string.Empty;
         }

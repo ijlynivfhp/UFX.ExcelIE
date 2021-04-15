@@ -15,6 +15,7 @@ namespace UFX.ExcelIE.Domain.Models
         public int ExportDuration { get; set; }
         public byte Status { get; set; }
         public string ExportMsg { get; set; }
+        public string DownLoadUrl { get; set; }
         public int ExecCount { get; set; }
         public Guid? TntId { get; set; }
         public Guid? CreateUserId { get; set; }

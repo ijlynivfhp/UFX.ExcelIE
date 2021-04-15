@@ -67,6 +67,10 @@ namespace UFX.ExcelIE.Application.Contracts.Dtos.Export
         /// 导出类型
         /// </summary>
         public int ExportType { get; set; } = 0;
+        /// <summary>
+        /// 是否过滤角色权限
+        /// </summary>
+        public bool IsFilterRole { get; set; } = false;
 
         #region 扩充字段
         /// <summary>
