@@ -12,7 +12,7 @@ namespace UFX.ExcelIE.Domain.Models
         public string TemplateCode { get; set; }
         public string TemplateName { get; set; }
         public string TemplateUrl { get; set; }
-        public int? SourceType { get; set; }
+        public int SourceType { get; set; }
         public string SourceUrl { get; set; }
         public string ExecSql { get; set; }
         public byte Status { get; set; }
