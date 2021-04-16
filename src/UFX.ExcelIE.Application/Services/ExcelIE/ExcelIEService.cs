@@ -76,7 +76,7 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
             string errorMsg = string.Empty;
             try
             {
-                if (ieDto.Template.Id == Guid.Empty || ieDto.TemplateLog.Id == Guid.Empty)
+                if (ieDto.Template.Id == Guid.Empty)
                     errorMsg = "导出异常！";
                 else
                 {
