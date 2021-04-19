@@ -63,7 +63,8 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
                         else if (listFieldName == ExcelIEConsts.MultIn)
                         {
                             var multInValue = new List<string>();
-                            item.FieldValue.ForEach(o => {
+                            item.FieldValue.ForEach(o =>
+                            {
                                 multInValue.Add("'" + o + "'");
                             });
                             sb.AppendFormat(" And {0} in ({1}) ", item.FieldName.First(), string.Join(',', multInValue.ToArray()));
@@ -72,6 +73,27 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
                 }
             }
             ieDto.TemplateLog.ExportSql = Regex.Replace(sb.ToString(), @"[\r\n\t]", "");
+        }
+
+        public ExcelIEDto GetQueryByPost(dynamic dyc, List<ExcelIEItemDto> queryParams)
+        {
+            var Equal = new List<ExcelIEItemDto>();
+            var Equal = new List<ExcelIEItemDto>();
+            var Equal = new List<ExcelIEItemDto>();
+            var Equal = new List<ExcelIEItemDto>();
+            var Equal = new List<ExcelIEItemDto>();
+            var Equal = new List<ExcelIEItemDto>();
+            var Equal = new List<ExcelIEItemDto>();
+            var Equal = new List<ExcelIEItemDto>();
+            foreach (var item in dyc)
+            {
+                switch (item.Name)
+                {
+                    case ExcelIEConsts.CommonQuery: excelIEDto.MultLike = new List<ExcelIEItemDto>() { }; break;
+                    default:
+                        break;
+                }
+            }
         }
     }
 }

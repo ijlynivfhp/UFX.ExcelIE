@@ -20,7 +20,7 @@ namespace UFX.ExcelIE.Domain.Services.ExcelIE
         }
         public async Task<List<T>> QueryListSqlCommandAsync<T>(string sql, params object[] parameters) where T : class, new()
         {
-            return await _scmUnit.QueryListSqlCommandAsync<T>(sql, parameters);
+            return await _scmUnit.GetListBySqlAsync<T>(sql, parameters);
         }
     }
 }

@@ -47,6 +47,11 @@ namespace UFX.ExcelIE.Domain.Shared.Const
         #endregion
 
         /// <summary>
+        /// 页面查询通用查询参数
+        /// </summary>
+        public const string CommonQuery= "query";
+
+        /// <summary>
         /// 属性类型
         /// </summary>
         public const string PropertitySignName = "List`1";

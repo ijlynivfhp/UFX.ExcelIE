@@ -18,35 +18,59 @@ namespace UFX.ExcelIE.Application.Contracts.Dtos.Export
         /// <summary>
         /// 等于
         /// </summary>
-        public List<ExcelIEItemDto> JustEqual { get; set; } = new List<ExcelIEItemDto>();
+        public List<ExcelIEItemDto> Equal { get; set; } = new List<ExcelIEItemDto>();
+        /// <summary>
+        /// 不等于
+        /// </summary>
+        public List<ExcelIEItemDto> NotEqual { get; set; } = new List<ExcelIEItemDto>();
         /// <summary>
         /// 大于
         /// </summary>
-        public List<ExcelIEItemDto> BigThen { get; set; } = new List<ExcelIEItemDto>();
+        public List<ExcelIEItemDto> Greater { get; set; } = new List<ExcelIEItemDto>();
         /// <summary>
         /// 大于等于
         /// </summary>
-        public List<ExcelIEItemDto> BigEqualThen { get; set; } = new List<ExcelIEItemDto>();
+        public List<ExcelIEItemDto> GreaterEqual { get; set; } = new List<ExcelIEItemDto>();
         /// <summary>
         /// 小于
         /// </summary>
-        public List<ExcelIEItemDto> SmallThen { get; set; } = new List<ExcelIEItemDto>();
+        public List<ExcelIEItemDto> Less { get; set; } = new List<ExcelIEItemDto>();
         /// <summary>
         /// 小于等于
         /// </summary>
-        public List<ExcelIEItemDto> SmallEqualThen { get; set; } = new List<ExcelIEItemDto>();
+        public List<ExcelIEItemDto> LessEqual { get; set; } = new List<ExcelIEItemDto>();
         /// <summary>
-        /// 单个like条件
+        /// In
         /// </summary>
-        public List<ExcelIEItemDto> Justlike { get; set; } = new List<ExcelIEItemDto>();
+        public List<ExcelIEItemDto> In { get; set; } = new List<ExcelIEItemDto>();
         /// <summary>
-        /// 多个like条件
+        /// NotIn
         /// </summary>
-        public List<ExcelIEItemDto> MultLike { get; set; } = new List<ExcelIEItemDto>();
+        public List<ExcelIEItemDto> NotIn { get; set; } = new List<ExcelIEItemDto>();
         /// <summary>
-        /// In条件
+        /// Like
         /// </summary>
-        public List<ExcelIEItemDto> MultIn { get; set; } = new List<ExcelIEItemDto>();
+        public List<ExcelIEItemDto> Like { get; set; } = new List<ExcelIEItemDto>();
+        /// <summary>
+        /// NotLike
+        /// </summary>
+        public List<ExcelIEItemDto> NotLike { get; set; } = new List<ExcelIEItemDto>();
+        /// <summary>
+        /// 以StartWith开始
+        /// </summary>
+        public List<ExcelIEItemDto> StartWith { get; set; } = new List<ExcelIEItemDto>();
+        /// <summary>
+        /// 以EndWith结束
+        /// </summary>
+        public List<ExcelIEItemDto> EndWith { get; set; } = new List<ExcelIEItemDto>();
+        /// <summary>
+        /// Is Null
+        /// </summary>
+        public List<ExcelIEItemDto> FitNULL { get; set; } = new List<ExcelIEItemDto>();
+        /// <summary>
+        /// Is Not Null
+        /// </summary>
+        public List<ExcelIEItemDto> NotFitNULL { get; set; } = new List<ExcelIEItemDto>();
         /// <summary>
         /// 导出模板编码
         /// </summary>
@@ -99,12 +123,27 @@ namespace UFX.ExcelIE.Application.Contracts.Dtos.Export
     public partial class ExcelIEItemDto
     {
         /// <summary>
-        /// 属性名
+        /// Key:前端别名，Value:后端对应数据库表字段名称
         /// </summary>
-        public List<string> FieldName { get; set; } = new List<string>();
+        public List<FieldMapDto> FieldName { get; set; } = new List<FieldMapDto>();
         /// <summary>
         /// 属性值
         /// </summary>
         public List<string> FieldValue { get; set; } = new List<string>();
+    }
+
+    /// <summary>
+    /// 页面参数和后台查询参数关系映射对象
+    /// </summary>
+    public partial class FieldMapDto
+    {
+        /// <summary>
+        /// 前端接收参数Key名称
+        /// </summary>
+        public string NeckName { get; set; }
+        /// <summary>
+        /// 后端对应NickName模板查询条件列名
+        /// </summary>
+        public string FieldName { get; set; }
     }
 }
