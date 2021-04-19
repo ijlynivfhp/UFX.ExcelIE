@@ -15,35 +15,65 @@ namespace UFX.ExcelIE.Domain.Shared.Const
         /// <summary>
         /// 等于
         /// </summary>
-        public const string JustEqual = "JustEqual";
+        /// 
+        public const string Equal = "Equal";
+        /// <summary>
+        /// 不等于
+        /// </summary>
+        public const string NotEqual = "NotEqual";
         /// <summary>
         /// 大于
         /// </summary>
-        public const string BigThen = "BigThen";
+        public const string Greater = "Greater";
         /// <summary>
         /// 大于等于
         /// </summary>
-        public const string BigEqualThen = "BigEqualThen";
+        public const string GreaterEqual = "GreaterEqual";
         /// <summary>
         /// 小于
         /// </summary>
-        public const string SmallThen = "SmallThen";
+        public const string Less = "Less";
         /// <summary>
         /// 小于等于
         /// </summary>
-        public const string SmallEqualThen = "SmallEqualThen";
+        public const string LessEqual = "LessEqual";
+        /// <summary>
+        /// In
+        /// </summary>
+        public const string In = "In";
+        /// <summary>
+        /// NotIn
+        /// </summary>
+        public const string NotIn = "NotIn";
         /// <summary>
         /// Like
         /// </summary>
-        public const string Justlike = "Justlike";
+        public const string Like = "Like";
         /// <summary>
-        /// 公用Like
+        /// NotLike
         /// </summary>
-        public const string MultLike = "MultLike";
+        public const string NotLike = "NotLike";
         /// <summary>
-        /// In条件
+        /// CommonLike
         /// </summary>
-        public const string MultIn = "MultIn";
+        public const string CommonLike = "CommonLike";
+        /// <summary>
+        /// 以StartWith开始
+        /// </summary>
+        public const string StartWith = "StartWith";
+        /// <summary>
+        /// 以EndWith结束
+        /// </summary>
+        public const string EndWith = "EndWith";
+        /// <summary>
+        /// Is Null
+        /// </summary>
+        public const string FitNULL = "FitNULL";
+        /// <summary>
+        /// Is Not Null
+        /// </summary>
+        public const string NotFitNULL = "NotFitNULL";
+        
         #endregion
 
         /// <summary>

@@ -21,79 +21,83 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
         /// <returns></returns>
         public static void GetSql(ExcelIEDto ieDto)
         {
+            string tempName = string.Empty, tempValue = string.Empty;
             StringBuilder sb = new StringBuilder(ieDto.TemplateLog.TemplateSql);
             sb.Append(" where 1=1 ");
             var type = typeof(ExcelIEDto);
             var properties = type.GetProperties().Where(o => o.PropertyType.Name == ExcelIEConsts.PropertitySignName).ToList();
             foreach (var propertity in properties)
             {
-                var listItem = propertity.GetValue(ieDto, null) as List<ExcelIEItemDto>;
+                var listItem = propertity.GetValue(ieDto, null) as List<ExcelEItemDto>;
                 var listFieldName = propertity.Name;
                 foreach (var item in listItem)
                 {
-                    if (item.FieldName.Count > 0 && item.FieldValue.Count > 0 && !string.IsNullOrEmpty(item.FieldName.First()) && !string.IsNullOrEmpty(item.FieldValue.First()))
+                    if (item.FieldName.Count > 0 && item.FieldValue.Count > 0)
                     {
-                        if (listFieldName == ExcelIEConsts.JustEqual)
-                            sb.AppendFormat(" And {0}='{1}' ", item.FieldName.First(), item.FieldValue.First());
-                        else if (listFieldName == ExcelIEConsts.BigThen)
-                            sb.AppendFormat(" And {0}>'{1}' ", item.FieldName.First(), item.FieldValue.First());
-                        else if (listFieldName == ExcelIEConsts.BigEqualThen)
-                            sb.AppendFormat(" And {0}>='{1}' ", item.FieldName.First(), item.FieldValue.First());
-                        else if (listFieldName == ExcelIEConsts.SmallThen)
-                            sb.AppendFormat(" And {0}<'{1}' ", item.FieldName.First(), item.FieldValue.First());
-                        else if (listFieldName == ExcelIEConsts.SmallEqualThen)
-                            sb.AppendFormat(" And {0}<='{1}' ", item.FieldName.First(), item.FieldValue.First());
-                        else if (listFieldName == ExcelIEConsts.Justlike)
-                            sb.AppendFormat(" And {0} like '%{1}%' ", item.FieldName.First(), item.FieldValue.First());
-                        else if (listFieldName == ExcelIEConsts.MultLike)
-                        {
-                            var likeValue = item.FieldValue.First();
-                            sb.Append("And ( ");
-                            foreach (var like in item.FieldName)
-                            {
-                                if (item.FieldName.IndexOf(like) == item.FieldName.Count - 1)
-                                    sb.AppendFormat(" {0} like '%{1}%' ", like, likeValue);
-                                else
-                                {
-                                    sb.AppendFormat(" {0} like '%{1}%' Or ", like, likeValue);
-                                }
-                            }
-                            sb.Append(" ) ");
-                        }
-                        else if (listFieldName == ExcelIEConsts.MultIn)
+                        tempName = item.FieldName.First().FieldName; tempValue = item.FieldValue.First();
+                        if (string.IsNullOrEmpty(tempName))
+                            continue;
+                        if (listFieldName == ExcelIEConsts.Equal)
+                            sb.AppendFormat("And {0}='{1}' ", tempName, tempValue);
+                        if (listFieldName == ExcelIEConsts.NotEqual)
+                            sb.AppendFormat("And {0}<>'{1}' ", tempName, tempValue);
+                        else if (listFieldName == ExcelIEConsts.Greater)
+                            sb.AppendFormat("And {0}>'{1}' ", tempName, tempValue);
+                        else if (listFieldName == ExcelIEConsts.GreaterEqual)
+                            sb.AppendFormat("And {0}>='{1}' ", tempName, tempValue);
+                        else if (listFieldName == ExcelIEConsts.Less)
+                            sb.AppendFormat("And {0}<'{1}' ", tempName, tempValue);
+                        else if (listFieldName == ExcelIEConsts.LessEqual)
+                            sb.AppendFormat("And {0}<='{1}' ", tempName, tempValue);
+                        else if (listFieldName == ExcelIEConsts.In)
                         {
                             var multInValue = new List<string>();
                             item.FieldValue.ForEach(o =>
                             {
                                 multInValue.Add("'" + o + "'");
                             });
-                            sb.AppendFormat(" And {0} in ({1}) ", item.FieldName.First(), string.Join(',', multInValue.ToArray()));
+                            sb.AppendFormat("And {0} In ({1}) ", item.FieldName.First(), string.Join(',', multInValue.ToArray()));
                         }
+                        else if (listFieldName == ExcelIEConsts.NotIn)
+                        {
+                            var multInValue = new List<string>();
+                            item.FieldValue.ForEach(o =>
+                            {
+                                multInValue.Add("'" + o + "'");
+                            });
+                            sb.AppendFormat("And {0} Not In ({1}) ", item.FieldName.First(), string.Join(',', multInValue.ToArray()));
+                        }
+                        else if (listFieldName == ExcelIEConsts.Like)
+                            sb.AppendFormat("And {0} Like '%{1}%' ", tempName, tempValue);
+                        else if (listFieldName == ExcelIEConsts.NotLike)
+                            sb.AppendFormat("And {0} Not Like '%{1}%' ", tempName, tempValue);
+                        else if (listFieldName == ExcelIEConsts.CommonLike)
+                        {
+                            var likeValue = tempValue;
+                            sb.Append("And ( ");
+                            foreach (var like in item.FieldName)
+                            {
+                                if (item.FieldName.IndexOf(like) == item.FieldName.Count - 1)
+                                    sb.AppendFormat(" {0} like '%{1}%' ", like.FieldName, likeValue);
+                                else
+                                {
+                                    sb.AppendFormat(" {0} like '%{1}%' Or ", like.FieldName, likeValue);
+                                }
+                            }
+                            sb.Append(" ) ");
+                        }
+                        else if (listFieldName == ExcelIEConsts.StartWith)
+                            sb.AppendFormat("And {0} Like '{1}%' ", tempName, tempValue);
+                        else if (listFieldName == ExcelIEConsts.EndWith)
+                            sb.AppendFormat("And {0} Like '%{1}' ", tempName, tempValue);
+                        else if (listFieldName == ExcelIEConsts.FitNULL)
+                            sb.AppendFormat("And {0} Is Null", tempName, tempValue);
+                        else if (listFieldName == ExcelIEConsts.NotFitNULL)
+                            sb.AppendFormat("And {0} Is Not Null ", tempName, tempValue);
                     }
                 }
             }
             ieDto.TemplateLog.ExportSql = Regex.Replace(sb.ToString(), @"[\r\n\t]", "");
-        }
-
-        public ExcelIEDto GetQueryByPost(dynamic dyc, List<ExcelIEItemDto> queryParams)
-        {
-            var Equal = new List<ExcelIEItemDto>();
-            var Equal = new List<ExcelIEItemDto>();
-            var Equal = new List<ExcelIEItemDto>();
-            var Equal = new List<ExcelIEItemDto>();
-            var Equal = new List<ExcelIEItemDto>();
-            var Equal = new List<ExcelIEItemDto>();
-            var Equal = new List<ExcelIEItemDto>();
-            var Equal = new List<ExcelIEItemDto>();
-            foreach (var item in dyc)
-            {
-                switch (item.Name)
-                {
-                    case ExcelIEConsts.CommonQuery: excelIEDto.MultLike = new List<ExcelIEItemDto>() { }; break;
-                    default:
-                        break;
-                }
-            }
         }
     }
 }

@@ -18,63 +18,66 @@ namespace UFX.ExcelIE.Application.Contracts.Dtos.Export
         /// <summary>
         /// 等于
         /// </summary>
-        public List<ExcelIEItemDto> Equal { get; set; } = new List<ExcelIEItemDto>();
+        public List<ExcelEItemDto> Equal { get; set; } = new List<ExcelEItemDto>();
         /// <summary>
         /// 不等于
         /// </summary>
-        public List<ExcelIEItemDto> NotEqual { get; set; } = new List<ExcelIEItemDto>();
+        public List<ExcelEItemDto> NotEqual { get; set; } = new List<ExcelEItemDto>();
         /// <summary>
         /// 大于
         /// </summary>
-        public List<ExcelIEItemDto> Greater { get; set; } = new List<ExcelIEItemDto>();
+        public List<ExcelEItemDto> Greater { get; set; } = new List<ExcelEItemDto>();
         /// <summary>
         /// 大于等于
         /// </summary>
-        public List<ExcelIEItemDto> GreaterEqual { get; set; } = new List<ExcelIEItemDto>();
+        public List<ExcelEItemDto> GreaterEqual { get; set; } = new List<ExcelEItemDto>();
         /// <summary>
         /// 小于
         /// </summary>
-        public List<ExcelIEItemDto> Less { get; set; } = new List<ExcelIEItemDto>();
+        public List<ExcelEItemDto> Less { get; set; } = new List<ExcelEItemDto>();
         /// <summary>
         /// 小于等于
         /// </summary>
-        public List<ExcelIEItemDto> LessEqual { get; set; } = new List<ExcelIEItemDto>();
+        public List<ExcelEItemDto> LessEqual { get; set; } = new List<ExcelEItemDto>();
         /// <summary>
         /// In
         /// </summary>
-        public List<ExcelIEItemDto> In { get; set; } = new List<ExcelIEItemDto>();
+        public List<ExcelEItemDto> In { get; set; } = new List<ExcelEItemDto>();
         /// <summary>
         /// NotIn
         /// </summary>
-        public List<ExcelIEItemDto> NotIn { get; set; } = new List<ExcelIEItemDto>();
+        public List<ExcelEItemDto> NotIn { get; set; } = new List<ExcelEItemDto>();
         /// <summary>
         /// Like
         /// </summary>
-        public List<ExcelIEItemDto> Like { get; set; } = new List<ExcelIEItemDto>();
+        public List<ExcelEItemDto> Like { get; set; } = new List<ExcelEItemDto>();
         /// <summary>
         /// NotLike
         /// </summary>
-        public List<ExcelIEItemDto> NotLike { get; set; } = new List<ExcelIEItemDto>();
+        public List<ExcelEItemDto> NotLike { get; set; } = new List<ExcelEItemDto>();
+        /// <summary>
+        /// CommonLike
+        /// </summary>
+        public List<ExcelEItemDto> CommonLike { get; set; } = new List<ExcelEItemDto>();
         /// <summary>
         /// 以StartWith开始
         /// </summary>
-        public List<ExcelIEItemDto> StartWith { get; set; } = new List<ExcelIEItemDto>();
+        public List<ExcelEItemDto> StartWith { get; set; } = new List<ExcelEItemDto>();
         /// <summary>
         /// 以EndWith结束
         /// </summary>
-        public List<ExcelIEItemDto> EndWith { get; set; } = new List<ExcelIEItemDto>();
+        public List<ExcelEItemDto> EndWith { get; set; } = new List<ExcelEItemDto>();
         /// <summary>
         /// Is Null
         /// </summary>
-        public List<ExcelIEItemDto> FitNULL { get; set; } = new List<ExcelIEItemDto>();
+        public List<ExcelEItemDto> FitNULL { get; set; } = new List<ExcelEItemDto>();
         /// <summary>
         /// Is Not Null
         /// </summary>
-        public List<ExcelIEItemDto> NotFitNULL { get; set; } = new List<ExcelIEItemDto>();
+        public List<ExcelEItemDto> NotFitNULL { get; set; } = new List<ExcelEItemDto>();
         /// <summary>
         /// 导出模板编码
         /// </summary>
-        [Required]
         public string TemplateCode { get; set; }
         /// <summary>
         /// 租户TntId
@@ -87,7 +90,7 @@ namespace UFX.ExcelIE.Application.Contracts.Dtos.Export
         /// <summary>
         /// 操作人
         /// </summary>
-        public string UserName { get; set; } = string.Empty;
+        public string UserName { get; set; }
         /// <summary>
         /// 导出类型
         /// </summary>
@@ -120,7 +123,7 @@ namespace UFX.ExcelIE.Application.Contracts.Dtos.Export
     /// <summary>
     /// Excel导出判断条件运行符对象集合
     /// </summary>
-    public partial class ExcelIEItemDto
+    public partial class ExcelEItemDto
     {
         /// <summary>
         /// Key:前端别名，Value:后端对应数据库表字段名称
