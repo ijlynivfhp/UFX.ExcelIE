@@ -9,9 +9,15 @@ namespace UFX.ExcelIE.Domain.Services.ExcelIE
 {
     public partial class ExcelIEDomainService
     {
-        public async Task AddAsyncExcelLogModel(CoExcelExportSqllog excelLog)
+        public async Task EditAsyncExcelLogModel(CoExcelExportSqllog excelLog)
         {
-            await _scmUnit.GetRepository<CoExcelExportSqllog>().InsertAsync(excelLog);
+            var existExcelLog = await _scmUnit.GetRepository<CoExcelExportSqllog>().GetFirstOrDefaultAsync(o => o.Id == excelLog.Id) ?? new CoExcelExportSqllog();
+            if (existExcelLog.Id == Guid.Empty)
+                await _scmUnit.GetRepository<CoExcelExportSqllog>().InsertAsync(excelLog);
+            else
+            {
+                await _scmUnit.GetRepository<CoExcelExportSqllog>().UpdateAsync(excelLog);
+            }
             await _scmUnit.SaveChangesAsync();
         }
     }

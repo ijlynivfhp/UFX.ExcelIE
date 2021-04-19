@@ -22,11 +22,11 @@ namespace UFX.ExcelIE.Application.Services
         [CapSubscribe(MqConst.ExcelIETopicName)]
         public async Task PullMessage(ExcelIEDto ieDto)
         {
-
             string errorMsg = string.Empty;
             _logger.LogInformation("开始导入！");
             try
             {
+                throw new Exception("aaaaa");
                 await _excelIEService.ExcelExport(ieDto);
                 _logger.LogInformation("导入成功！");
             }

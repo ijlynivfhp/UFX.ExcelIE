@@ -9,6 +9,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using UFX.Common.Domain;
 using UFX.EntityFrameworkCore.UnitOfWork;
@@ -93,6 +94,7 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                     #endregion
 
                     #region 导出记录数据收集
+                    var templateLog = await _excelIEDomainService.GetFirstExcelLogModelAsync(o=>o.);
                     ieDto.TemplateLog.Id = _excelIEDomainService.NewGuid();
                     ieDto.TemplateLog.ParentId = ieDto.Template.Id;
                     ieDto.TemplateLog.TemplateSql = ieDto.Template.ExecSql;
@@ -127,15 +129,16 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                         ieDto.TemplateLog.ExportDuration = Convert.ToDecimal(ieDto.Watch.Elapsed.TotalSeconds);
                         ieDto.TemplateLog.DownLoadUrl = excelFilePath;
                         ieDto.TemplateLog.ExportMsg = "导出成功：" + ieDto.Watch.Elapsed.TotalSeconds + "秒";
-                        await _excelIEDomainService.AddAsyncExcelLogModel(ieDto.TemplateLog);
+                        await _excelIEDomainService.EditAsyncExcelLogModel(ieDto.TemplateLog);
                         #endregion
                     }
                 }
             }
             catch (Exception ex)
             {
+                ieDto.TemplateLog.ExecCount += 1;
                 ieDto.TemplateLog.ExportMsg = "导出失败：" + ieDto.Watch.Elapsed.TotalSeconds + "秒";
-                await _excelIEDomainService.AddAsyncExcelLogModel(ieDto.TemplateLog);
+                await _excelIEDomainService.EditAsyncExcelLogModel(ieDto.TemplateLog);
                 return ex.Message;
             }
             return string.Empty;
