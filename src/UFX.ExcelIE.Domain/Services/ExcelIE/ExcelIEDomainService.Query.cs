@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -21,6 +22,11 @@ namespace UFX.ExcelIE.Domain.Services.ExcelIE
         public async Task<List<T>> QueryListSqlCommandAsync<T>(string sql, params object[] parameters) where T : class, new()
         {
             return await _scmUnit.GetListBySqlAsync<T>(sql, parameters);
+        }
+
+        public async Task<DataTable> GetDataTableBySqlAsync(string sql, params object[] parameters)
+        {
+            return await _scmUnit.GetDataTableBySqlAsync(sql, parameters);
         }
     }
 }

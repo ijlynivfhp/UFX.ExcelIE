@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -13,5 +14,6 @@ namespace UFX.ExcelIE.Domain.Interfaces.ExcelIE
         Task<CoExcelExportSql> GetFirstExcelModelAsync(Expression<Func<CoExcelExportSql, bool>> filter);
         Task<CoExcelExportSqllog> GetFirstExcelLogModelAsync(Expression<Func<CoExcelExportSqllog, bool>> filter);
         Task<List<T>> QueryListSqlCommandAsync<T>(string sql, params object[] parameters) where T : class, new();
+        Task<DataTable> GetDataTableBySqlAsync(string sql, params object[] parameters);
     }
 }

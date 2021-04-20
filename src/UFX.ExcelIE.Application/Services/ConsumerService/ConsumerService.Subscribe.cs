@@ -26,13 +26,13 @@ namespace UFX.ExcelIE.Application.Services
             _logger.LogInformation("开始导入！");
             try
             {
-                throw new Exception("aaaaa");
                 await _excelIEService.ExcelExport(ieDto);
                 _logger.LogInformation("导入成功！");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.GetBaseException().Message);
+                throw;
             };
             return;
         }

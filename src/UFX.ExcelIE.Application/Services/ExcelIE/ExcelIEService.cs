@@ -6,6 +6,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -56,12 +57,13 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
             else
             {
                 var template = await _excelIEDomainService.GetFirstExcelModelAsync(o => o.TemplateCode == ieDto.TemplateCode);
-                if (template is null)
+                if (template.Id == Guid.Empty)
                     error = "模板不存在！";
                 else
                 {
                     //消息发送(导出)
                     ieDto.Template = template;
+                    ieDto.TemplateLog.Id = _excelIEDomainService.NewGuid();
                     await _capPublisher.PublishAsync(MqConst.ExcelIETopicName, ieDto);
                 }
             }
@@ -74,74 +76,91 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
         /// <returns></returns>
         public async Task<string> ExcelExport(ExcelIEDto ieDto)
         {
-            string errorMsg = string.Empty;
+            string exportMsg = string.Empty;
             try
             {
-                if (ieDto.Template.Id == Guid.Empty)
-                    errorMsg = "导出异常！";
-                else
+
+                #region 保存路径和模板路径初始化和处理
+                var root = Directory.GetCurrentDirectory();
+                var rootPath = root + ExcelIEConsts.ExcelIE;
+                var fileName = ieDto.Template.TemplateName + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ExcelIEConsts.ExcelSubStr;
+                var excelPath = rootPath + ExcelIEConsts.Export + (string.IsNullOrEmpty(ieDto.UserName) ? "" : ieDto.UserName + "\\");
+                var excelFilePath = excelPath + fileName;
+                var excelTemplatePath = rootPath + ExcelIEConsts.Template + ieDto.Template.TemplateName + ExcelIEConsts.ExcelSubStr;
+                if (File.Exists(excelFilePath))
+                    File.Delete(excelFilePath);
+                if (!Directory.Exists(excelPath))
+                    Directory.CreateDirectory(excelPath);
+                #endregion
+
+                #region 导出记录数据收集
+                ieDto.TemplateLog.ParentId = ieDto.Template.Id;
+                ieDto.TemplateLog.FileName = fileName;
+                ieDto.TemplateLog.TemplateSql = ieDto.Template.ExecSql;
+                ieDto.TemplateLog.ExportParameters = JsonHelper.ToJsonString(ieDto);
+                ieDto.TemplateLog.CreateTime = DateTime.Now;
+                ieDto.TemplateLog.TntId = ieDto.TntId;
+                ieDto.TemplateLog.CreateUserId = ieDto.UserId;
+                ieDto.TemplateLog.CreateUser = ieDto.UserName;
+                GetSql(ieDto);
+                #endregion
+
+                //导出数据收集
+
+                var dataTable = await GetDataBySql(ieDto, new DataTable());
+
+                //默认为0Magicodes.IE插件
+                if (ieDto.ExportType == 0)
                 {
-                    #region 保存路径和模板路径初始化和处理
-                    var root = Directory.GetCurrentDirectory();
-                    var rootPath = root + ExcelIEConsts.ExcelIE;
-                    var excelPath = rootPath + ExcelIEConsts.Export + (string.IsNullOrEmpty(ieDto.UserName) ? "" : ieDto.UserName + "\\");
-                    var excelFilePath = excelPath + ieDto.Template.TemplateName + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ExcelIEConsts.ExcelSubStr;
-                    var excelTemplatePath = rootPath + ExcelIEConsts.Template + ieDto.Template.TemplateName + ExcelIEConsts.ExcelSubStr;
-                    if (File.Exists(excelFilePath))
-                        File.Delete(excelFilePath);
-                    if (!Directory.Exists(excelPath))
-                        Directory.CreateDirectory(excelPath);
+                    //导出数据
+                    ieDto.Watch.Start();
+                    var fileInfo = await _iExcelExport.ExportMultSheetExcel(excelFilePath, dataTable, ieDto.Template.ExecMaxCountPer);
+                    ieDto.Watch.Stop();
+
+                    #region 导出记录数据收集保存
+                    ieDto.TemplateLog.FileSize = CountSize(GetFileSize(excelFilePath));
+                    ieDto.TemplateLog.Status = 1;
+                    ieDto.TemplateLog.DownLoadUrl = excelFilePath;
+                    exportMsg = "导出成功：" + ieDto.Watch.Elapsed.TotalSeconds + "秒";
                     #endregion
-
-                    #region 导出记录数据收集
-                    var templateLog = await _excelIEDomainService.GetFirstExcelLogModelAsync(o=>o.);
-                    ieDto.TemplateLog.Id = _excelIEDomainService.NewGuid();
-                    ieDto.TemplateLog.ParentId = ieDto.Template.Id;
-                    ieDto.TemplateLog.TemplateSql = ieDto.Template.ExecSql;
-                    ieDto.TemplateLog.ExportParameters = JsonHelper.ToJsonString(ieDto);
-                    ieDto.TemplateLog.CreateTime = DateTime.Now;
-                    ieDto.TemplateLog.TntId = ieDto.TntId;
-                    ieDto.TemplateLog.CreateUserId = ieDto.UserId;
-                    ieDto.TemplateLog.CreateUser = ieDto.UserName;
-                    GetSql(ieDto);
-                    #endregion
-
-                    //导出数据收集
-                    var exportList = await _excelIEDomainService.QueryListSqlCommandAsync<CustomerQuotaManageFlowDto>(ieDto.TemplateLog.ExportSql);
-
-                    //默认为0Magicodes.IE插件
-                    if (ieDto.ExportType == 0)
-                    {
-                        //插件适配数据
-                        var jarray = JArray.FromObject(exportList);
-                        JObject Jobj = JsonHelper.ToJson<JObject>(ieDto.Template.ExportHead); Jobj.Add(new JProperty("DataList", jarray));
-
-                        //导出数据
-                        ieDto.Watch.Start();
-                        var fileInfo = await _iExcelExport.ExportExcel(excelFilePath, Jobj, excelTemplatePath);
-                        ieDto.Watch.Stop();
-
-                        #region 导出记录数据收集保存
-                        ieDto.TemplateLog.Status = 1;
-                        ieDto.TemplateLog.ModifyTime = DateTime.Now;
-                        ieDto.TemplateLog.ModifyUser = ieDto.UserName;
-                        ieDto.TemplateLog.ExecCount += 1;
-                        ieDto.TemplateLog.ExportDuration = Convert.ToDecimal(ieDto.Watch.Elapsed.TotalSeconds);
-                        ieDto.TemplateLog.DownLoadUrl = excelFilePath;
-                        ieDto.TemplateLog.ExportMsg = "导出成功：" + ieDto.Watch.Elapsed.TotalSeconds + "秒";
-                        await _excelIEDomainService.EditAsyncExcelLogModel(ieDto.TemplateLog);
-                        #endregion
-                    }
                 }
             }
             catch (Exception ex)
             {
-                ieDto.TemplateLog.ExecCount += 1;
-                ieDto.TemplateLog.ExportMsg = "导出失败：" + ieDto.Watch.Elapsed.TotalSeconds + "秒";
+                exportMsg = "导出失败：" + ex.Message + ":" + ieDto.Watch.Elapsed.TotalSeconds + "秒";
+                throw;
+            }
+            finally
+            {
+                ieDto.TemplateLog.ExportMsg = exportMsg;
+                ieDto.TemplateLog.ModifyTime = DateTime.Now;
+                ieDto.TemplateLog.ModifyUser = ieDto.UserName;
+                ieDto.TemplateLog.ExportDuration = Convert.ToDecimal(ieDto.Watch.Elapsed.TotalSeconds);
                 await _excelIEDomainService.EditAsyncExcelLogModel(ieDto.TemplateLog);
-                return ex.Message;
             }
             return string.Empty;
+        }
+
+        public async Task<DataTable> GetDataBySql(ExcelIEDto ieDto, DataTable dt, string id = "")
+        {
+            string execSql = ieDto.TemplateLog.ExportSql + GetOrderBySql(ieDto, id);
+            var dtItem = await _excelIEDomainService.GetDataTableBySqlAsync(execSql);
+            dt.Merge(dtItem);
+            if (dtItem.Rows.Count == ieDto.Template.ExecMaxCountPer)
+            {
+                var tempDt = await GetDataBySql(ieDto, dt, dt.AsEnumerable().Last<DataRow>()[string.IsNullOrEmpty(ieDto.Template.OrderField) ? "Id" : ieDto.Template.OrderField].ToString());
+                dt.Merge(tempDt);
+            }
+            return dt;
+        }
+
+        private string GetOrderBySql(ExcelIEDto ieDto, string id = "")
+        {
+            string orderBySql = string.Empty;
+            if (!string.IsNullOrEmpty(id))
+                orderBySql = string.Format("And {0}.{1} {2} '{3}'", ieDto.Template.MainTableSign, string.IsNullOrEmpty(ieDto.Template.OrderField) ? "Id" : ieDto.Template.OrderField, Convert.ToBoolean(ieDto.Template.Sort) ? "<" : ">", id);
+            orderBySql += string.Format(" Order By {0}.{1} {2}", ieDto.Template.MainTableSign, string.IsNullOrEmpty(ieDto.Template.OrderField) ? "Id" : ieDto.Template.OrderField, Convert.ToBoolean(ieDto.Template.Sort) ? "Desc " : "Asc ");
+            return orderBySql;
         }
     }
 }

@@ -17,9 +17,13 @@ namespace UFX.ExcelIE.Domain.Models
         public string ExportHead { get; set; }
         public string ExecSql { get; set; }
         public byte Status { get; set; }
+        public int ExecMaxCountPer { get; set; }
+        public string MainTableSign { get; set; }
+        public string OrderField { get; set; }
+        public bool Sort { get; set; }
         public bool IsDelete { get; set; }
         public string CreateUser { get; set; }
-        public DateTime? CreateTime { get; set; }
+        public DateTime CreateTime { get; set; }
         public string ModifyUser { get; set; }
         public DateTime? ModifyTime { get; set; }
         public byte[] RowVersion { get; set; }

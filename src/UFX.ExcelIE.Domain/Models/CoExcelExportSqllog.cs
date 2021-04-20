@@ -16,6 +16,10 @@ namespace UFX.ExcelIE.Domain.Models
         public byte Status { get; set; }
         public string ExportMsg { get; set; }
         public string DownLoadUrl { get; set; }
+        public byte? DownLoadCount { get; set; }
+        public string FileName { get; set; }
+        public string FileSize { get; set; }
+        public int? ExportCount { get; set; }
         public int ExecCount { get; set; }
         public Guid? TntId { get; set; }
         public Guid? CreateUserId { get; set; }

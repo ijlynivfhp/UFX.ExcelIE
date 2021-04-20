@@ -40,6 +40,7 @@ namespace UFX.ExcelIE.Domain
                     .HasComment("创建时间");
 
                 entity.Property(e => e.CreateUser)
+                    .IsRequired()
                     .HasMaxLength(50)
                     .HasComment("创建人");
 
@@ -55,6 +56,10 @@ namespace UFX.ExcelIE.Domain
 
                 entity.Property(e => e.IsDelete).HasComment("是否删除");
 
+                entity.Property(e => e.MainTableSign)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
                 entity.Property(e => e.ModifyTime)
                     .HasColumnType("datetime")
                     .HasComment("修改时间");
@@ -62,6 +67,8 @@ namespace UFX.ExcelIE.Domain
                 entity.Property(e => e.ModifyUser)
                     .HasMaxLength(50)
                     .HasComment("修改人");
+
+                entity.Property(e => e.OrderField).HasMaxLength(20);
 
                 entity.Property(e => e.RowVersion)
                     .IsRequired()
@@ -113,11 +120,15 @@ namespace UFX.ExcelIE.Domain
 
                 entity.Property(e => e.CreateUserId).HasComment("创建人Id");
 
+                entity.Property(e => e.DownLoadCount).HasDefaultValueSql("((0))");
+
                 entity.Property(e => e.DownLoadUrl).HasMaxLength(500);
 
                 entity.Property(e => e.ExecCount)
                     .HasDefaultValueSql("((1))")
                     .HasComment("执行次数");
+
+                entity.Property(e => e.ExportCount).HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.ExportDuration)
                     .HasColumnType("decimal(18, 0)")
@@ -135,6 +146,10 @@ namespace UFX.ExcelIE.Domain
                     .HasColumnType("text")
                     .HasColumnName("ExportSQL")
                     .HasComment("导出实际SQL");
+
+                entity.Property(e => e.FileName).HasMaxLength(200);
+
+                entity.Property(e => e.FileSize).HasMaxLength(50);
 
                 entity.Property(e => e.ModifyTime)
                     .HasColumnType("datetime")

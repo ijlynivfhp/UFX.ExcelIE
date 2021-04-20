@@ -12,6 +12,7 @@ namespace UFX.ExcelIE.Domain.Services.ExcelIE
         public async Task EditAsyncExcelLogModel(CoExcelExportSqllog excelLog)
         {
             var existExcelLog = await _scmUnit.GetRepository<CoExcelExportSqllog>().GetFirstOrDefaultAsync(o => o.Id == excelLog.Id) ?? new CoExcelExportSqllog();
+            excelLog.ExecCount = existExcelLog.ExecCount + 1;
             if (existExcelLog.Id == Guid.Empty)
                 await _scmUnit.GetRepository<CoExcelExportSqllog>().InsertAsync(excelLog);
             else

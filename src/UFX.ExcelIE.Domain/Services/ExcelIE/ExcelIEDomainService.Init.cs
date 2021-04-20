@@ -11,10 +11,10 @@ namespace UFX.ExcelIE.Domain.Services.ExcelIE
 {
     public partial class ExcelIEDomainService : IExcelIEDomainService
     {
-        private readonly IUnitOfWork<SCMContext> _scmUnit;
+        private readonly IUnitOfWork<SCMExcelIEContext> _scmUnit;
         private readonly ISequentialGuid _sequentialGuid;
 
-        public ExcelIEDomainService(IUnitOfWork<SCMContext> scmUnit, ISequentialGuid sequentialGuid)
+        public ExcelIEDomainService(IUnitOfWork<SCMExcelIEContext> scmUnit, ISequentialGuid sequentialGuid)
         {
             _scmUnit = scmUnit;
             _sequentialGuid = sequentialGuid;
