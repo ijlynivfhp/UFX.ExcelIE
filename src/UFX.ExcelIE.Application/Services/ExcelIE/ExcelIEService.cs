@@ -47,7 +47,7 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
         /// <summary>
         /// ExcelIE消息发送与较验
         /// </summary>
-        /// <param name="queryString"></param>
+        /// <param name="ieDto"></param>
         /// <returns></returns>
         public async Task<string> PushExcelExportMsg(ExcelIEDto ieDto)
         {
@@ -72,7 +72,7 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
         /// <summary>
         /// 具体导出操作
         /// </summary>
-        /// <param name="templateLogId"></param>
+        /// <param name="ieDto"></param>
         /// <returns></returns>
         public async Task<string> ExcelExport(ExcelIEDto ieDto)
         {
@@ -116,14 +116,17 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                     ieDto.Watch.Start();
                     var fileInfo = await _iExcelExport.ExportMultSheetExcel(excelFilePath, dataTable, ieDto.Template.ExecMaxCountPer);
                     ieDto.Watch.Stop();
-
-                    #region 导出记录数据收集保存
-                    ieDto.TemplateLog.FileSize = CountSize(GetFileSize(excelFilePath));
-                    ieDto.TemplateLog.Status = 1;
-                    ieDto.TemplateLog.DownLoadUrl = excelFilePath;
-                    exportMsg = "导出成功：" + ieDto.Watch.Elapsed.TotalSeconds + "秒";
-                    #endregion
                 }
+                else if (ieDto.ExportType == 1)
+                {
+
+                }
+                #region 导出记录数据收集保存
+                ieDto.TemplateLog.FileSize = CountSize(GetFileSize(excelFilePath));
+                ieDto.TemplateLog.Status = 1;
+                ieDto.TemplateLog.DownLoadUrl = excelFilePath;
+                exportMsg = "导出成功：" + ieDto.Watch.Elapsed.TotalSeconds + "秒";
+                #endregion
             }
             catch (Exception ex)
             {
