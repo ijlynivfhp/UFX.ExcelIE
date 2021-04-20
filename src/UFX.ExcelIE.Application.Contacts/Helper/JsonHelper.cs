@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,6 +39,15 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
         public static T ToJson<T>(this string str)
         {
             return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(str);
+        }
+        /// <summary>
+        /// 字符串转JArray
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static JArray StrToJarry(this string str)
+        {
+            return JsonConvert.DeserializeObject(str) as JArray;
         }
     }
 }

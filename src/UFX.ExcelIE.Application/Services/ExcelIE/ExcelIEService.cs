@@ -106,8 +106,10 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                 #endregion
 
                 //导出数据收集
-
                 var dataTable = await GetDataBySql(ieDto, new DataTable());
+
+                //格式DataTable表头
+                FormatterHead(ieDto, dataTable);
 
                 //默认为0Magicodes.IE插件
                 if (ieDto.ExportType == 0)
@@ -144,6 +146,13 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
             return string.Empty;
         }
 
+        /// <summary>
+        /// 分页递归装载数据DataTable
+        /// </summary>
+        /// <param name="ieDto"></param>
+        /// <param name="dt"></param>
+        /// <param name="rowNum"></param>
+        /// <returns></returns>
         public async Task<DataTable> GetDataBySql(ExcelIEDto ieDto, DataTable dt, int rowNum = 0)
         {
             string execSql = ieDto.TemplateLog.ExportSql + string.Format("And {0} > {1}", ExcelIEConsts.RowNumber, rowNum);
@@ -154,7 +163,6 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                 var tempDt = await GetDataBySql(ieDto, dt, Convert.ToInt32(dt.AsEnumerable().Last<DataRow>()[ExcelIEConsts.RowNumber]));
                 dt.Merge(tempDt);
             }
-
             return dt;
         }
     }

@@ -11,6 +11,21 @@ namespace UFX.ExcelIE.Domain.Shared.Const
     /// </summary>
     public class ExcelIEConsts
     {
+        #region 导出表头常量
+        /// <summary>
+        /// 表头英文名称
+        /// </summary>
+        public const string FieldEnName = "FieldEnName";
+        /// <summary>
+        /// 表头中文名称
+        /// </summary>
+        public const string FieldChName = "FieldChName";
+        /// <summary>
+        /// 表头是否隐藏
+        /// </summary>
+        public const string IsHide = "IsHide";
+        #endregion
+
         /// <summary>
         /// 排序默认主键字段
         /// </summary>
@@ -30,15 +45,25 @@ namespace UFX.ExcelIE.Domain.Shared.Const
         /// 排序（倒序）
         /// </summary>
         public const string SortDesc = "DESC";
-
+        /// <summary>
+        /// 每次执行读取数据库最大行数
+        /// </summary>
         public const int ExecMaxCountPer = 50000;
-
+        /// <summary>
+        /// TopCount
+        /// </summary>
         public const string TopCount = "TopCount";
-
+        /// <summary>
+        /// OrderBy排序列
+        /// </summary>
         public const string OrderBy = "OrderBy";
-
+        /// <summary>
+        /// WITH中主查询
+        /// </summary>
         public const string MainSql = "MainSql";
-
+        /// <summary>
+        /// WITH语句
+        /// </summary>
         public const string WithSql = @";WITH MainSql AS (#MainSql#) SELECT TOP #TopCount# * FROM MainSql WHERE 1= 1 ";
 
         #region Sql拼接条件常量
@@ -115,6 +140,8 @@ namespace UFX.ExcelIE.Domain.Shared.Const
         /// 属性类型
         /// </summary>
         public const string PropertitySignName = "List`1";
+
+        #region 导出路径和文件后缀常量
         /// <summary>
         /// 模板,下载根目录
         /// </summary>
@@ -131,8 +158,7 @@ namespace UFX.ExcelIE.Domain.Shared.Const
         /// Excel后缀
         /// </summary>
         public const string ExcelSubStr = ".xlsx";
-
-
+        #endregion
 
     }
 }

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -102,6 +104,29 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
                 .Replace($"#{ExcelIEConsts.OrderBy}#", string.Format("Order By {0}.{1} {2}", ieDto.Template.MainTableSign, string.IsNullOrEmpty(ieDto.Template.OrderField) ? ExcelIEConsts.PrimarkKey : ieDto.Template.OrderField, Convert.ToBoolean(ieDto.Template.Sort) ? ExcelIEConsts.SortDesc : ExcelIEConsts.SortAsc))
                 .Replace($"#{ExcelIEConsts.MainSql}#", mainSql.ToString());
             ieDto.TemplateLog.ExportSql = Regex.Replace(exportSql, @"[\r\n\t]", "");
+        }
+        /// <summary>
+        /// 格式化DataTable表头
+        /// </summary>
+        /// <param name="ieDto"></param>
+        /// <param name="dt"></param>
+        public static void FormatterHead(ExcelIEDto ieDto, DataTable dt)
+        {
+            if (dt.Columns.Contains(ExcelIEConsts.PrimarkKey))
+                dt.Columns.Remove(ExcelIEConsts.PrimarkKey);
+            if (dt.Columns.Contains(ExcelIEConsts.RowNumber))
+                dt.Columns.Remove(ExcelIEConsts.RowNumber);
+            JArray jarry = JsonHelper.StrToJarry(ieDto.Template.ExportHead);
+            JObject obj = new JObject();
+            string fieldEnName = string.Empty, isHide = string.Empty;
+            foreach (var jarryItem in jarry)
+            {
+                obj = jarryItem as JObject;
+                fieldEnName = obj[ExcelIEConsts.FieldEnName].ToString().Trim();
+                isHide = Convert.ToString(obj[ExcelIEConsts.IsHide]) ?? "0";
+                if (dt.Columns.Contains(fieldEnName) && isHide == "1")
+                    dt.Columns.Remove(fieldEnName);
+            }
         }
 
         /// <summary>
