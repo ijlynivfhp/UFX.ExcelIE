@@ -144,26 +144,18 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
             return string.Empty;
         }
 
-        public async Task<DataTable> GetDataBySql(ExcelIEDto ieDto, DataTable dt, string id = "")
+        public async Task<DataTable> GetDataBySql(ExcelIEDto ieDto, DataTable dt, int rowNum = 0)
         {
-            string execSql = ieDto.TemplateLog.ExportSql + GetOrderBySql(ieDto, id);
+            string execSql = ieDto.TemplateLog.ExportSql + string.Format("And {0} > {1}", ExcelIEConsts.RowNumber, rowNum);
             var dtItem = await _excelIEDomainService.GetDataTableBySqlAsync(execSql);
             dt.Merge(dtItem);
             if (dtItem.Rows.Count == ieDto.Template.ExecMaxCountPer)
             {
-                var tempDt = await GetDataBySql(ieDto, dt, dt.AsEnumerable().Last<DataRow>()[string.IsNullOrEmpty(ieDto.Template.OrderField) ? "Id" : ieDto.Template.OrderField].ToString());
+                var tempDt = await GetDataBySql(ieDto, dt, Convert.ToInt32(dt.AsEnumerable().Last<DataRow>()[ExcelIEConsts.RowNumber]));
                 dt.Merge(tempDt);
             }
-            return dt;
-        }
 
-        private string GetOrderBySql(ExcelIEDto ieDto, string id = "")
-        {
-            string orderBySql = string.Empty;
-            if (!string.IsNullOrEmpty(id))
-                orderBySql = string.Format("And {0}.{1} {2} '{3}'", ieDto.Template.MainTableSign, string.IsNullOrEmpty(ieDto.Template.OrderField) ? "Id" : ieDto.Template.OrderField, Convert.ToBoolean(ieDto.Template.Sort) ? "<" : ">", id);
-            orderBySql += string.Format(" Order By {0}.{1} {2}", ieDto.Template.MainTableSign, string.IsNullOrEmpty(ieDto.Template.OrderField) ? "Id" : ieDto.Template.OrderField, Convert.ToBoolean(ieDto.Template.Sort) ? "Desc " : "Asc ");
-            return orderBySql;
+            return dt;
         }
     }
 }

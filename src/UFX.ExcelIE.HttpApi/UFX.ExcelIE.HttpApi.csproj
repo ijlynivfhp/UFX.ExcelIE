@@ -10,9 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ExcelIE\Export\**" />
     <Compile Remove="Logs\**" />
+    <Content Remove="ExcelIE\Export\**" />
     <Content Remove="Logs\**" />
+    <EmbeddedResource Remove="ExcelIE\Export\**" />
     <EmbeddedResource Remove="Logs\**" />
+    <None Remove="ExcelIE\Export\**" />
     <None Remove="Logs\**" />
   </ItemGroup>
 

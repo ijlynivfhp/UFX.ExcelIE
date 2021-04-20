@@ -21,9 +21,9 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
         /// <returns></returns>
         public static void GetSql(ExcelIEDto ieDto)
         {
-            string tempName = string.Empty, tempValue = string.Empty;
-            StringBuilder sb = new StringBuilder(ieDto.TemplateLog.TemplateSql);
-            sb.Append(" where 1=1 ");
+            string tempName = string.Empty, tempValue = string.Empty, exportSql = string.Empty;
+            var mainSql = new StringBuilder(ieDto.TemplateLog.TemplateSql);
+            mainSql.Append(" where 1=1 ");
             var type = typeof(ExcelIEDto);
             var properties = type.GetProperties().Where(o => o.PropertyType.Name == ExcelIEConsts.PropertitySignName).ToList();
             foreach (var propertity in properties)
@@ -38,17 +38,17 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
                         if (string.IsNullOrEmpty(tempName))
                             continue;
                         if (listFieldName == ExcelIEConsts.Equal)
-                            sb.AppendFormat("And {0}='{1}' ", tempName, tempValue);
+                            mainSql.AppendFormat("And {0}='{1}' ", tempName, tempValue);
                         if (listFieldName == ExcelIEConsts.NotEqual)
-                            sb.AppendFormat("And {0}<>'{1}' ", tempName, tempValue);
+                            mainSql.AppendFormat("And {0}<>'{1}' ", tempName, tempValue);
                         else if (listFieldName == ExcelIEConsts.Greater)
-                            sb.AppendFormat("And {0}>'{1}' ", tempName, tempValue);
+                            mainSql.AppendFormat("And {0}>'{1}' ", tempName, tempValue);
                         else if (listFieldName == ExcelIEConsts.GreaterEqual)
-                            sb.AppendFormat("And {0}>='{1}' ", tempName, tempValue);
+                            mainSql.AppendFormat("And {0}>='{1}' ", tempName, tempValue);
                         else if (listFieldName == ExcelIEConsts.Less)
-                            sb.AppendFormat("And {0}<'{1}' ", tempName, tempValue);
+                            mainSql.AppendFormat("And {0}<'{1}' ", tempName, tempValue);
                         else if (listFieldName == ExcelIEConsts.LessEqual)
-                            sb.AppendFormat("And {0}<='{1}' ", tempName, tempValue);
+                            mainSql.AppendFormat("And {0}<='{1}' ", tempName, tempValue);
                         else if (listFieldName == ExcelIEConsts.In)
                         {
                             var multInValue = new List<string>();
@@ -56,7 +56,7 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
                             {
                                 multInValue.Add("'" + o + "'");
                             });
-                            sb.AppendFormat("And {0} In ({1}) ", item.FieldName.First(), string.Join(',', multInValue.ToArray()));
+                            mainSql.AppendFormat("And {0} In ({1}) ", item.FieldName.First(), string.Join(',', multInValue.ToArray()));
                         }
                         else if (listFieldName == ExcelIEConsts.NotIn)
                         {
@@ -65,40 +65,43 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
                             {
                                 multInValue.Add("'" + o + "'");
                             });
-                            sb.AppendLine(string.Format("And {0} Not In ({1}) ", item.FieldName.First(), string.Join(',', multInValue.ToArray())));
+                            mainSql.AppendLine(string.Format("And {0} Not In ({1}) ", item.FieldName.First(), string.Join(',', multInValue.ToArray())));
                         }
                         else if (listFieldName == ExcelIEConsts.Like)
-                            sb.AppendLine(string.Format("And {0} Like '%{1}%' ", tempName, tempValue));
+                            mainSql.AppendLine(string.Format("And {0} Like '%{1}%' ", tempName, tempValue));
                         else if (listFieldName == ExcelIEConsts.NotLike)
-                            sb.AppendLine(string.Format("And {0} Not Like '%{1}%' ", tempName, tempValue));
+                            mainSql.AppendLine(string.Format("And {0} Not Like '%{1}%' ", tempName, tempValue));
                         else if (listFieldName == ExcelIEConsts.CommonLike)
                         {
                             var likeValue = tempValue;
-                            sb.Append("And ( ");
+                            mainSql.Append("And ( ");
                             foreach (var like in item.FieldName)
                             {
                                 if (item.FieldName.IndexOf(like) == item.FieldName.Count - 1)
-                                    sb.AppendLine(string.Format("{0} like '%{1}%' ", like.FieldName, likeValue));
+                                    mainSql.AppendLine(string.Format("{0} like '%{1}%' ", like.FieldName, likeValue));
                                 else
                                 {
-                                    sb.AppendLine(string.Format("{0} like '%{1}%' Or ", like.FieldName, likeValue));
+                                    mainSql.AppendLine(string.Format("{0} like '%{1}%' Or ", like.FieldName, likeValue));
                                 }
                             }
-                            sb.Append(" ) ");
+                            mainSql.Append(" ) ");
                         }
                         else if (listFieldName == ExcelIEConsts.StartWith)
-                            sb.AppendLine(string.Format("And {0} Like '{1}%' ", tempName, tempValue));
+                            mainSql.AppendLine(string.Format("And {0} Like '{1}%' ", tempName, tempValue));
                         else if (listFieldName == ExcelIEConsts.EndWith)
-                            sb.AppendLine(string.Format("And {0} Like '%{1}' ", tempName, tempValue));
+                            mainSql.AppendLine(string.Format("And {0} Like '%{1}' ", tempName, tempValue));
                         else if (listFieldName == ExcelIEConsts.FitNULL)
-                            sb.AppendLine(string.Format("And {0} Is Null", tempName, tempValue));
+                            mainSql.AppendLine(string.Format("And {0} Is Null", tempName, tempValue));
                         else if (listFieldName == ExcelIEConsts.NotFitNULL)
-                            sb.AppendLine(string.Format("And {0} Is Not Null ", tempName, tempValue));
+                            mainSql.AppendLine(string.Format("And {0} Is Not Null ", tempName, tempValue));
                     }
                 }
             }
-            ieDto.TemplateLog.ExportSql = Regex.Replace(sb.ToString(), @"[\r\n\t]", "");
-            ieDto.TemplateLog.ExportSql = ieDto.TemplateLog.ExportSql.Replace("#TopCount#", (Convert.ToInt32(ieDto.Template.ExecMaxCountPer) > 0 ? ieDto.Template.ExecMaxCountPer : 50000).ToString());
+            exportSql = ExcelIEConsts.WithSql
+                .Replace($"#{ExcelIEConsts.TopCount}#", (Convert.ToInt32(ieDto.Template.ExecMaxCountPer) > 0 ? ieDto.Template.ExecMaxCountPer : ExcelIEConsts.ExecMaxCountPer).ToString())
+                .Replace($"#{ExcelIEConsts.OrderBy}#", string.Format("Order By {0}.{1} {2}", ieDto.Template.MainTableSign, string.IsNullOrEmpty(ieDto.Template.OrderField) ? ExcelIEConsts.PrimarkKey : ieDto.Template.OrderField, Convert.ToBoolean(ieDto.Template.Sort) ? ExcelIEConsts.SortDesc : ExcelIEConsts.SortAsc))
+                .Replace($"#{ExcelIEConsts.MainSql}#", mainSql.ToString());
+            ieDto.TemplateLog.ExportSql = Regex.Replace(exportSql, @"[\r\n\t]", "");
         }
 
         /// <summary>

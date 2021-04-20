@@ -11,6 +11,36 @@ namespace UFX.ExcelIE.Domain.Shared.Const
     /// </summary>
     public class ExcelIEConsts
     {
+        /// <summary>
+        /// 排序默认主键字段
+        /// </summary>
+        public const string PrimarkKey = "Id";
+
+        /// <summary>
+        /// 导出分页标识
+        /// </summary>
+        public const string RowNumber = "RowNum";
+
+        /// <summary>
+        /// 排序（正序）
+        /// </summary>
+        public const string SortAsc = "ASC";
+
+        /// <summary>
+        /// 排序（倒序）
+        /// </summary>
+        public const string SortDesc = "DESC";
+
+        public const int ExecMaxCountPer = 50000;
+
+        public const string TopCount = "TopCount";
+
+        public const string OrderBy = "OrderBy";
+
+        public const string MainSql = "MainSql";
+
+        public const string WithSql = @";WITH MainSql AS (#MainSql#) SELECT TOP #TopCount# * FROM MainSql WHERE 1= 1 ";
+
         #region Sql拼接条件常量
         /// <summary>
         /// 等于
