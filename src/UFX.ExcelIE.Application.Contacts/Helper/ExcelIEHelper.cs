@@ -58,7 +58,7 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
                             {
                                 multInValue.Add("'" + o + "'");
                             });
-                            mainSql.AppendFormat("And {0} In ({1}) ", item.FieldName.First(), string.Join(',', multInValue.ToArray()));
+                            mainSql.AppendFormat("And {0} In ({1}) ", item.FieldName.First().FieldName, string.Join(',', multInValue.ToArray()));
                         }
                         else if (listFieldName == ExcelIEConsts.NotIn)
                         {
@@ -67,7 +67,7 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
                             {
                                 multInValue.Add("'" + o + "'");
                             });
-                            mainSql.AppendLine(string.Format("And {0} Not In ({1}) ", item.FieldName.First(), string.Join(',', multInValue.ToArray())));
+                            mainSql.AppendLine(string.Format("And {0} Not In ({1}) ", item.FieldName.First().FieldName, string.Join(',', multInValue.ToArray())));
                         }
                         else if (listFieldName == ExcelIEConsts.Like)
                             mainSql.AppendLine(string.Format("And {0} Like '%{1}%' ", tempName, tempValue));
