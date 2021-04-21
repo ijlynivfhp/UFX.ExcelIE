@@ -110,7 +110,7 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
         /// </summary>
         /// <param name="headStr"></param>
         /// <param name="dt"></param>
-        /// <param name="">isEnToCh</param>
+        /// <param name="isEnToCh"></param>
         public static JObject FormatterHead(string headStr, DataTable dt, bool isEnToCh = false)
         {
             JObject obj = new JObject();
