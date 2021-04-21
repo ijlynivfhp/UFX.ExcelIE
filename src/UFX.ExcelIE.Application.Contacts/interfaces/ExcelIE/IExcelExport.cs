@@ -1,4 +1,5 @@
 ﻿using Magicodes.ExporterAndImporter.Core;
+using Magicodes.ExporterAndImporter.Core.Filters;
 using Magicodes.ExporterAndImporter.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,8 @@ namespace UFX.ExcelIE.Application.Contracts.interfaces.ExcelIE
         /// <param name="fileUrl"></param>
         /// <param name="dt"></param>
         /// <param name="maxRowNumberOnASheet"></param>
+        /// <param name="exporterHeaderFilter"></param>
         /// <returns></returns>
-        Task<ExportFileInfo> ExportMultSheetExcel(string fileUrl, DataTable dt, int maxRowNumberOnASheet);
+        Task<ExportFileInfo> ExportMultSheetExcel(string fileUrl, DataTable dt, int maxRowNumberOnASheet, IExporterHeaderFilter exporterHeaderFilter = null);
     }
 }

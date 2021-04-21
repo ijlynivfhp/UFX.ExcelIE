@@ -108,25 +108,45 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
         /// <summary>
         /// 格式化DataTable表头
         /// </summary>
-        /// <param name="ieDto"></param>
+        /// <param name="headStr"></param>
         /// <param name="dt"></param>
-        public static void FormatterHead(ExcelIEDto ieDto, DataTable dt)
+        /// <param name="">isEnToCh</param>
+        public static JObject FormatterHead(string headStr, DataTable dt, bool isEnToCh = false)
         {
+            JObject obj = new JObject();
             if (dt.Columns.Contains(ExcelIEConsts.PrimarkKey))
                 dt.Columns.Remove(ExcelIEConsts.PrimarkKey);
             if (dt.Columns.Contains(ExcelIEConsts.RowNumber))
                 dt.Columns.Remove(ExcelIEConsts.RowNumber);
-            JArray jarry = JsonHelper.StrToJarry(ieDto.Template.ExportHead);
-            JObject obj = new JObject();
-            string fieldEnName = string.Empty, isHide = string.Empty;
-            foreach (var jarryItem in jarry)
+            JArray jarry = JsonHelper.StrToJarry(headStr);
+            string fieldEnName = string.Empty, fieldChName = string.Empty, isHide = string.Empty;
+            var dictHeads = new Dictionary<string, string>();
+            var dictColumns = new List<string>();
+            foreach (JObject item in jarry)
             {
-                obj = jarryItem as JObject;
-                fieldEnName = obj[ExcelIEConsts.FieldEnName].ToString().Trim();
-                isHide = Convert.ToString(obj[ExcelIEConsts.IsHide]) ?? "0";
-                if (dt.Columns.Contains(fieldEnName) && isHide == "1")
-                    dt.Columns.Remove(fieldEnName);
+                fieldEnName = item[ExcelIEConsts.FieldEnName].ToString().Trim();
+                fieldChName = item[ExcelIEConsts.FieldChName].ToString().Trim();
+                isHide = Convert.ToString(item[ExcelIEConsts.IsHide]) ?? "0";
+                if (!dictHeads.Keys.Contains(fieldEnName) && isHide != "1")
+                    dictHeads.Add(fieldEnName, fieldChName);
             }
+            foreach (DataColumn item in dt.Columns)
+            {
+                dictColumns.Add(item.ColumnName);
+            }
+            var columns = dictHeads.Keys.Intersect(dictColumns);
+            foreach (var item in dictColumns)
+            {
+                if (!columns.Contains(item))
+                    dt.Columns.Remove(item);
+                else
+                {
+                    obj.Add(new JProperty(item, dictHeads[item]));
+                    if (isEnToCh)
+                        dt.Columns[item].ColumnName = dictHeads[item];
+                }
+            }
+            return obj;
         }
 
         /// <summary>

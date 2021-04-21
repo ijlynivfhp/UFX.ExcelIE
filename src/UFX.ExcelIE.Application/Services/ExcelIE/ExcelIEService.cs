@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DotNetCore.CAP;
+using Magicodes.ExporterAndImporter.Core.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
@@ -77,6 +78,7 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
         public async Task<string> ExcelExport(ExcelIEDto ieDto)
         {
             string exportMsg = string.Empty;
+            var fileInfo = new ExportFileInfo();
             try
             {
 
@@ -108,20 +110,31 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                 //导出数据收集
                 var dataTable = await GetDataBySql(ieDto, new DataTable());
 
-                //格式DataTable表头
-                FormatterHead(ieDto, dataTable);
+                
 
-                //默认为0Magicodes.IE插件
+                //默认为0Magicodes.IE插件（分sheet导出:默认50000）
                 if (ieDto.ExportType == 0)
                 {
+                    //格式DataTable表头
+                    FormatterHead(ieDto.Template.ExportHead, dataTable,true);
                     //导出数据
                     ieDto.Watch.Start();
-                    var fileInfo = await _iExcelExport.ExportMultSheetExcel(excelFilePath, dataTable, ieDto.Template.ExecMaxCountPer);
+                    fileInfo = await _iExcelExport.ExportMultSheetExcel(excelFilePath, dataTable, ieDto.Template.ExecMaxCountPer);
                     ieDto.Watch.Stop();
                 }
+                //模板导出自定义表头：支持图片
                 else if (ieDto.ExportType == 1)
                 {
 
+                    //格式DataTable表头
+                    JObject Jobj = FormatterHead(ieDto.Template.ExportHead,dataTable);
+                    var jarray = JArray.FromObject(dataTable);
+                    Jobj.Add(new JProperty("DataList", jarray));
+
+                    //导出数据
+                    ieDto.Watch.Start();
+                    fileInfo = await _iExcelExport.ExportExcel(excelFilePath, Jobj, excelTemplatePath);
+                    ieDto.Watch.Stop();
                 }
                 #region 导出记录数据收集保存
                 ieDto.TemplateLog.FileSize = CountSize(GetFileSize(excelFilePath));
