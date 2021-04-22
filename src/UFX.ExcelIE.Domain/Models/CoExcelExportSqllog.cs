@@ -21,7 +21,7 @@ namespace UFX.ExcelIE.Domain.Models
         public string FileSize { get; set; }
         public int? ExportCount { get; set; }
         public int ExecCount { get; set; }
-        public Guid? TntId { get; set; }
+        public Guid? TenantId { get; set; }
         public Guid? CreateUserId { get; set; }
         public string CreateUser { get; set; }
         public DateTime? CreateTime { get; set; }

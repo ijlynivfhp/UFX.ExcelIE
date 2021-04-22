@@ -101,7 +101,7 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                 ieDto.TemplateLog.TemplateSql = ieDto.Template.ExecSql;
                 ieDto.TemplateLog.ExportParameters = JsonHelper.ToJsonString(ieDto);
                 ieDto.TemplateLog.CreateTime = DateTime.Now;
-                ieDto.TemplateLog.TntId = ieDto.TntId;
+                ieDto.TemplateLog.TenantId = ieDto.TenantId;
                 ieDto.TemplateLog.CreateUserId = ieDto.UserId;
                 ieDto.TemplateLog.CreateUser = ieDto.UserName;
                 GetSql(ieDto);
@@ -145,6 +145,7 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
             }
             catch (Exception ex)
             {
+                ieDto.TemplateLog.Status = 2;
                 exportMsg = "导出失败：" + ex.Message + ":" + ieDto.Watch.Elapsed.TotalSeconds + "秒";
                 throw;
             }

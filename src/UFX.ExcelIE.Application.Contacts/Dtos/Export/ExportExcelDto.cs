@@ -82,7 +82,7 @@ namespace UFX.ExcelIE.Application.Contracts.Dtos.Export
         /// <summary>
         /// 租户TntId
         /// </summary>
-        public Guid TntId { get; set; } = default;
+        public Guid TenantId { get; set; } = default;
         /// <summary>
         /// 操作人Id
         /// </summary>
