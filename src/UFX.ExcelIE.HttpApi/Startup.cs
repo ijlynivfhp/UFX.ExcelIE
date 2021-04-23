@@ -23,6 +23,7 @@ using IGeekFan.AspNetCore.Knife4jUI;
 using UFX.Infra.Middlewares;
 using UFX.ExcelIE.HttpApi.Client;
 using Exceptionless;
+using Microsoft.Extensions.FileProviders;
 
 namespace UFX.ExcelIE.HttpApi
 {
@@ -38,6 +39,7 @@ namespace UFX.ExcelIE.HttpApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDirectoryBrowser();
             services.AddRegisterAutoMaper();
             services.AddAppConfigures(Configuration);
             services.AddControllers();
@@ -53,7 +55,21 @@ namespace UFX.ExcelIE.HttpApi
                 context.Request.EnableBuffering();
                 await next();
             });
+            app.UseStaticFiles(); // For the wwwroot folder
 
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), @"ExcelIE\Export")),
+                RequestPath = new PathString("/ExcelIE")
+            });
+
+            app.UseDirectoryBrowser(new DirectoryBrowserOptions()
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), @"ExcelIE\Export")),
+                RequestPath = new PathString("/ExcelIE")
+            });
             app.UseMyExceptionHandler();
 
             app.UseRouting();
