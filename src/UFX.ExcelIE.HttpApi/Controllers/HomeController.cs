@@ -31,6 +31,7 @@ namespace UFX.ExcelIE.HttpApi.Controllers
         [HttpPost]
         public async Task<MyJson> PushExcelExportMsg(ExcelIEDto dto)
         {
+            dto.LocalUrl = HttpHelper.GetLocalExportUrl(this.Request);
             await excelService.PushExcelExportMsg(dto);
             return MyJson.ToSuccess("");
         }

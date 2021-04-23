@@ -145,19 +145,23 @@ namespace UFX.ExcelIE.Domain.Shared.Const
         /// <summary>
         /// 模板,下载根目录
         /// </summary>
-        public const string ExcelIE = "ExcelIE\\";
+        public const string ExcelIEDownUrlSuf = "ExcelIE/";
+        /// <summary>
+        /// 模板,下载根目录
+        /// </summary>
+        public const string ExcelIESufStr = "ExcelIE\\";
         /// <summary>
         /// 导出后缀Str
         /// </summary>
-        public const string Export = "Export\\";
+        public const string ExportSufStr = "Export\\";
         /// <summary>
         /// 导出后缀Str
         /// </summary>
-        public const string Template = "Template\\";
+        public const string TemplateSufStr = "Template\\";
         /// <summary>
         /// Excel后缀
         /// </summary>
-        public const string ExcelSubStr = ".xlsx";
+        public const string ExcelSufStr = ".xlsx";
         #endregion
 
     }
