@@ -338,18 +338,4 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
-/src/UFX.ExcelIE.HttpApi/ExcelIE/Export/麦冬
-/src/UFX.ExcelIE.HttpApi/ExcelIE/Export/客户额度管理流水20210423153728051.xlsx
-/src/UFX.ExcelIE.HttpApi/ExcelIE/Export/客户额度管理流水20210423152236290.xlsx
-/src/UFX.ExcelIE.HttpApi/ExcelIE/Export/客户额度管理流水20210423151703205.xlsx
-/src/UFX.ExcelIE.HttpApi/ExcelIE/Export/客户额度管理流水20210423145645878.xlsx
-/src/UFX.ExcelIE.HttpApi/ExcelIE/Export/客户额度管理流水20210423145543841.xlsx
-/src/UFX.ExcelIE.HttpApi/ExcelIE/Export/客户额度管理流水20210423144737992.xlsx
-/src/UFX.ExcelIE.HttpApi/ExcelIE/Export/客户额度管理流水20210423144726908.xlsx
-/src/UFX.ExcelIE.HttpApi/ExcelIE/Export/客户额度管理流水20210423144705608.xlsx
-/src/UFX.ExcelIE.HttpApi/ExcelIE/Export/客户额度管理流水20210423144640256.xlsx
-/src/UFX.ExcelIE.HttpApi/ExcelIE/Export/客户额度管理流水20210423144606628.xlsx
-/src/UFX.ExcelIE.HttpApi/ExcelIE/Export/客户额度管理流水20210423144151405.xlsx
-/src/UFX.ExcelIE.HttpApi/ExcelIE/Export/客户额度管理流水20210423144148649.xlsx
-/src/UFX.ExcelIE.HttpApi/ExcelIE/Export/客户额度管理流水20210423143643872.xlsx
-/src/UFX.ExcelIE.HttpApi/ExcelIE/Export/客户额度管理流水20210423135520096.xlsx
+Export/
