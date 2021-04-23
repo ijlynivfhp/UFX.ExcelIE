@@ -16,6 +16,17 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
 {
     public static class ExcelIEHelper
     {
+        public static string GetDownLoadUrl(string downLoadUrl, string fileName)
+        {
+            var downLoad = ConfigHelper.GetValue<ExcelEDownLoad>();
+            if (!string.IsNullOrEmpty(downLoad.RemoteUrl))
+            {
+
+            }
+            else if (!string.IsNullOrEmpty(downLoad.LocalUrl))
+                downLoadUrl = downLoad.LocalUrl;
+            return downLoadUrl + "\\" + fileName;
+        }
         /// <summary>
         /// 获取导出查询sql
         /// </summary>
