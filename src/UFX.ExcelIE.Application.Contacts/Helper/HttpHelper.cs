@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -7,8 +8,39 @@ using System.Threading.Tasks;
 
 namespace UFX.ExcelIE.Application.Contracts.Helper
 {
-    public class HttpHelper
+    public static class HttpHelper
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public static string GetAreaUrl(this HttpRequest request)
+        {
+            return new StringBuilder()
+                .Append(request.Scheme)
+                .Append("://")
+                .Append(request.Host)
+                .ToString();
+        }
+
+        /// <summary>
+        /// 获取完整的URL
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public static string GetAbsoluteUri(this HttpRequest request)
+        {
+            return new StringBuilder()
+                .Append(request.Scheme)
+                .Append("://")
+                .Append(request.Host)
+                .Append(request.PathBase)
+                .Append(request.Path)
+                .Append(request.QueryString)
+                .ToString();
+        }
+
         #region Dictionary 和参数字符串互转
         #region Dictionary Parse To String
         /// <summary>

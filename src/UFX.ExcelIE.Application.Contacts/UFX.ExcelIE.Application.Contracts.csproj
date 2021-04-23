@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="Magicodes.IE.Core" Version="2.5.3.5" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
     <PackageReference Include="UFX.Common.Application.Contracts" Version="0.0.29.504" />
   </ItemGroup>
 
