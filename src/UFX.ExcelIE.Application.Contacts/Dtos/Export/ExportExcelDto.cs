@@ -118,13 +118,9 @@ namespace UFX.ExcelIE.Application.Contracts.Dtos.Export
         /// </summary>
         public Stopwatch Watch { get; set; } = new Stopwatch();
         /// <summary>
-        /// 全路径
+        /// 本地导出路径
         /// </summary>
-        public string AllUrl { get; set; }
-        /// <summary>
-        /// 域路径
-        /// </summary>
-        public string AreaUrl { get; set; }
+        public string LocalUrl { get; set; }
         #endregion
 
     }

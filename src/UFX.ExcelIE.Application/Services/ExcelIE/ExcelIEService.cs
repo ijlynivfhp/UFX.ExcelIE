@@ -77,29 +77,35 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
         /// <returns></returns>
         public async Task<string> ExcelExport(ExcelIEDto ieDto)
         {
-            string exportMsg = string.Empty;
+            string exportMsg = string.Empty, downLoadUrl = string.Empty;
             var dataTable = new DataTable();
             var fileInfo = new ExportFileInfo();
             try
             {
                 #region 保存路径和模板路径初始化和处理
                 var root = Directory.GetCurrentDirectory() + "\\";
-                var rootPath = root + ExcelIEConsts.ExcelIE;
-                var fileName = ieDto.Template.TemplateName + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ExcelIEConsts.ExcelSubStr;
-                var excelPath = rootPath + ExcelIEConsts.Export + (string.IsNullOrEmpty(ieDto.UserName) ? "" : (ieDto.UserName + "\\"));
+                var rootPath = root + ExcelIEConsts.ExcelIESufStr;
+                var fileName = ieDto.Template.TemplateName + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ExcelIEConsts.ExcelSufStr;
+                var excelPath = rootPath + ExcelIEConsts.ExportSufStr;
                 var excelFilePath = excelPath + fileName;
 
                 //获取下载路径
+                var downLoad = ConfigHelper.GetValue<SysConfig>();
+                if (downLoad.ExcelEDownLoad.DeployType == 0)
+                    downLoadUrl = ieDto.LocalUrl + ExcelIEConsts.ExcelIEDownUrlSuf;
+                else
+                {
+                    //远程路径
+                    //downLoadUrl = ieDto.LocalUrl;
+                }
 
-                var downLoadUrl = ExcelIEHelper.GetDownLoadUrl(excelPath, fileName);
-
-                var excelTemplatePath = rootPath + ExcelIEConsts.Template + ieDto.Template.TemplateName + ExcelIEConsts.ExcelSubStr;
+                var excelTemplatePath = rootPath + ExcelIEConsts.TemplateSufStr + ieDto.Template.TemplateName + ExcelIEConsts.ExcelSufStr;
                 if (File.Exists(excelFilePath))
                     File.Delete(excelFilePath);
                 if (!Directory.Exists(excelPath))
                     Directory.CreateDirectory(excelPath);
                 #endregion
-                
+
 
                 #region 导出记录数据收集
                 ieDto.TemplateLog.ParentId = ieDto.Template.Id;
@@ -112,7 +118,6 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                 GetSql(ieDto);
                 //导入记录新增
                 await _excelIEDomainService.EditAsyncExcelLogModel(ieDto.TemplateLog);
-                ieDto.TemplateLog.FileName = fileName;
 
                 #endregion
 
@@ -149,7 +154,7 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                 #region 导出记录数据收集保存
                 ieDto.TemplateLog.FileSize = CountSize(GetFileSize(excelFilePath));
                 ieDto.TemplateLog.Status = 1;
-
+                ieDto.TemplateLog.FileName = fileName;
                 ieDto.TemplateLog.DownLoadUrl = downLoadUrl;
                 exportMsg = "导出成功：" + ieDto.Watch.Elapsed.TotalSeconds + "秒";
                 #endregion

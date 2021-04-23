@@ -15,12 +15,13 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public static string GetAreaUrl(this HttpRequest request)
+        public static string GetLocalExportUrl(this HttpRequest request)
         {
             return new StringBuilder()
                 .Append(request.Scheme)
                 .Append("://")
                 .Append(request.Host)
+                .Append("/")
                 .ToString();
         }
 
