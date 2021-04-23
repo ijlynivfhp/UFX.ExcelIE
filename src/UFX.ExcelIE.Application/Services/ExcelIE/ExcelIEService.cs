@@ -119,12 +119,8 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
 
                 //导出数据收集
                 dataTable = await GetDataBySql(ieDto, new DataTable());
-                
-                var dataTa = new DataTable();
-                for (int i = 0; i < 150; i++)
-                {
-                    dataTa.Merge(dataTable);
-                }
+
+
 
                 //默认为0Magicodes.IE插件（分sheet导出:默认50000）
                 if (ieDto.ExportType == 0)
@@ -133,7 +129,7 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                     FormatterHead(ieDto.Template.ExportHead, dataTable, true);
                     //导出数据
                     ieDto.Watch.Start();
-                    fileInfo = await _iExcelExport.ExportMultSheetExcel(excelFilePath, dataTa, ieDto.Template.ExecMaxCountPer);
+                    fileInfo = await _iExcelExport.ExportMultSheetExcel(excelFilePath, dataTable, ieDto.Template.ExecMaxCountPer);
                     ieDto.Watch.Stop();
                 }
                 //模板导出自定义表头：支持图片
