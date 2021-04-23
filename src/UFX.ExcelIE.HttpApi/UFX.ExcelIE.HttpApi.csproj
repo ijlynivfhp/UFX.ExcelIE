@@ -10,13 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ExcelIE\Export\**" />
     <Compile Remove="Logs\**" />
-    <Content Remove="ExcelIE\Export\**" />
     <Content Remove="Logs\**" />
-    <EmbeddedResource Remove="ExcelIE\Export\**" />
     <EmbeddedResource Remove="Logs\**" />
-    <None Remove="ExcelIE\Export\**" />
     <None Remove="Logs\**" />
   </ItemGroup>
 
@@ -31,6 +27,10 @@
   <ItemGroup>
     <ProjectReference Include="..\UFX.ExcelIE.Application.Contacts\UFX.ExcelIE.Application.Contracts.csproj" />
     <ProjectReference Include="..\UFX.ExcelIE.HttpApi.Client\UFX.ExcelIE.HttpApi.Client.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ExcelIE\Export\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
