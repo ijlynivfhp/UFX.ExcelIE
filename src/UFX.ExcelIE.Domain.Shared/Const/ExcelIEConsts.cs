@@ -58,6 +58,10 @@ namespace UFX.ExcelIE.Domain.Shared.Const
         /// </summary>
         public const string OrderBy = "OrderBy";
         /// <summary>
+        /// WITH中主查询列
+        /// </summary>
+        public const string SelectSql = "SelectSql";
+        /// <summary>
         /// WITH中主查询
         /// </summary>
         public const string MainSql = "MainSql";

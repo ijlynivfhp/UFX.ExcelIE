@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -99,6 +100,10 @@ namespace UFX.ExcelIE.Application.Contracts.Dtos.Export
         /// 是否过滤角色权限
         /// </summary>
         public bool IsFilterRole { get; set; } = false;
+        /// <summary>
+        /// 替换列（动态列）
+        /// </summary>
+        public Dictionary<string, string> ReplaceFields { get; set; } = new Dictionary<string, string>();
 
         #region 扩充字段
         /// <summary>
@@ -121,6 +126,14 @@ namespace UFX.ExcelIE.Application.Contracts.Dtos.Export
         /// 本地导出路径
         /// </summary>
         public string LocalUrl { get; set; }
+        /// <summary>
+        /// 带图片自定义表头对象
+        /// </summary>
+        public JObject ExportObj { get; set; } = new JObject();
+        /// <summary>
+        /// 查询语句表列集合
+        /// </summary>
+        public List<FieldHeads> FieldList { get; set; }
         #endregion
 
     }
@@ -152,5 +165,16 @@ namespace UFX.ExcelIE.Application.Contracts.Dtos.Export
         /// 后端对应NickName模板查询条件列名
         /// </summary>
         public string FieldName { get; set; }
+    }
+
+    /// <summary>
+    /// 构造导出SQL查询字段
+    /// </summary>
+    public partial class FieldHeads
+    {
+        public string FieldDbName { get; set; }
+        public string FieldEnName { get; set; }
+        public string FieldChName { get; set; }
+        public int IsHide { get; set; } = 0;
     }
 }

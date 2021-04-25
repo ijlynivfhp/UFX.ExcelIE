@@ -14,6 +14,9 @@ using UFX.ExcelIE.Domain.Shared.Const.RabbitMq;
 
 namespace UFX.ExcelIE.Application.Contracts.Helper
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class ExcelIEHelper
     {
         /// <summary>
@@ -24,7 +27,19 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
         public static void GetSql(ExcelIEDto ieDto)
         {
             string tempName = string.Empty, tempValue = string.Empty, exportSql = string.Empty;
-            var mainSql = new StringBuilder(ieDto.TemplateLog.TemplateSql);
+            StringBuilder selectFields = new StringBuilder(), mainSql = new StringBuilder(ieDto.TemplateLog.TemplateSql);
+            if (string.IsNullOrEmpty(ieDto.Template.ExportHead))
+                throw new Exception("导出模板列头不能为空！");
+            else
+            {
+                ieDto.FieldList = JsonHelper.ToJson<List<FieldHeads>>(ieDto.Template.ExportHead);
+                ieDto.FieldList.ForEach(o =>
+                {
+                    if (Convert.ToInt32(o.IsHide) == 0)
+                        selectFields.AppendLine(string.Format("{0} AS {1},", ieDto.ReplaceFields.Keys.Contains(o.FieldEnName) ? ieDto.ReplaceFields[o.FieldEnName] : o.FieldDbName, o.FieldEnName));
+                });
+                selectFields.AppendLine("ROW_NUMBER() OVER (ORDER BY A.Id ASC) AS RowNum ");
+            }
             mainSql.Append(" where 1=1 ");
             var type = typeof(ExcelIEDto);
             var properties = type.GetProperties().Where(o => o.PropertyType.Name == ExcelIEConsts.PropertitySignName).ToList();
@@ -32,6 +47,8 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
             {
                 var listItem = propertity.GetValue(ieDto, null) as List<ExcelEItemDto>;
                 var listFieldName = propertity.Name;
+                if (listItem == null)
+                    continue;
                 foreach (var item in listItem)
                 {
                     if (item.FieldName.Count > 0 && item.FieldValue.Count > 0)
@@ -102,51 +119,31 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
             exportSql = ExcelIEConsts.WithSql
                 .Replace($"#{ExcelIEConsts.TopCount}#", (Convert.ToInt32(ieDto.Template.ExecMaxCountPer) > 0 ? ieDto.Template.ExecMaxCountPer : ExcelIEConsts.ExecMaxCountPer).ToString())
                 .Replace($"#{ExcelIEConsts.OrderBy}#", string.Format("Order By {0}.{1} {2}", ieDto.Template.MainTableSign, string.IsNullOrEmpty(ieDto.Template.OrderField) ? ExcelIEConsts.PrimarkKey : ieDto.Template.OrderField, Convert.ToBoolean(ieDto.Template.Sort) ? ExcelIEConsts.SortDesc : ExcelIEConsts.SortAsc))
-                .Replace($"#{ExcelIEConsts.MainSql}#", mainSql.ToString());
+                .Replace($"#{ExcelIEConsts.MainSql}#", mainSql.ToString())
+                .Replace($"#{ExcelIEConsts.SelectSql}#", selectFields.ToString());
             ieDto.TemplateLog.ExportSql = Regex.Replace(exportSql, @"[\r\n\t]", "");
         }
         /// <summary>
         /// 格式化DataTable表头
         /// </summary>
-        /// <param name="headStr"></param>
+        /// <param name="ieDto"></param>
         /// <param name="dt"></param>
         /// <param name="isEnToCh"></param>
-        public static JObject FormatterHead(string headStr, DataTable dt, bool isEnToCh = false)
+        public static void FormatterHead(ExcelIEDto ieDto, DataTable dt, bool isEnToCh = false)
         {
-            JObject obj = new JObject();
             if (dt.Columns.Contains(ExcelIEConsts.PrimarkKey))
                 dt.Columns.Remove(ExcelIEConsts.PrimarkKey);
             if (dt.Columns.Contains(ExcelIEConsts.RowNumber))
                 dt.Columns.Remove(ExcelIEConsts.RowNumber);
-            JArray jarry = JsonHelper.StrToJarry(headStr);
-            string fieldEnName = string.Empty, fieldChName = string.Empty, isHide = string.Empty;
-            var dictHeads = new Dictionary<string, string>();
-            var dictColumns = new List<string>();
-            foreach (JObject item in jarry)
+            foreach (var item in ieDto.FieldList)
             {
-                fieldEnName = item[ExcelIEConsts.FieldEnName].ToString().Trim();
-                fieldChName = item[ExcelIEConsts.FieldChName].ToString().Trim();
-                isHide = Convert.ToString(item[ExcelIEConsts.IsHide]) ?? "0";
-                if (!dictHeads.Keys.Contains(fieldEnName) && isHide != "1")
-                    dictHeads.Add(fieldEnName, fieldChName);
-            }
-            foreach (DataColumn item in dt.Columns)
-            {
-                dictColumns.Add(item.ColumnName);
-            }
-            var columns = dictHeads.Keys.Intersect(dictColumns);
-            foreach (var item in dictColumns)
-            {
-                if (!columns.Contains(item))
-                    dt.Columns.Remove(item);
-                else
+                if (dt.Columns.Contains(item.FieldEnName))
                 {
-                    obj.Add(new JProperty(item, dictHeads[item]));
+                    ieDto.ExportObj.Add(new JProperty(item.FieldEnName, item.FieldChName));
                     if (isEnToCh)
-                        dt.Columns[item].ColumnName = dictHeads[item];
+                        dt.Columns[item.FieldEnName].ColumnName = item.FieldChName;
                 }
             }
-            return obj;
         }
 
         /// <summary>

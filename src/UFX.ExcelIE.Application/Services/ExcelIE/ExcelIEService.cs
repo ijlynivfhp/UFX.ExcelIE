@@ -106,7 +106,6 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                     Directory.CreateDirectory(excelPath);
                 #endregion
 
-
                 #region 导出记录数据收集
                 ieDto.TemplateLog.ParentId = ieDto.Template.Id;
                 ieDto.TemplateLog.TemplateSql = ieDto.Template.ExecSql;
@@ -115,7 +114,9 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                 ieDto.TemplateLog.TenantId = ieDto.TenantId;
                 ieDto.TemplateLog.CreateUserId = ieDto.UserId;
                 ieDto.TemplateLog.CreateUser = ieDto.UserName;
+
                 GetSql(ieDto);
+
                 //导入记录新增
                 await _excelIEDomainService.EditAsyncExcelLogModel(ieDto.TemplateLog);
 
@@ -131,7 +132,7 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                 if (ieDto.ExportType == 0)
                 {
                     //格式DataTable表头
-                    FormatterHead(ieDto.Template.ExportHead, dataTable, true);
+                    FormatterHead(ieDto, dataTable, true);
                     //导出数据
                     ieDto.Watch.Start();
                     fileInfo = await _iExcelExport.ExportMultSheetExcel(excelFilePath, dataTable, ieDto.Template.ExecMaxCountPer);
@@ -142,13 +143,13 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                 {
 
                     //格式DataTable表头
-                    JObject Jobj = FormatterHead(ieDto.Template.ExportHead, dataTable);
+                    FormatterHead(ieDto, dataTable);
                     var jarray = JArray.FromObject(dataTable);
-                    Jobj.Add(new JProperty("DataList", jarray));
+                    ieDto.ExportObj.Add(new JProperty("DataList", jarray));
 
                     //导出数据
                     ieDto.Watch.Start();
-                    fileInfo = await _iExcelExport.ExportExcel(excelFilePath, Jobj, excelTemplatePath);
+                    fileInfo = await _iExcelExport.ExportExcel(excelFilePath, ieDto.ExportObj, excelTemplatePath);
                     ieDto.Watch.Stop();
                 }
                 #region 导出记录数据收集保存
