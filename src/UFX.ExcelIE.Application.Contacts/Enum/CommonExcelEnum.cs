@@ -18,6 +18,10 @@ namespace UFX.ExcelIE.Application.Contracts.Enum
         /// <summary>
         /// Magicodes带图片（需用模板：动态数据）
         /// </summary>
-        MagicodesImgByTemplate = 1
+        MagicodesImgByTemplate = 1,
+        /// <summary>
+        /// MiniExcel通用类型（DataTable）
+        /// </summary>
+        MiniExcelCommon = 2,
     }
 }

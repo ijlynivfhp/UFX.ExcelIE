@@ -3,6 +3,7 @@ using DotNetCore.CAP;
 using Magicodes.ExporterAndImporter.Core.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using MiniExcelLibs;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -151,6 +152,16 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                     //导出数据
                     ieDto.Watch.Start();
                     fileInfo = await _iExcelExport.ExportExcel(excelFilePath, ieDto.ExportObj, excelTemplatePath);
+                    ieDto.Watch.Stop();
+                }
+                else if (ieDto.ExportType == ExportTypeEnum.MiniExcelCommon)
+                {
+
+                    //格式DataTable表头
+                    FormatterHead(ieDto, dataTable, true);
+                    //导出数据
+                    ieDto.Watch.Start();
+                    MiniExcel.SaveAs(excelFilePath,dataTable);
                     ieDto.Watch.Stop();
                 }
                 #region 导出记录数据收集保存
