@@ -29,11 +29,11 @@ namespace UFX.ExcelIE.HttpApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public async Task<MyJson> PushExcelExportMsg(ExcelIEDto dto)
+        public async Task<string> PushExcelExportMsg(ExcelIEDto dto)
         {
             dto.LocalUrl = HttpHelper.GetLocalExportUrl(this.Request);
             await excelService.PushExcelExportMsg(dto);
-            return MyJson.ToSuccess("");
+            return string.Empty;
         }
     }
 }
