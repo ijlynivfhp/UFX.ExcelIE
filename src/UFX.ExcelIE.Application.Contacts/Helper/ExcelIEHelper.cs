@@ -40,7 +40,7 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
                 });
                 selectFields.AppendLine("ROW_NUMBER() OVER (ORDER BY A.Id ASC) AS RowNum ");
             }
-            mainSql.AppendLine("where 1=1 ");
+            mainSql.AppendLine(" where 1=1 ");
             var type = typeof(ExcelIEDto);
             var properties = type.GetProperties().Where(o => o.PropertyType.Name == ExcelIEConsts.PropertitySignName).ToList();
             foreach (var propertity in properties)
