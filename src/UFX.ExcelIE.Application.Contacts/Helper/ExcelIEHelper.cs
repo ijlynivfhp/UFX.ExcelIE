@@ -40,7 +40,7 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
                 });
                 selectFields.AppendLine("ROW_NUMBER() OVER (ORDER BY A.Id ASC) AS RowNum ");
             }
-            mainSql.Append(" where 1=1 ");
+            mainSql.AppendLine("where 1=1 ");
             var type = typeof(ExcelIEDto);
             var properties = type.GetProperties().Where(o => o.PropertyType.Name == ExcelIEConsts.PropertitySignName).ToList();
             foreach (var propertity in properties)
@@ -57,17 +57,17 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
                         if (string.IsNullOrEmpty(tempName))
                             continue;
                         if (listFieldName == ExcelIEConsts.Equal)
-                            mainSql.AppendFormat("And {0}='{1}' ", tempName, tempValue);
+                            mainSql.AppendLine(string.Format("And {0}='{1}' ", tempName, tempValue));
                         if (listFieldName == ExcelIEConsts.NotEqual)
-                            mainSql.AppendFormat("And {0}<>'{1}' ", tempName, tempValue);
+                            mainSql.AppendLine(string.Format("And {0}<>'{1}' ", tempName, tempValue));
                         else if (listFieldName == ExcelIEConsts.Greater)
-                            mainSql.AppendFormat("And {0}>'{1}' ", tempName, tempValue);
+                            mainSql.AppendLine(string.Format("And {0}>'{1}' ", tempName, tempValue));
                         else if (listFieldName == ExcelIEConsts.GreaterEqual)
-                            mainSql.AppendFormat("And {0}>='{1}' ", tempName, tempValue);
+                            mainSql.AppendLine(string.Format("And {0}>='{1}' ", tempName, tempValue));
                         else if (listFieldName == ExcelIEConsts.Less)
-                            mainSql.AppendFormat("And {0}<'{1}' ", tempName, tempValue);
+                            mainSql.AppendLine(string.Format("And {0}<'{1}' ", tempName, tempValue));
                         else if (listFieldName == ExcelIEConsts.LessEqual)
-                            mainSql.AppendFormat("And {0}<='{1}' ", tempName, tempValue);
+                            mainSql.AppendLine(string.Format("And {0}<='{1}' ", tempName, tempValue));
                         else if (listFieldName == ExcelIEConsts.In)
                         {
                             var multInValue = new List<string>();
@@ -75,7 +75,7 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
                             {
                                 multInValue.Add("'" + o + "'");
                             });
-                            mainSql.AppendFormat("And {0} In ({1}) ", item.FieldName.First().FieldName, string.Join(',', multInValue.ToArray()));
+                            mainSql.AppendLine(string.Format("And {0} In ({1}) ", item.FieldName.First().FieldName, string.Join(',', multInValue.ToArray())));
                         }
                         else if (listFieldName == ExcelIEConsts.NotIn)
                         {
