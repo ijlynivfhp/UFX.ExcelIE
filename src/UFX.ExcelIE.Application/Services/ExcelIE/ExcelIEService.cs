@@ -18,6 +18,7 @@ using UFX.EntityFrameworkCore.UnitOfWork;
 using UFX.ExcelIE.Application.Contracts;
 using UFX.ExcelIE.Application.Contracts.Dtos;
 using UFX.ExcelIE.Application.Contracts.Dtos.Export;
+using UFX.ExcelIE.Application.Contracts.Enum;
 using UFX.ExcelIE.Application.Contracts.Helper;
 using UFX.ExcelIE.Application.Contracts.interfaces;
 using UFX.ExcelIE.Application.Contracts.interfaces.ExcelIE;
@@ -129,7 +130,7 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
 
 
                 //默认为0Magicodes.IE插件（分sheet导出:默认50000）
-                if (ieDto.ExportType == 0)
+                if (ieDto.ExportType == ExportTypeEnum.MagicodesCommon)
                 {
                     //格式DataTable表头
                     FormatterHead(ieDto, dataTable, true);
@@ -139,7 +140,7 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                     ieDto.Watch.Stop();
                 }
                 //模板导出自定义表头：支持图片
-                else if (ieDto.ExportType == 1)
+                else if (ieDto.ExportType == ExportTypeEnum.MagicodesImgByTemplate)
                 {
 
                     //格式DataTable表头

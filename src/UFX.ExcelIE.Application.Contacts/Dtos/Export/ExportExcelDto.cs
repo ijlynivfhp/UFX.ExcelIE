@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UFX.ExcelIE.Application.Contracts.Enum;
 using UFX.ExcelIE.Domain.Models;
 using UFX.ExcelIE.Domain.Shared.Enums.RabbitMq;
 using UFX.Infra.Attributes;
@@ -95,7 +96,8 @@ namespace UFX.ExcelIE.Application.Contracts.Dtos.Export
         /// <summary>
         /// 导出类型
         /// </summary>
-        public int ExportType { get; set; } = 0;
+        public ExportTypeEnum ExportType { get; set; } = ExportTypeEnum.MagicodesCommon;
+
         /// <summary>
         /// 是否过滤角色权限
         /// </summary>
