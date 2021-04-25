@@ -26,7 +26,7 @@ namespace UFX.ExcelIE.Domain.Services.ExcelIE
 
         public async Task<DataTable> GetDataTableBySqlAsync(string sql, params object[] parameters)
         {
-            return await _scmUnit.GetDataTableBySqlAsync(sql, parameters) ?? new DataTable(); 
+            return await _scmUnit.GetDataTableBySqlAsync(sql, parameters) ?? new DataTable();
         }
     }
 }
