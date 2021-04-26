@@ -49,6 +49,9 @@ namespace UFX.ExcelIE.HttpApi
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //允许跨域
+            app.UseCors("AllowAll");
+
             //// 开启请求体重复读取，用于日志记录 
             app.Use(async (context, next) =>
             {

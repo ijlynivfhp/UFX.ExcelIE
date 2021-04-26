@@ -79,7 +79,7 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
         /// <returns></returns>
         public async Task<string> ExcelExport(ExcelIEDto ieDto)
         {
-            string exportMsg = string.Empty, downLoadUrl = string.Empty;
+            string downLoadUrl = string.Empty;
             var dataTable = new DataTable();
             var fileInfo = new ExportFileInfo();
             try
@@ -172,19 +172,19 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                 ieDto.TemplateLog.Status = 1;
                 ieDto.TemplateLog.FileName = fileName;
                 ieDto.TemplateLog.DownLoadUrl = downLoadUrl;
-                ieDto.TemplateLog.ExportMsg = exportMsg;
+
                 ieDto.TemplateLog.ModifyTime = DateTime.Now;
                 ieDto.TemplateLog.ModifyUser = ieDto.UserName;
                 ieDto.TemplateLog.ExportCount = dataTable.Rows.Count;
                 ieDto.TemplateLog.ExportDuration = Convert.ToDecimal(ieDto.Watch.Elapsed.TotalSeconds);
-                exportMsg = "导出成功：" + ieDto.Watch.Elapsed.TotalSeconds + "秒";
+                ieDto.TemplateLog.ExportMsg = "导出成功：" + ieDto.Watch.Elapsed.TotalSeconds + "秒";
                 await _excelIEDomainService.EditAsyncExcelLogModel(ieDto.TemplateLog);
                 #endregion
             }
             catch (Exception ex)
             {
                 ieDto.TemplateLog.Status = 2;
-                exportMsg = "导出失败：" + ex.Message + ":" + ieDto.Watch.Elapsed.TotalSeconds + "秒";
+                ieDto.TemplateLog.ExportMsg = "导出失败：" + ex.Message + ":" + ieDto.Watch.Elapsed.TotalSeconds + "秒";
                 await _excelIEDomainService.EditAsyncExcelLogModel(ieDto.TemplateLog);
                 throw;
             }

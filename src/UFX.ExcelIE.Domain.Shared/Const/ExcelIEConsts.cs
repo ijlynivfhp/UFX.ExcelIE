@@ -66,6 +66,10 @@ namespace UFX.ExcelIE.Domain.Shared.Const
         /// </summary>
         public const string MainSql = "MainSql";
         /// <summary>
+        /// 处理特殊From表
+        /// </summary>
+        public const string FromSql = "FromSql";
+        /// <summary>
         /// WITH语句
         /// </summary>
         public const string WithSql = @";WITH MainSql AS (#MainSql#) SELECT TOP #TopCount# * FROM MainSql WHERE 1= 1 ";

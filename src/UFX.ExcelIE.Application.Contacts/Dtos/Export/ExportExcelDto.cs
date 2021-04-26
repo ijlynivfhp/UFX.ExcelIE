@@ -106,6 +106,14 @@ namespace UFX.ExcelIE.Application.Contracts.Dtos.Export
         /// 替换列（动态列）
         /// </summary>
         public Dictionary<string, string> ReplaceFields { get; set; } = new Dictionary<string, string>();
+        /// <summary>
+        /// 处理特殊where条件
+        /// </summary>
+        public string WhereSql { get; set; }
+        /// <summary>
+        /// 处理特殊From Sql
+        /// </summary>
+        public string FromSql { get; set; }
 
         #region 扩充字段
         /// <summary>

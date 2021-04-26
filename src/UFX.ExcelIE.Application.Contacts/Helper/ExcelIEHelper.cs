@@ -121,6 +121,10 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
                         }
                     }
                 }
+                if (!string.IsNullOrEmpty(ieDto.WhereSql))
+                    mainSql.AppendLine(ieDto.WhereSql);
+                if (!string.IsNullOrEmpty(ieDto.FromSql))
+                    mainSql = mainSql.Replace($"#{ExcelIEConsts.FromSql}#", ieDto.FromSql);
                 exportSql = ExcelIEConsts.WithSql
                     .Replace($"#{ExcelIEConsts.TopCount}#", (Convert.ToInt32(ieDto.Template.ExecMaxCountPer) > 0 ? ieDto.Template.ExecMaxCountPer : ExcelIEConsts.ExecMaxCountPer).ToString())
                     .Replace($"#{ExcelIEConsts.OrderBy}#", string.Format("Order By {0}.{1} {2}", ieDto.Template.MainTableSign, string.IsNullOrEmpty(ieDto.Template.OrderField) ? ExcelIEConsts.PrimarkKey : ieDto.Template.OrderField, Convert.ToBoolean(ieDto.Template.Sort) ? ExcelIEConsts.SortDesc : ExcelIEConsts.SortAsc))
