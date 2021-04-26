@@ -179,7 +179,6 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                 ieDto.TemplateLog.ExportDuration = Convert.ToDecimal(ieDto.Watch.Elapsed.TotalSeconds);
                 exportMsg = "导出成功：" + ieDto.Watch.Elapsed.TotalSeconds + "秒";
                 await _excelIEDomainService.EditAsyncExcelLogModel(ieDto.TemplateLog);
-                throw new Exception("aaaa");
                 #endregion
             }
             catch (Exception ex)
