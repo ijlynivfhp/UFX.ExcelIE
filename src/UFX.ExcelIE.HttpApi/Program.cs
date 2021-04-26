@@ -27,6 +27,13 @@ namespace UFX.ExcelIE.HttpApi
                         .AddJsonFile($"appsettings.{env.EnvironmentName}.json",
                         optional: true, reloadOnChange: true);
                 config.AddEnvironmentVariables();
+            }).UseSerilog((hostingContext, loggerConfiguration) =>
+            {
+                loggerConfiguration
+                    .ReadFrom.Configuration(hostingContext.Configuration)
+                    .Enrich.FromLogContext()
+                    .WriteTo.Exceptionless()
+                    ;
             })
             .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureWebHostDefaults(webBuilder =>

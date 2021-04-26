@@ -14,14 +14,14 @@ namespace UFX.ExcelIE.Application.Contracts.Enum
         /// <summary>
         /// Magicodes通用类型（DataTable）
         /// </summary>
-        MagicodesCommon = 0,
+        MagicodesCommon = 1,
         /// <summary>
         /// Magicodes带图片（需用模板：动态数据）
         /// </summary>
-        MagicodesImgByTemplate = 1,
+        MagicodesImgByTemplate = 2,
         /// <summary>
         /// MiniExcel通用类型（DataTable）
         /// </summary>
-        MiniExcelCommon = 2,
+        MiniExcelCommon = 3,
     }
 }

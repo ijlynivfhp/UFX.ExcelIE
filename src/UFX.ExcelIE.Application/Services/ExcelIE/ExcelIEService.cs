@@ -109,28 +109,30 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                 #endregion
 
                 #region 导出记录数据收集
-                ieDto.TemplateLog.ParentId = ieDto.Template.Id;
-                ieDto.TemplateLog.TemplateSql = ieDto.Template.ExecSql;
-                ieDto.TemplateLog.ExportParameters = JsonHelper.ToJsonString(ieDto);
-                ieDto.TemplateLog.CreateTime = DateTime.Now;
-                ieDto.TemplateLog.TenantId = ieDto.TenantId;
-                ieDto.TemplateLog.CreateUserId = ieDto.UserId;
-                ieDto.TemplateLog.CreateUser = ieDto.UserName;
-
-                GetSql(ieDto);
-
-                //导入记录新增
-                await _excelIEDomainService.EditAsyncExcelLogModel(ieDto.TemplateLog);
-
+                var templateLog = await _excelIEDomainService.GetFirstExcelLogModelAsync(o => o.Id == ieDto.TemplateLog.Id);
+                if (templateLog.Id == Guid.Empty)
+                {
+                    UpdateTemplateLog(ieDto);
+                    await _excelIEDomainService.AddAsyncExcelLogModel(ieDto.TemplateLog);
+                }
+                else
+                {
+                    ieDto.TemplateLog = templateLog;
+                    UpdateTemplateLog(ieDto);
+                }
                 #endregion
 
+                //构造导出Sql语句
+                GetExportSql(ieDto);
 
-                //导出数据收集
+                //收集导出数据
                 dataTable = await GetDataBySql(ieDto, new DataTable());
 
 
 
-                //默认为0Magicodes.IE插件（分sheet导出:默认50000）
+                //默认为0Magicodes.IE插件（分sheet导出:默认10000）
+                if (ieDto.Template.TemplateType > 0)
+                    ieDto.ExportType = (ExportTypeEnum)ieDto.Template.TemplateType;
                 if (ieDto.ExportType == ExportTypeEnum.MagicodesCommon)
                 {
                     //格式DataTable表头
@@ -161,32 +163,31 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                     FormatterHead(ieDto, dataTable, true);
                     //导出数据
                     ieDto.Watch.Start();
-                    MiniExcel.SaveAs(excelFilePath,dataTable);
+                    MiniExcel.SaveAs(excelFilePath, dataTable);
                     ieDto.Watch.Stop();
                 }
+
                 #region 导出记录数据收集保存
                 ieDto.TemplateLog.FileSize = CountSize(GetFileSize(excelFilePath));
                 ieDto.TemplateLog.Status = 1;
                 ieDto.TemplateLog.FileName = fileName;
                 ieDto.TemplateLog.DownLoadUrl = downLoadUrl;
+                ieDto.TemplateLog.ExportMsg = exportMsg;
+                ieDto.TemplateLog.ModifyTime = DateTime.Now;
+                ieDto.TemplateLog.ModifyUser = ieDto.UserName;
+                ieDto.TemplateLog.ExportCount = dataTable.Rows.Count;
+                ieDto.TemplateLog.ExportDuration = Convert.ToDecimal(ieDto.Watch.Elapsed.TotalSeconds);
                 exportMsg = "导出成功：" + ieDto.Watch.Elapsed.TotalSeconds + "秒";
+                await _excelIEDomainService.EditAsyncExcelLogModel(ieDto.TemplateLog);
+                throw new Exception("aaaa");
                 #endregion
             }
             catch (Exception ex)
             {
                 ieDto.TemplateLog.Status = 2;
                 exportMsg = "导出失败：" + ex.Message + ":" + ieDto.Watch.Elapsed.TotalSeconds + "秒";
-                throw;
-            }
-            finally
-            {
-                ieDto.TemplateLog.ExportMsg = exportMsg;
-                ieDto.TemplateLog.ModifyTime = DateTime.Now;
-                ieDto.TemplateLog.ModifyUser = ieDto.UserName;
-                ieDto.TemplateLog.ExportCount = dataTable.Rows.Count;
-                ieDto.TemplateLog.ExportDuration = Convert.ToDecimal(ieDto.Watch.Elapsed.TotalSeconds);
-                //导入记录更新
                 await _excelIEDomainService.EditAsyncExcelLogModel(ieDto.TemplateLog);
+                throw;
             }
             return string.Empty;
         }

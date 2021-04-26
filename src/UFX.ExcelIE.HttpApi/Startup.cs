@@ -71,7 +71,7 @@ namespace UFX.ExcelIE.HttpApi
                 RequestPath = new PathString("/ExcelIE")
             });
             app.UseMyExceptionHandler();
-
+            app.UseSerilogRequestLogging();
             app.UseRouting();
 
             app.UseAuthorization();

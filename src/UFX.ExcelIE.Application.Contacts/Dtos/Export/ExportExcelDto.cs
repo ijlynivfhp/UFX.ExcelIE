@@ -136,6 +136,10 @@ namespace UFX.ExcelIE.Application.Contracts.Dtos.Export
         /// 查询语句表列集合
         /// </summary>
         public List<FieldHeads> FieldList { get; set; }
+        /// <summary>
+        /// 数据是否初始化
+        /// </summary>
+        public bool IsDataInit { get; set; } = false;
         #endregion
 
     }
