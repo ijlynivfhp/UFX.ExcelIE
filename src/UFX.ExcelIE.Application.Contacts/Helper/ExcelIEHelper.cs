@@ -43,7 +43,7 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
                     selectFields.AppendLine("ROW_NUMBER() OVER (ORDER BY A.Id ASC) AS RowNum ");
                 }
             }
-            if (ieDto.TemplateLog.ExportSql.Contains($"#{ExcelIEConsts.MainSql}#") && ieDto.TemplateLog.ExportSql.Contains($"#{ExcelIEConsts.SelectSql}#"))
+            if (ieDto.TemplateLog.ExportSql is null || (ieDto.TemplateLog.ExportSql.Contains($"#{ExcelIEConsts.MainSql}#") && ieDto.TemplateLog.ExportSql.Contains($"#{ExcelIEConsts.SelectSql}#")))
             {
                 mainSql.AppendLine(" where 1=1 ");
                 var type = typeof(ExcelIEDto);
