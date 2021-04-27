@@ -13,7 +13,7 @@
   }
   
   
-  二，
+  二，RabbitMQ已启用。redis未加入无需要配置
   //存放数据库连接字符串
   "ConnectionStrings": {
     "CAPConnection": "rabbitmq连接所需数据库",
