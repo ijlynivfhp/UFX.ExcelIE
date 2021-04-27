@@ -12,8 +12,8 @@
     }
   }
   
-  
   二，RabbitMQ已启用。redis未加入无需要配置
+
   //存放数据库连接字符串
   "ConnectionStrings": {
     "CAPConnection": "rabbitmq连接所需数据库",
@@ -30,8 +30,7 @@
   },
   
   三，WEB端：需配置连接导出任务连接地址：
-    <!--Excel导出服务地址-->
+
     <add key="ExcelIEUrl" value="http://localhost:8010/Home/PushExcelExportMsg" />
     具体域名根据实际调整（依据导出服务域名对应）
-    四，Export/目录下的.gitignore文件不要删除
   

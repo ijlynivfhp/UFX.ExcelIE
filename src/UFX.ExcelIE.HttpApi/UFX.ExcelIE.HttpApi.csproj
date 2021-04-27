@@ -34,6 +34,15 @@
     <Folder Include="ExcelIE\Export\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="ExcelIE\Export\.gitignore">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ExcelIE\Template\.gitignore">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>
