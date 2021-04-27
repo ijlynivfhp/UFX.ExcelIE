@@ -33,4 +33,5 @@
     <!--Excel导出服务地址-->
     <add key="ExcelIEUrl" value="http://localhost:8010/Home/PushExcelExportMsg" />
     具体域名根据实际调整（依据导出服务域名对应）
+    四，Export/目录下的.gitignore文件不要删除
   

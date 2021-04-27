@@ -8,9 +8,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{7135A821-8AE7-4D74-A4C2-852F17F7FCC8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domains", "Domains", "{9BFE99D0-73F9-4BDA-A5C8-B37F72AB27EB}"
-	ProjectSection(SolutionItems) = preProject
-		src\UFX.ExcelIE.HttpApi\Startup.cs = src\UFX.ExcelIE.HttpApi\Startup.cs
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UFX.ExcelIE.HttpApi", "src\UFX.ExcelIE.HttpApi\UFX.ExcelIE.HttpApi.csproj", "{A02C4A14-695F-4BD9-B929-6CE59C188506}"
 EndProject
