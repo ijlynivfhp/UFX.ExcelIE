@@ -19,22 +19,11 @@ namespace UFX.ExcelIE.Application.Services
     /// </summary>
     public partial class ConsumerService : IConsumerService
     {
+
         [CapSubscribe(MqConst.ExcelIETopicName)]
         public async Task PullMessage(ExcelIEDto ieDto)
         {
-            string errorMsg = string.Empty;
-            _logger.LogInformation("开始导入！");
-            try
-            {
-                await _excelIEService.ExcelExport(ieDto);
-                _logger.LogInformation("导入成功！");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.GetBaseException().Message);
-                throw;
-            };
-            return;
+            await _excelIEService.ExcelExport(ieDto);
         }
     }
 }

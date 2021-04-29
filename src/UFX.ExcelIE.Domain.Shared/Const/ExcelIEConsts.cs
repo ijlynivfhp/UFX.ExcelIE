@@ -27,6 +27,10 @@ namespace UFX.ExcelIE.Domain.Shared.Const
         #endregion
 
         /// <summary>
+        /// 默认主表别名
+        /// </summary>
+        public const string MainTableSign = "A";
+        /// <summary>
         /// 排序默认主键字段
         /// </summary>
         public const string PrimarkKey = "Id";

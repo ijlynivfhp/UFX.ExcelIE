@@ -39,12 +39,14 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
         private readonly IExcelIEDomainService _excelIEDomainService;
         private readonly ICapPublisher _capPublisher;
         private readonly IExcelExport _iExcelExport;
+        private readonly ILogger<ExcelIEService> _logger;
 
-        public ExcelIEService(IExcelIEDomainService excelIEDomainService, ICapPublisher capPublisher, IExcelExport iExcelExport)
+        public ExcelIEService(IExcelIEDomainService excelIEDomainService, ICapPublisher capPublisher, IExcelExport iExcelExport, ILogger<ExcelIEService> logger)
         {
             _excelIEDomainService = excelIEDomainService;
             _capPublisher = capPublisher;
             _iExcelExport = iExcelExport;
+            _logger = logger;
         }
 
         /// <summary>
@@ -66,6 +68,13 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                 {
                     //消息发送(导出)
                     ieDto.Template = template;
+                    ieDto.TemplateLog.ExportParameters = JsonHelper.ToJsonString(ieDto);
+                    ieDto.TemplateLog.ParentId = ieDto.Template.Id;
+                    ieDto.TemplateLog.TemplateSql = ieDto.Template.ExecSql;
+                    ieDto.TemplateLog.CreateTime = DateTime.Now;
+                    ieDto.TemplateLog.TenantId = ieDto.TenantId;
+                    ieDto.TemplateLog.CreateUserId = ieDto.UserId;
+                    ieDto.TemplateLog.CreateUser = ieDto.UserName;
                     ieDto.TemplateLog.Id = _excelIEDomainService.NewGuid();
                     await _capPublisher.PublishAsync(MqConst.ExcelIETopicName, ieDto);
                 }
@@ -84,6 +93,7 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
             var fileInfo = new ExportFileInfo();
             try
             {
+                _logger.LogInformation("开始导入！");
                 #region 保存路径和模板路径初始化和处理
                 var root = Directory.GetCurrentDirectory() + "\\";
                 var rootPath = root + ExcelIEConsts.ExcelIESufStr;
@@ -111,15 +121,13 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                 #region 导出记录数据收集
                 var templateLog = await _excelIEDomainService.GetFirstExcelLogModelAsync(o => o.Id == ieDto.TemplateLog.Id);
                 if (templateLog.Id == Guid.Empty)
-                {
-                    UpdateTemplateLog(ieDto);
                     await _excelIEDomainService.AddAsyncExcelLogModel(ieDto.TemplateLog);
-                }
                 else
                 {
-                    ieDto.TemplateLog = templateLog;
-                    UpdateTemplateLog(ieDto);
+                    ieDto.TemplateLog.ExecCount++;
                 }
+                if (ieDto.TemplateLog.ExecCount >= 3)
+                    ieDto.TemplateLog.Status = 2;
                 #endregion
 
                 //构造导出Sql语句
@@ -128,8 +136,7 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                 //收集导出数据
                 dataTable = await GetDataBySql(ieDto, new DataTable());
 
-
-
+                #region 导出excel数据
                 //默认为0Magicodes.IE插件（分sheet导出:默认10000）
                 if (ieDto.Template.TemplateType > 0)
                     ieDto.ExportType = (ExportTypeEnum)ieDto.Template.TemplateType;
@@ -156,6 +163,7 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                     fileInfo = await _iExcelExport.ExportExcel(excelFilePath, ieDto.ExportObj, excelTemplatePath);
                     ieDto.Watch.Stop();
                 }
+                //MiniExcel导出
                 else if (ieDto.ExportType == ExportTypeEnum.MiniExcelCommon)
                 {
 
@@ -166,6 +174,7 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                     MiniExcel.SaveAs(excelFilePath, dataTable);
                     ieDto.Watch.Stop();
                 }
+                #endregion
 
                 #region 导出记录数据收集保存
                 ieDto.TemplateLog.FileSize = CountSize(GetFileSize(excelFilePath));
@@ -173,20 +182,26 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                 ieDto.TemplateLog.FileName = fileName;
                 ieDto.TemplateLog.DownLoadUrl = downLoadUrl;
 
-                ieDto.TemplateLog.ModifyTime = DateTime.Now;
-                ieDto.TemplateLog.ModifyUser = ieDto.UserName;
-                ieDto.TemplateLog.ExportCount = dataTable.Rows.Count;
+
                 ieDto.TemplateLog.ExportDuration = Convert.ToDecimal(ieDto.Watch.Elapsed.TotalSeconds);
                 ieDto.TemplateLog.ExportMsg = "导出成功：" + ieDto.Watch.Elapsed.TotalSeconds + "秒";
-                await _excelIEDomainService.EditAsyncExcelLogModel(ieDto.TemplateLog);
                 #endregion
+
+                _logger.LogInformation("导入成功！");
             }
             catch (Exception ex)
             {
                 ieDto.TemplateLog.Status = 2;
                 ieDto.TemplateLog.ExportMsg = "导出失败：" + ex.Message + ":" + ieDto.Watch.Elapsed.TotalSeconds + "秒";
-                await _excelIEDomainService.EditAsyncExcelLogModel(ieDto.TemplateLog);
+                _logger.LogError("导入失败：" + ex.Message);
                 throw;
+            }
+            finally
+            {
+                ieDto.TemplateLog.ModifyTime = DateTime.Now;
+                ieDto.TemplateLog.ModifyUser = ieDto.UserName;
+                ieDto.TemplateLog.ExportCount = dataTable.Rows.Count;
+                await _excelIEDomainService.EditAsyncExcelLogModel(ieDto.TemplateLog);
             }
             return string.Empty;
         }

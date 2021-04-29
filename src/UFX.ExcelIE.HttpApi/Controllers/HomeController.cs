@@ -19,10 +19,12 @@ namespace UFX.ExcelIE.HttpApi.Controllers
     [Route("[controller]/[action]")]
     public class HomeController : ControllerBase
     {
-        private readonly IExcelIEService excelService;
-        public HomeController(IExcelIEService _excelService)
+        private readonly IExcelIEService _excelService;
+        private readonly ILogger<HomeController> _logger;
+        public HomeController(IExcelIEService excelService,ILogger<HomeController> logger)
         {
-            excelService = _excelService;
+            _excelService = excelService;
+            _logger = logger;
         }
         /// <summary>
         /// 发送消息(导出excel)
@@ -31,8 +33,16 @@ namespace UFX.ExcelIE.HttpApi.Controllers
         [HttpPost]
         public async Task<string> PushExcelExportMsg(ExcelIEDto dto)
         {
-            dto.LocalUrl = this.Request.GetLocalExportUrl();
-            await excelService.PushExcelExportMsg(dto);
+            try
+            {
+                dto.LocalUrl = this.Request.GetLocalExportUrl();
+                await _excelService.PushExcelExportMsg(dto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return ex.Message;
+            }
             return string.Empty;
         }
     }

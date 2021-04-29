@@ -40,7 +40,10 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
                         if (Convert.ToInt32(o.IsHide) == 0)
                             selectFields.AppendLine(string.Format("{0} AS {1},", ieDto.ReplaceFields.Keys.Contains(o.FieldEnName) ? ieDto.ReplaceFields[o.FieldEnName] : o.FieldDbName, o.FieldEnName));
                     });
-                    selectFields.AppendLine("ROW_NUMBER() OVER (ORDER BY A.Id ASC) AS RowNum ");
+                    selectFields.AppendLine(string.Format("ROW_NUMBER() OVER (ORDER BY {0}.{1} {2}) AS RowNum ",
+                        string.IsNullOrEmpty(ieDto.Template.MainTableSign) ? ExcelIEConsts.MainTableSign : ieDto.Template.MainTableSign,
+                        string.IsNullOrEmpty(ieDto.Template.OrderField) ? ExcelIEConsts.PrimarkKey : ieDto.Template.OrderField,
+                        Convert.ToBoolean(ieDto.Template.Sort) ? ExcelIEConsts.SortDesc : ExcelIEConsts.SortAsc));
                 }
             }
             if (ieDto.TemplateLog.ExportSql is null || (ieDto.TemplateLog.ExportSql.Contains($"#{ExcelIEConsts.MainSql}#") && ieDto.TemplateLog.ExportSql.Contains($"#{ExcelIEConsts.SelectSql}#")))
@@ -127,7 +130,10 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
                     mainSql = mainSql.Replace($"#{ExcelIEConsts.FromSql}#", ieDto.FromSql);
                 exportSql = ExcelIEConsts.WithSql
                     .Replace($"#{ExcelIEConsts.TopCount}#", (Convert.ToInt32(ieDto.Template.ExecMaxCountPer) > 0 ? ieDto.Template.ExecMaxCountPer : ExcelIEConsts.ExecMaxCountPer).ToString())
-                    .Replace($"#{ExcelIEConsts.OrderBy}#", string.Format("Order By {0}.{1} {2}", ieDto.Template.MainTableSign, string.IsNullOrEmpty(ieDto.Template.OrderField) ? ExcelIEConsts.PrimarkKey : ieDto.Template.OrderField, Convert.ToBoolean(ieDto.Template.Sort) ? ExcelIEConsts.SortDesc : ExcelIEConsts.SortAsc))
+                    .Replace($"#{ExcelIEConsts.OrderBy}#", string.Format("Order By {0}.{1} {2}", 
+                    string.IsNullOrEmpty(ieDto.Template.MainTableSign) ? ExcelIEConsts.MainTableSign : ieDto.Template.MainTableSign, 
+                    string.IsNullOrEmpty(ieDto.Template.OrderField) ? ExcelIEConsts.PrimarkKey : ieDto.Template.OrderField,
+                    Convert.ToBoolean(ieDto.Template.Sort) ? ExcelIEConsts.SortDesc : ExcelIEConsts.SortAsc))
                     .Replace($"#{ExcelIEConsts.MainSql}#", mainSql.ToString())
                     .Replace($"#{ExcelIEConsts.SelectSql}#", selectFields.ToString());
                 ieDto.TemplateLog.ExportSql = Regex.Replace(exportSql, @"[\r\n\t]", "");
@@ -189,24 +195,6 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
             else if (FactSize >= 1073741824)
                 m_strSize = (FactSize / 1024.00 / 1024.00 / 1024.00).ToString("F2") + " G";
             return m_strSize;
-        }
-        /// <summary>
-        /// 更新导出记录信息
-        /// </summary>
-        /// <param name="ieDto"></param>
-        /// <param name="templatelog"></param>
-        public static void UpdateTemplateLog(ExcelIEDto ieDto)
-        {
-            ieDto.TemplateLog.ExportParameters = JsonHelper.ToJsonString(ieDto);
-            ieDto.TemplateLog.ParentId = ieDto.Template.Id;
-            ieDto.TemplateLog.TemplateSql = ieDto.Template.ExecSql;
-            ieDto.TemplateLog.CreateTime = DateTime.Now;
-            ieDto.TemplateLog.TenantId = ieDto.TenantId;
-            ieDto.TemplateLog.CreateUserId = ieDto.UserId;
-            ieDto.TemplateLog.CreateUser = ieDto.UserName;
-            ieDto.TemplateLog.ExecCount++;
-            if (ieDto.TemplateLog.ExecCount >= 3)
-                ieDto.TemplateLog.Status = 2;
         }
     }
 }
