@@ -35,3 +35,6 @@
     具体域名根据实际调整（依据导出服务域名对应）
   四，导出服务端实体生成命令：
     Scaffold-DbContext "Data Source=120.55.193.39,7477;Initial Catalog=UFO_SCM;User ID=sa;Password=bhh@2015#" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Context SCMExcelIEContext -ContextDir .  -Tables CO_ExcelExportSQL,CO_ExcelExportSQLLog -Force -v -NoOnConfiguring
+
+
+    Scaffold-DbContext "Data Source=120.55.193.39,7477;Initial Catalog=UFX_MASTER;User ID=sa;Password=bhh@2015#" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Context UFX_MASTERContext -ContextDir .  -Tables AM_Tenant -Force -v -NoOnConfiguring
