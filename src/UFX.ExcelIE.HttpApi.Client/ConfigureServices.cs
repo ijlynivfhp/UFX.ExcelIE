@@ -19,7 +19,8 @@ using UFX.ExcelIE.Application.Contracts.interfaces;
 using UFX.ExcelIE.Application.Services;
 using Magicodes.ExporterAndImporter.Core;
 using Magicodes.ExporterAndImporter.Excel;
-using UFX.ExcelIE.Application.Contracts.interfaces.ExcelIE;
+using UFX.ExcelIE.Application.Services.ExcelIE;
+using UFX.ExcelIE.Application.Contracts.interfaces.IExcelIE;
 
 namespace UFX.ExcelIE.HttpApi.Client
 {
@@ -51,7 +52,8 @@ namespace UFX.ExcelIE.HttpApi.Client
         public static IServiceCollection AddMyCapConfigures(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IExcelExporter, ExcelExporter>();
-            services.AddScoped<IConsumerService, ConsumerService>();
+            services.AddScoped<IExcelIEService, ExcelIEService>();
+            services.AddScoped<IDbService, DbService>();
             services.AddCap(x =>
             {
                 //配置Cap的本地消息记录库，用于服务端保存Published消息记录表；客户端保存Received消息记录表
@@ -94,7 +96,7 @@ namespace UFX.ExcelIE.HttpApi.Client
                 //默认分组名，此值不配置时，默认值为当前程序集的名称
                 //x.DefaultGroup = "m";
                 //失败后的重试次数，默认50次；在FailedRetryInterval默认60秒的情况下，即默认重试50*60秒(50分钟)之后放弃失败重试
-                x.FailedRetryCount = 3;
+                x.FailedRetryCount = 0;
 
                 //失败后的重拾间隔，默认60秒
                 //x.FailedRetryInterval = 60;
@@ -112,9 +114,10 @@ namespace UFX.ExcelIE.HttpApi.Client
         /// <returns></returns>
         public static IServiceCollection AddMyDbContextConfigures(this IServiceCollection services, IConfiguration configuration)
         {
-            //SCMContext 为实际实体对应的上下文
-            services.AddDbContext<Domain.SCMExcelIEContext>(opt => opt.UseSqlServer(configuration.GetConnectionString("SCMConnection"))).AddUnitOfWork();
-
+            //SCMExcelIEContext 为实际实体对应的上下文
+            services.AddDbContext<Domain.SCMExcelIEContext>(opt => opt.UseSqlServer(configuration.GetConnectionString("SCMExcelIEContext")))
+                .AddDbContext<Domain.UFX_MASTERContext>(opt => opt.UseSqlServer(configuration.GetConnectionString("UFX_MASTERContext")))
+                .AddUnitOfWork();
             services.AddUnitOfWork(services.BuildServiceProvider().GetRequiredService<IMapper>());
             return services;
         }

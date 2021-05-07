@@ -33,4 +33,5 @@
 
     <add key="ExcelIEUrl" value="http://localhost:8010/Home/PushExcelExportMsg" />
     具体域名根据实际调整（依据导出服务域名对应）
-  
+  四，导出服务端实体生成命令：
+    Scaffold-DbContext "Data Source=120.55.193.39,7477;Initial Catalog=UFO_SCM;User ID=sa;Password=bhh@2015#" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Context SCMExcelIEContext -ContextDir .  -Tables CO_ExcelExportSQL,CO_ExcelExportSQLLog -Force -v -NoOnConfiguring

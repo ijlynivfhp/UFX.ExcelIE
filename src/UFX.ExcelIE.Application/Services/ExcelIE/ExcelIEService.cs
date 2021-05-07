@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DotNetCore.CAP;
 using Magicodes.ExporterAndImporter.Core.Models;
+using Magicodes.ExporterAndImporter.Excel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using MiniExcelLibs;
@@ -22,7 +23,7 @@ using UFX.ExcelIE.Application.Contracts.Dtos.Export;
 using UFX.ExcelIE.Application.Contracts.Enum;
 using UFX.ExcelIE.Application.Contracts.Helper;
 using UFX.ExcelIE.Application.Contracts.interfaces;
-using UFX.ExcelIE.Application.Contracts.interfaces.ExcelIE;
+using UFX.ExcelIE.Application.Contracts.interfaces.IExcelIE;
 using UFX.ExcelIE.Domain.Interfaces.ExcelIE;
 using UFX.ExcelIE.Domain.Models;
 using UFX.ExcelIE.Domain.Shared.Const;
@@ -38,14 +39,16 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
     {
         private readonly IExcelIEDomainService _excelIEDomainService;
         private readonly ICapPublisher _capPublisher;
-        private readonly IExcelExport _iExcelExport;
+        private readonly IExcelExporter _iExcelExporter;
+        private readonly IDbService _dbService;
         private readonly ILogger<ExcelIEService> _logger;
 
-        public ExcelIEService(IExcelIEDomainService excelIEDomainService, ICapPublisher capPublisher, IExcelExport iExcelExport, ILogger<ExcelIEService> logger)
+        public ExcelIEService(IExcelIEDomainService excelIEDomainService, ICapPublisher capPublisher, IExcelExporter IExcelExporter, IDbService dbService, ILogger<ExcelIEService> logger)
         {
+            _dbService = dbService;
             _excelIEDomainService = excelIEDomainService;
             _capPublisher = capPublisher;
-            _iExcelExport = iExcelExport;
+            _iExcelExporter = IExcelExporter;
             _logger = logger;
         }
 
@@ -61,6 +64,9 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                 error = "模板编码不能为空！";
             else
             {
+                // 切换数据库连接
+                await _dbService.ChangeConnectionString(ieDto.TenantId);
+
                 var template = await _excelIEDomainService.GetFirstExcelModelAsync(o => o.TemplateCode == ieDto.TemplateCode);
                 if (template.Id == Guid.Empty)
                     error = "模板不存在！";
@@ -81,6 +87,7 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
             }
             return error;
         }
+        [CapSubscribe(MqConst.ExcelIETopicName)]
         /// <summary>
         /// 具体导出操作
         /// </summary>
@@ -93,6 +100,9 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
             var fileInfo = new ExportFileInfo();
             try
             {
+                // 切换数据库连接
+                await _dbService.ChangeConnectionString(ieDto.TenantId);
+
                 _logger.LogInformation("开始导入！");
                 #region 保存路径和模板路径初始化和处理
                 var root = Directory.GetCurrentDirectory() + "\\";
@@ -146,7 +156,7 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                     FormatterHead(ieDto, dataTable, true);
                     //导出数据
                     ieDto.Watch.Start();
-                    fileInfo = await _iExcelExport.ExportMultSheetExcel(excelFilePath, dataTable, ieDto.Template.ExecMaxCountPer);
+                    fileInfo = await _iExcelExporter.Export(excelFilePath, dataTable, maxRowNumberOnASheet: ieDto.Template.ExecMaxCountPer);
                     ieDto.Watch.Stop();
                 }
                 //模板导出自定义表头：支持图片
@@ -156,11 +166,12 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                     //格式DataTable表头
                     FormatterHead(ieDto, dataTable);
                     var jarray = JArray.FromObject(dataTable);
-                    ieDto.ExportObj.Add(new JProperty("DataList", jarray));
+                    if (!ieDto.ExportObj.ContainsKey("DataList"))
+                        ieDto.ExportObj.Add(new JProperty("DataList", jarray));
 
                     //导出数据
                     ieDto.Watch.Start();
-                    fileInfo = await _iExcelExport.ExportExcel(excelFilePath, ieDto.ExportObj, excelTemplatePath);
+                    fileInfo = await _iExcelExporter.ExportByTemplate<JObject>(excelFilePath, ieDto.ExportObj, excelTemplatePath);
                     ieDto.Watch.Stop();
                 }
                 //MiniExcel导出

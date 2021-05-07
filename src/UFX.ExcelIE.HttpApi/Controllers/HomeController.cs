@@ -10,7 +10,7 @@ using UFX.ExcelIE.Application.Contracts.Dtos;
 using UFX.ExcelIE.Application.Contracts.Dtos.Export;
 using UFX.ExcelIE.Application.Contracts.Helper;
 using UFX.ExcelIE.Application.Contracts.interfaces;
-using UFX.ExcelIE.Application.Contracts.interfaces.ExcelIE;
+using UFX.ExcelIE.Application.Contracts.interfaces.IExcelIE;
 using UFX.Infra.Responses;
 
 namespace UFX.ExcelIE.HttpApi.Controllers
