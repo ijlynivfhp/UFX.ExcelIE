@@ -26,5 +26,11 @@ namespace UFX.ExcelIE.Application.Contracts.interfaces.IExcelIE
         /// <param name="ieDto"></param>
         /// <returns></returns>
         Task<string> ExcelExport(ExcelIEDto ieDto);
+        /// <summary>
+        /// 清除ExcelIE缓存
+        /// </summary>
+        /// <param name="excelIECacheDto"></param>
+        /// <returns></returns>
+        Task ClearExcelIECache(ExcelIECacheDto excelIECacheDto);
     }
 }

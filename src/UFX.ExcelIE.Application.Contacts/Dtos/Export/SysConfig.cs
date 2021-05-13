@@ -17,8 +17,8 @@ namespace UFX.ExcelIE.Application.Contracts.Dtos.Export
         /// </summary>
         public int DeployType { get; set; } = 0;
         /// <summary>
-        /// RemoteUrl
+        /// UrlSuf
         /// </summary>
-        public string RemoteUrl { get; set; }
+        public string UrlSuf { get; set; }
     }
 }

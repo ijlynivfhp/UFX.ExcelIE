@@ -120,19 +120,33 @@ namespace UFX.ExcelIE.Domain
 
                 entity.Property(e => e.CreateUserId).HasComment("创建人Id");
 
-                entity.Property(e => e.DownLoadCount).HasDefaultValueSql("((0))");
+                entity.Property(e => e.DownLoadCount)
+                    .HasDefaultValueSql("((0))")
+                    .HasComment("下载次数");
 
-                entity.Property(e => e.DownLoadUrl).HasMaxLength(500);
+                entity.Property(e => e.DownLoadUrl)
+                    .HasMaxLength(500)
+                    .HasComment("下载Url");
 
                 entity.Property(e => e.ExecCount)
                     .HasDefaultValueSql("((1))")
                     .HasComment("执行次数");
 
-                entity.Property(e => e.ExportCount).HasDefaultValueSql("((0))");
+                entity.Property(e => e.ExportCount)
+                    .HasDefaultValueSql("((0))")
+                    .HasComment("导出数据数量");
 
-                entity.Property(e => e.ExportDuration)
+                entity.Property(e => e.ExportDurationQuery)
                     .HasColumnType("decimal(18, 0)")
-                    .HasComment("导出时间（秒）");
+                    .HasComment("导出时间（秒）查询时间");
+
+                entity.Property(e => e.ExportDurationTask)
+                    .HasColumnType("decimal(18, 0)")
+                    .HasComment("导出时间（秒）任务耗时");
+
+                entity.Property(e => e.ExportDurationWrite)
+                    .HasColumnType("decimal(18, 0)")
+                    .HasComment("导出时间（秒）写入时间");
 
                 entity.Property(e => e.ExportMsg)
                     .HasMaxLength(200)
@@ -147,9 +161,13 @@ namespace UFX.ExcelIE.Domain
                     .HasColumnName("ExportSQL")
                     .HasComment("导出实际SQL");
 
-                entity.Property(e => e.FileName).HasMaxLength(200);
+                entity.Property(e => e.FileName)
+                    .HasMaxLength(200)
+                    .HasComment("导出文件名称");
 
-                entity.Property(e => e.FileSize).HasMaxLength(50);
+                entity.Property(e => e.FileSize)
+                    .HasMaxLength(50)
+                    .HasComment("文件大小");
 
                 entity.Property(e => e.ModifyTime)
                     .HasColumnType("datetime")
@@ -173,6 +191,8 @@ namespace UFX.ExcelIE.Domain
                     .HasColumnType("text")
                     .HasColumnName("TemplateSQL")
                     .HasComment("导出模板SQL");
+
+                entity.Property(e => e.TenantId).HasComment("租户ID");
             });
 
             OnModelCreatingPartial(modelBuilder);

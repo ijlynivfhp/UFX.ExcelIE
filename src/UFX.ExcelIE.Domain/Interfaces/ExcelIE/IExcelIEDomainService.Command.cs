@@ -10,6 +10,6 @@ namespace UFX.ExcelIE.Domain.Interfaces.ExcelIE
     public partial interface IExcelIEDomainService
     {
         Task AddAsyncExcelLogModel(CoExcelExportSqllog excelLog);
-        Task EditAsyncExcelLogModel(CoExcelExportSqllog excelLog);
+        Task EditAsyncExcelLogModel(CoExcelExportSqllog excelLog, bool isDelExpire = false);
     }
 }

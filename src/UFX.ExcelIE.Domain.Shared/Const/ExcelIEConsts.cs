@@ -176,5 +176,9 @@ namespace UFX.ExcelIE.Domain.Shared.Const
         public const string ExcelSufStr = ".xlsx";
         #endregion
 
+        /// <summary>
+        /// ExcelIE操作redis前缀
+        /// </summary>
+        public const string ExcelIERedisPre = "ExcelIE:";
     }
 }

@@ -30,14 +30,14 @@ namespace UFX.ExcelIE.Application.Contracts.Helper
         /// <typeparam name="T"></typeparam>  
         /// <param name="key"></param>  
         /// <returns></returns>  
-        public static T GetValue<T>() where T : class, new()
+        public static T GetValue<T>(string configName = default) where T : class, new()
         {
             T sysConfig = new T();
             try
             {
-                config.GetSection("SysConfig").Bind(sysConfig);
+                config.GetSection(string.IsNullOrEmpty(configName) ? sysConfig.GetType().Name : configName).Bind(sysConfig);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 sysConfig = null;
             }

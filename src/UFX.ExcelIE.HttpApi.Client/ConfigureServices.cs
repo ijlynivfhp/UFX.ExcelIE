@@ -21,6 +21,13 @@ using Magicodes.ExporterAndImporter.Core;
 using Magicodes.ExporterAndImporter.Excel;
 using UFX.ExcelIE.Application.Services.ExcelIE;
 using UFX.ExcelIE.Application.Contracts.interfaces.IExcelIE;
+using UFX.ExcelIE.Application.Contracts.Dtos;
+using UFX.ExcelIE.Application.Contracts.Helper;
+using Aliyun.OSS;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Aliyun.OSS.Common;
+using UFX.ExcelIE.Application.Contracts.Dtos.Export;
 
 namespace UFX.ExcelIE.HttpApi.Client
 {
@@ -37,11 +44,15 @@ namespace UFX.ExcelIE.HttpApi.Client
         /// <returns></returns>
         public static IServiceCollection AddAppConfigures(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddScoped<IExcelExporter, ExcelExporter>();
+            services.AddScoped<IExcelIEService, ExcelIEService>();
             services.AddMyCapConfigures(configuration);
             services.AddMyDbContextConfigures(configuration);
             services.AddRedisConfigures(configuration);
+            services.AddOSSConfigures(configuration);
             services.AddSwaggerConfigures();
             return services;
+
         }
 
         /// <summary>
@@ -51,9 +62,6 @@ namespace UFX.ExcelIE.HttpApi.Client
         /// <returns></returns>
         public static IServiceCollection AddMyCapConfigures(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<IExcelExporter, ExcelExporter>();
-            services.AddScoped<IExcelIEService, ExcelIEService>();
-            services.AddScoped<IDbService, DbService>();
             services.AddCap(x =>
             {
                 //配置Cap的本地消息记录库，用于服务端保存Published消息记录表；客户端保存Received消息记录表
@@ -122,11 +130,18 @@ namespace UFX.ExcelIE.HttpApi.Client
             return services;
         }
 
+        /// <summary>
+        /// 配置Redis缓存
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
         public static IServiceCollection AddRedisConfigures(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddRedisRepository(configuration.GetSection("RedisConfig"));
             return services;
         }
+
         /// <summary>
         /// 配置swagger
         /// </summary>
@@ -153,6 +168,19 @@ namespace UFX.ExcelIE.HttpApi.Client
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "UFX.ExcelIE.Application.Contracts.xml"), true);
             });
 
+            return services;
+        }
+
+        /// <summary>
+        /// 配置OSS初始值
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddOSSConfigures(this IServiceCollection services, IConfiguration configuration)
+        {
+            var ossConfig = configuration.GetSection(nameof(OssConfig)).Get<OssConfig>() ?? new OssConfig();
+            services.AddSingleton<IOss, OssClient>(x => new OssClient(ossConfig.Endpoint, ossConfig.AccessKeyId, ossConfig.AccessKeySecret, ossConfig.ClientConfiguration));
             return services;
         }
     }

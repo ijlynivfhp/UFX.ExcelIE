@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UFX.ExcelIE.Application.Contracts.Dtos.Export;
 using UFX.Infra.Interfaces;
 
 namespace UFX.ExcelIE.Application.Contracts.interfaces
@@ -17,6 +18,6 @@ namespace UFX.ExcelIE.Application.Contracts.interfaces
         /// </summary>
         /// <param name="tntId"></param>
         /// <returns></returns>
-        Task ChangeConnectionString(Guid tntId);
+        Task ChangeConnectionString(ExcelIEDto ieDto);
     }
 }

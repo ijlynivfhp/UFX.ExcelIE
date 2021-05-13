@@ -24,4 +24,18 @@ namespace UFX.ExcelIE.Application.Contracts.Enum
         /// </summary>
         MiniExcelCommon = 3,
     }
+    /// <summary>
+    /// 缓存类型
+    /// </summary>
+    public enum ExcelIECacheEnum
+    {
+        /// <summary>
+        /// 数据源缓存
+        /// </summary>
+        DbSource = 0,
+        /// <summary>
+        /// 模板缓存
+        /// </summary>
+        Template = 1,
+    }
 }

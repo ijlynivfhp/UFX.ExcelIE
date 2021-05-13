@@ -21,7 +21,7 @@ namespace UFX.ExcelIE.HttpApi.Controllers
     {
         private readonly IExcelIEService _excelService;
         private readonly ILogger<HomeController> _logger;
-        public HomeController(IExcelIEService excelService,ILogger<HomeController> logger)
+        public HomeController(IExcelIEService excelService, ILogger<HomeController> logger)
         {
             _excelService = excelService;
             _logger = logger;
@@ -44,6 +44,15 @@ namespace UFX.ExcelIE.HttpApi.Controllers
                 return ex.Message;
             }
             return string.Empty;
+        }
+
+        /// <summary>
+        /// 清除ExcelIE缓存
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task ClearExcelIECache(ExcelIECacheDto excelIECacheDto) {
+            await _excelService.ClearExcelIECache(excelIECacheDto);
         }
     }
 }

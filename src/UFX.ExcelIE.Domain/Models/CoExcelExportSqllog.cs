@@ -12,7 +12,9 @@ namespace UFX.ExcelIE.Domain.Models
         public string TemplateSql { get; set; }
         public string ExportSql { get; set; }
         public string ExportParameters { get; set; }
-        public decimal ExportDuration { get; set; }
+        public decimal ExportDurationWrite { get; set; }
+        public decimal ExportDurationQuery { get; set; }
+        public decimal ExportDurationTask { get; set; }
         public byte Status { get; set; }
         public string ExportMsg { get; set; }
         public string DownLoadUrl { get; set; }

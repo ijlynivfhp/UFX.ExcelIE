@@ -86,6 +86,14 @@ namespace UFX.ExcelIE.Application.Contracts.Dtos.Export
         /// </summary>
         public Guid TenantId { get; set; } = default;
         /// <summary>
+        /// 租户编码
+        /// </summary>
+        public string TenantCode { get; set; } = default;
+        /// <summary>
+        /// 租户DB数据源
+        /// </summary>
+        public string TenantDBStr { get; set; } = default;
+        /// <summary>
         /// 操作人Id
         /// </summary>
         public Guid UserId { get; set; } = default;
@@ -129,9 +137,17 @@ namespace UFX.ExcelIE.Application.Contracts.Dtos.Export
         /// </summary>
         public CoExcelExportSqllog TemplateLog { get; set; } = new CoExcelExportSqllog();
         /// <summary>
-        /// 计时器
+        /// 导出写入计时器
         /// </summary>
-        public Stopwatch Watch { get; set; } = new Stopwatch();
+        public Stopwatch WriteWatch { get; set; } = new Stopwatch();
+        /// <summary>
+        /// 导出数据查询计时器
+        /// </summary>
+        public Stopwatch QueryWatch { get; set; } = new Stopwatch();
+        /// <summary>
+        /// 导出任务计时器
+        /// </summary>
+        public Stopwatch TaskWatch { get; set; } = new Stopwatch();
         /// <summary>
         /// 本地导出路径
         /// </summary>
@@ -190,5 +206,24 @@ namespace UFX.ExcelIE.Application.Contracts.Dtos.Export
         public string FieldEnName { get; set; }
         public string FieldChName { get; set; }
         public int IsHide { get; set; } = 0;
+    }
+
+    /// <summary>
+    /// ExcelIE缓存清除Dto
+    /// </summary>
+    public partial class ExcelIECacheDto
+    {
+        /// <summary>
+        /// 清除类型
+        /// </summary>
+        public ExcelIECacheEnum CacheType { get; set; }
+        /// <summary>
+        /// TntId
+        /// </summary>
+        public Guid TenantId { get; set; }
+        /// <summary>
+        /// 模板编码
+        /// </summary>
+        public string TemplateCode { get; set; }
     }
 }

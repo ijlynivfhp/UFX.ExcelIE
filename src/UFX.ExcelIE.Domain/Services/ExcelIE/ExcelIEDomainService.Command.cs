@@ -15,9 +15,18 @@ namespace UFX.ExcelIE.Domain.Services.ExcelIE
             await _scmUnit.SaveChangesAsync();
         }
 
-        public async Task EditAsyncExcelLogModel(CoExcelExportSqllog excelLog)
+        public async Task EditAsyncExcelLogModel(CoExcelExportSqllog excelLog, bool isDelExpire = false)
         {
             await _scmUnit.GetRepository<CoExcelExportSqllog>().UpdateAsync(excelLog);
+            if (isDelExpire)
+            {
+                var sql = @"UPDATE CO_ExcelExportSQLLog
+                    SET Status = 2,
+                        ExportMsg = '导出失败：任务超时自动处理'
+                    WHERE Status = 0
+                          AND CreateTime < DATEADD(MINUTE, -120, GETDATE());";
+                await _scmUnit.ExecuteSqlRawAsync(sql);
+            }
             await _scmUnit.SaveChangesAsync();
         }
     }
