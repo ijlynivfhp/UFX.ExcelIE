@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Builder;
+ï»¿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -27,6 +27,7 @@ using Microsoft.Extensions.FileProviders;
 
 namespace UFX.ExcelIE.HttpApi
 {
+    public class StartupCCCC
     public class StartupBBBB
     {
         public Startup(IConfiguration configuration)
@@ -49,10 +50,10 @@ namespace UFX.ExcelIE.HttpApi
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //ÔÊÐí¿çÓò
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             app.UseCors("AllowAll");
 
-            //// ¿ªÆôÇëÇóÌåÖØ¸´¶ÁÈ¡£¬ÓÃÓÚÈÕÖ¾¼ÇÂ¼ 
+            //// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½Â¼ 
             app.Use(async (context, next) =>
             {
                 context.Request.EnableBuffering();
@@ -100,7 +101,7 @@ namespace UFX.ExcelIE.HttpApi
             });
         }
         /// <summary>
-        /// Ê¹ÓÃautofac
+        /// Ê¹ï¿½ï¿½autofac
         /// </summary>
         /// <param name="builder"></param>
         public void ConfigureContainer(ContainerBuilder builder)
