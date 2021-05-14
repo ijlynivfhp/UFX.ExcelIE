@@ -1,4 +1,4 @@
-ï»¿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -27,14 +27,13 @@ using Microsoft.Extensions.FileProviders;
 
 namespace UFX.ExcelIE.HttpApi
 {
-    public class StartupCCCC
-    public class StartupBBBB
+    public class Startup
     {
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-        cccccccc
+
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -50,10 +49,10 @@ namespace UFX.ExcelIE.HttpApi
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            //ÔÊÐí¿çÓò
             app.UseCors("AllowAll");
 
-            //// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½Â¼ 
+            //// ¿ªÆôÇëÇóÌåÖØ¸´¶ÁÈ¡£¬ÓÃÓÚÈÕÖ¾¼ÇÂ¼ 
             app.Use(async (context, next) =>
             {
                 context.Request.EnableBuffering();
@@ -101,7 +100,7 @@ namespace UFX.ExcelIE.HttpApi
             });
         }
         /// <summary>
-        /// Ê¹ï¿½ï¿½autofac
+        /// Ê¹ÓÃautofac
         /// </summary>
         /// <param name="builder"></param>
         public void ConfigureContainer(ContainerBuilder builder)

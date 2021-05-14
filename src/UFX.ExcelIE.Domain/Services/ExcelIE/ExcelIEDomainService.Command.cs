@@ -24,7 +24,7 @@ namespace UFX.ExcelIE.Domain.Services.ExcelIE
                     SET Status = 2,
                         ExportMsg = '导出失败：任务超时自动处理'
                     WHERE Status = 0
-                          AND CreateTime < DATEADD(MINUTE, -120, GETDATE());";
+                          AND CreateTime < DATEADD(MINUTE, -30, GETDATE());";
                 await _scmUnit.ExecuteSqlRawAsync(sql);
             }
             await _scmUnit.SaveChangesAsync();
