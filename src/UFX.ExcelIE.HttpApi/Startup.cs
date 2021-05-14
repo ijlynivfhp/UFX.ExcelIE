@@ -27,7 +27,7 @@ using Microsoft.Extensions.FileProviders;
 
 namespace UFX.ExcelIE.HttpApi
 {
-    public class Startup
+    public class StartupCCCC
     {
         public Startup(IConfiguration configuration)
         {
