@@ -27,13 +27,12 @@ using Microsoft.Extensions.FileProviders;
 
 namespace UFX.ExcelIE.HttpApi
 {
-    public class StartupCCCC
+    public class Startup
     {
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-        cccccccc
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
