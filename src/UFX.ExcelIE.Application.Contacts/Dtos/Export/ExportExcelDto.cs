@@ -159,7 +159,7 @@ namespace UFX.ExcelIE.Application.Contracts.Dtos.Export
         /// <summary>
         /// 查询语句表列集合
         /// </summary>
-        public List<FieldHeads> FieldList { get; set; }
+        public List<FieldHeads> FieldList { get; set; } = new List<FieldHeads>();
         /// <summary>
         /// 数据是否初始化
         /// </summary>

@@ -99,6 +99,7 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                 ieDto.TemplateLog.CreateUserId = ieDto.UserId;
                 ieDto.TemplateLog.CreateUser = ieDto.UserName;
                 ieDto.TemplateLog.Id = _excelIEDomainService.NewGuid();
+                await _excelIEDomainService.AddAsyncExcelLogModel(ieDto.TemplateLog);
                 await _capPublisher.PublishAsync(MqConst.ExcelIETopicName, ieDto);
             }
             return error;
@@ -131,30 +132,23 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                 var excelPath = rootPath + ExcelIEConsts.ExportSufStr;
                 excelFilePath = excelPath + fileName;
 
-                //判断是本地还是远程部署
-                if (sysConfig.ExcelEDownLoad.DeployType == 0)
-                    downLoadUrl = ieDto.LocalUrl + ExcelIEConsts.ExcelIEDownUrlSuf;
-                else
-                {
-                    //远程路径
-                    //downLoadUrl = ieDto.LocalUrl;
-                }
-
+                //模板文件路径
                 var excelTemplatePath = rootPath + ExcelIEConsts.TemplateSufStr + ieDto.Template.TemplateName + ExcelIEConsts.ExcelSufStr;
+                //拷备模板路径
+                var excelTemplateCopyPath = rootPath + ExcelIEConsts.TemplateSufStr + fileName;
+                //导出前删除文件
                 if (File.Exists(excelFilePath))
                     File.Delete(excelFilePath);
+                //创建文件夹
                 if (!Directory.Exists(excelPath))
                     Directory.CreateDirectory(excelPath);
                 #endregion
 
                 #region 导出记录数据收集
                 var templateLog = await _excelIEDomainService.GetFirstExcelLogModelAsync(o => o.Id == ieDto.TemplateLog.Id);
-                if (templateLog.Id == Guid.Empty)
-                    await _excelIEDomainService.AddAsyncExcelLogModel(ieDto.TemplateLog);
-                else
-                {
-                    ieDto.TemplateLog.ExecCount++;
-                }
+                if (templateLog.Id != Guid.Empty)
+                    ieDto.TemplateLog = templateLog;
+                ieDto.TemplateLog.ExecCount++;
                 if (ieDto.TemplateLog.ExecCount >= 3)
                     ieDto.TemplateLog.Status = 2;
                 #endregion
@@ -189,10 +183,18 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                     if (!ieDto.ExportObj.ContainsKey("DataList"))
                         ieDto.ExportObj.Add(new JProperty("DataList", jarray));
 
+                    //复制模板，解决资源共享占用问题
+                    if (File.Exists(excelTemplatePath))//必须判断要复制的文件是否存在
+                    {
+                        File.Copy(excelTemplatePath, excelTemplateCopyPath, true);//三个参数分别是源文件路径，存储路径，若存储路径有相同文件是否替换
+                    }
                     //导出数据
                     ieDto.WriteWatch.Start();
-                    fileInfo = await _iExcelExporter.ExportByTemplate<JObject>(excelFilePath, ieDto.ExportObj, excelTemplatePath);
+                    fileInfo = await _iExcelExporter.ExportByTemplate<JObject>(excelFilePath, ieDto.ExportObj, excelTemplateCopyPath);
                     ieDto.WriteWatch.Stop();
+                    //删除拷备模板文件
+                    if (File.Exists(excelTemplateCopyPath))
+                        File.Delete(excelTemplateCopyPath);
                 }
                 //MiniExcel导出
                 else if (ieDto.ExportType == ExportTypeEnum.MiniExcelCommon)
@@ -205,13 +207,16 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                     MiniExcel.SaveAs(excelFilePath, dataTable);
                     ieDto.WriteWatch.Stop();
                 }
-                if (sysConfig.ExcelEDownLoad.DeployType != 0)
+                //判断是本地还是远程部署
+                if (sysConfig.ExcelEDownLoad.DeployType == 0)
+                    downLoadUrl = ieDto.LocalUrl + ExcelIEConsts.ExcelIEDownUrlSuf;
+                else
                 {
                     string ossFilePathName = string.Format(@"{0}{1}",
-                        string.IsNullOrEmpty(sysConfig.ExcelEDownLoad.UrlSuf) ? (ieDto.TenantCode + "/" + ExcelIEConsts.ExcelIEDownUrlSuf) : sysConfig.ExcelEDownLoad.UrlSuf,
+                        string.IsNullOrEmpty(sysConfig.ExcelEDownLoad.UrlSuf) ? (ExcelIEConsts.ExcelIEDownUrlSuf + ieDto.TenantCode + "/") : sysConfig.ExcelEDownLoad.UrlSuf,
                         fileName);
                     downLoadUrl = string.Format(@"https://{0}.{1}/{2}",
-                        ossConfig.BucketName, ossConfig.Endpoint, string.IsNullOrEmpty(sysConfig.ExcelEDownLoad.UrlSuf) ? (ieDto.TenantCode + "/" + ExcelIEConsts.ExcelIEDownUrlSuf) : sysConfig.ExcelEDownLoad.UrlSuf);
+                        ossConfig.BucketName, ossConfig.Endpoint, string.IsNullOrEmpty(sysConfig.ExcelEDownLoad.UrlSuf) ? (ExcelIEConsts.ExcelIEDownUrlSuf + ieDto.TenantCode + "/") : sysConfig.ExcelEDownLoad.UrlSuf);
                     var ossResult = _oss.PutObject(ossConfig.BucketName, ossFilePathName, excelFilePath);
                     if (File.Exists(excelFilePath))
                         File.Delete(excelFilePath);
@@ -246,9 +251,9 @@ namespace UFX.ExcelIE.Application.Services.ExcelIE
                 ieDto.TemplateLog.ExportDurationQuery = Convert.ToDecimal(ieDto.QueryWatch.Elapsed.TotalSeconds);
                 ieDto.TemplateLog.ExportDurationWrite = Convert.ToDecimal(ieDto.WriteWatch.Elapsed.TotalSeconds);
                 if (ieDto.TemplateLog.Status == 1)
-                    ieDto.TemplateLog.ExportMsg = "导出成功：" + ieDto.TaskWatch.Elapsed.TotalSeconds + "秒";
+                    ieDto.TemplateLog.ExportMsg = "导出成功：" + ieDto.TaskWatch.Elapsed.TotalSeconds.ToString("0.00") + "秒";
                 if (ieDto.TemplateLog.Status == 2)
-                    ieDto.TemplateLog.ExportMsg += ieDto.TaskWatch.Elapsed.TotalSeconds + "秒";
+                    ieDto.TemplateLog.ExportMsg += ieDto.TaskWatch.Elapsed.TotalSeconds.ToString("0.00") + "秒";
                 await _excelIEDomainService.EditAsyncExcelLogModel(ieDto.TemplateLog, true);
             }
             return string.Empty;

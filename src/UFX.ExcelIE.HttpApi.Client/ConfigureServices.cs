@@ -104,10 +104,10 @@ namespace UFX.ExcelIE.HttpApi.Client
                 //默认分组名，此值不配置时，默认值为当前程序集的名称
                 //x.DefaultGroup = "m";
                 //失败后的重试次数，默认50次；在FailedRetryInterval默认60秒的情况下，即默认重试50*60秒(50分钟)之后放弃失败重试
-                x.FailedRetryCount = 0;
+                x.FailedRetryCount = 3;
 
                 //失败后的重拾间隔，默认60秒
-                //x.FailedRetryInterval = 60;
+                x.FailedRetryInterval = 10;
 
                 //设置成功信息的删除时间默认24*3600秒
                 //x.SucceedMessageExpiredAfter = 60 * 60;
