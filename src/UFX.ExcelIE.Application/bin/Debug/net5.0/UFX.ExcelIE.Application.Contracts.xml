@@ -1,0 +1,450 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UFX.ExcelIE.Application.Contracts</name>
+    </assembly>
+    <members>
+        <member name="T:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto">
+            <summary>
+            Excel导出判断条件运行符对象
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.Equal">
+            <summary>
+            等于
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.NotEqual">
+            <summary>
+            不等于
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.Greater">
+            <summary>
+            大于
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.GreaterEqual">
+            <summary>
+            大于等于
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.Less">
+            <summary>
+            小于
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.LessEqual">
+            <summary>
+            小于等于
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.In">
+            <summary>
+            In
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.NotIn">
+            <summary>
+            NotIn
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.Like">
+            <summary>
+            Like
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.NotLike">
+            <summary>
+            NotLike
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.CommonLike">
+            <summary>
+            CommonLike
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.StartWith">
+            <summary>
+            以StartWith开始
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.EndWith">
+            <summary>
+            以EndWith结束
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.FitNULL">
+            <summary>
+            Is Null
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.NotFitNULL">
+            <summary>
+            Is Not Null
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.TemplateCode">
+            <summary>
+            导出模板编码
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.TenantId">
+            <summary>
+            租户TntId
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.TenantCode">
+            <summary>
+            租户编码
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.TenantDBStr">
+            <summary>
+            租户DB数据源
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.UserId">
+            <summary>
+            操作人Id
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.UserName">
+            <summary>
+            操作人
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.ExportType">
+            <summary>
+            导出类型
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.IsFilterRole">
+            <summary>
+            是否过滤角色权限
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.ReplaceFields">
+            <summary>
+            替换列（动态列）
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.WhereSql">
+            <summary>
+            处理特殊where条件
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.FromSql">
+            <summary>
+            处理特殊From Sql
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.Type">
+            <summary>
+            消息类型，拉取或推送
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.Template">
+            <summary>
+            导出模板
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.TemplateLog">
+            <summary>
+            导出模板记录
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.WriteWatch">
+            <summary>
+            导出写入计时器
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.QueryWatch">
+            <summary>
+            导出数据查询计时器
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.TaskWatch">
+            <summary>
+            导出任务计时器
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.LocalUrl">
+            <summary>
+            本地导出路径
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.ExportObj">
+            <summary>
+            带图片自定义表头对象
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.FieldList">
+            <summary>
+            查询语句表列集合
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto.IsDataInit">
+            <summary>
+            数据是否初始化
+            </summary>
+        </member>
+        <member name="T:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelEItemDto">
+            <summary>
+            Excel导出判断条件运行符对象集合
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelEItemDto.FieldName">
+            <summary>
+            Key:前端别名，Value:后端对应数据库表字段名称
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelEItemDto.FieldValue">
+            <summary>
+            属性值
+            </summary>
+        </member>
+        <member name="T:UFX.ExcelIE.Application.Contracts.Dtos.Export.FieldMapDto">
+            <summary>
+            页面参数和后台查询参数关系映射对象
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.FieldMapDto.NeckName">
+            <summary>
+            前端接收参数Key名称
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.FieldMapDto.FieldName">
+            <summary>
+            后端对应NickName模板查询条件列名
+            </summary>
+        </member>
+        <member name="T:UFX.ExcelIE.Application.Contracts.Dtos.Export.FieldHeads">
+            <summary>
+            构造导出SQL查询字段
+            </summary>
+        </member>
+        <member name="T:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIECacheDto">
+            <summary>
+            ExcelIE缓存清除Dto
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIECacheDto.CacheType">
+            <summary>
+            清除类型
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIECacheDto.TenantId">
+            <summary>
+            TntId
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIECacheDto.TemplateCode">
+            <summary>
+            模板编码
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelEDownLoad.DeployType">
+            <summary>
+            布置方式：0-本地，1-远程
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelEDownLoad.UrlSuf">
+            <summary>
+            UrlSuf
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.MqSettingDto.UserName">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.MqSettingDto.Password">
+            <summary>
+            账户名
+            </summary>
+        </member>
+        <member name="P:UFX.ExcelIE.Application.Contracts.Dtos.MqSettingDto.HostName">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="T:UFX.ExcelIE.Application.Contracts.Enum.ExportTypeEnum">
+            <summary>
+            导出类型枚举
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Application.Contracts.Enum.ExportTypeEnum.MagicodesCommon">
+            <summary>
+            Magicodes通用类型（DataTable）
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Application.Contracts.Enum.ExportTypeEnum.MagicodesImgByTemplate">
+            <summary>
+            Magicodes带图片（需用模板：动态数据）
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Application.Contracts.Enum.ExportTypeEnum.MiniExcelCommon">
+            <summary>
+            MiniExcel通用类型（DataTable）
+            </summary>
+        </member>
+        <member name="T:UFX.ExcelIE.Application.Contracts.Enum.ExcelIECacheEnum">
+            <summary>
+            缓存类型
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Application.Contracts.Enum.ExcelIECacheEnum.DbSource">
+            <summary>
+            数据源缓存
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Application.Contracts.Enum.ExcelIECacheEnum.Template">
+            <summary>
+            模板缓存
+            </summary>
+        </member>
+        <member name="M:UFX.ExcelIE.Application.Contracts.Helper.ConfigHelper.GetValue``1(System.String)">
+            <summary>  
+            获取系统公共配置文件  
+            </summary>  
+            <typeparam name="T"></typeparam>  
+            <param name="key"></param>  
+            <returns></returns>  
+        </member>
+        <member name="M:UFX.ExcelIE.Application.Contracts.Helper.ConfigHelper.GetValue(System.String)">
+            <summary>  
+            获取单一节点配置文件  
+            </summary>  
+            <param name="key">节点，如果是多级节点需要按照:分隔的方式传递</param>  
+            <returns></returns>  
+        </member>
+        <member name="T:UFX.ExcelIE.Application.Contracts.Helper.ExcelIEHelper">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:UFX.ExcelIE.Application.Contracts.Helper.ExcelIEHelper.GetExportSql(UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto)">
+            <summary>
+            获取导出查询sql
+            </summary>
+            <param name="ieDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UFX.ExcelIE.Application.Contracts.Helper.ExcelIEHelper.FormatterHead(UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto,System.Data.DataTable,System.Boolean)">
+            <summary>
+            格式化DataTable表头
+            </summary>
+            <param name="ieDto"></param>
+            <param name="dt"></param>
+            <param name="isEnToCh"></param>
+        </member>
+        <member name="M:UFX.ExcelIE.Application.Contracts.Helper.ExcelIEHelper.GetFileSize(System.String)">
+            <summary>
+            获取文件大小
+            </summary>
+            <param name="sFullName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UFX.ExcelIE.Application.Contracts.Helper.ExcelIEHelper.CountSize(System.Int64)">
+            <summary>
+            计算文件大小函数(保留两位小数),Size为字节大小
+            </summary>
+            <param name="Size">初始文件大小</param>
+            <returns></returns>
+        </member>
+        <member name="M:UFX.ExcelIE.Application.Contracts.Helper.HttpHelper.GetLocalExportUrl(Microsoft.AspNetCore.Http.HttpRequest)">
+            <summary>
+            
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UFX.ExcelIE.Application.Contracts.Helper.HttpHelper.GetAbsoluteUri(Microsoft.AspNetCore.Http.HttpRequest)">
+            <summary>
+            获取完整的URL
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UFX.ExcelIE.Application.Contracts.Helper.HttpHelper.ParseToString(System.Collections.Generic.IDictionary{System.String,System.Collections.Generic.List{System.String}})">
+            <summary>
+            Dictionary Parse To String
+            </summary>
+            <param name="parameters">Dictionary</param>
+            <returns>String</returns>
+        </member>
+        <member name="M:UFX.ExcelIE.Application.Contracts.Helper.HttpHelper.ParseToDictionary(System.String)">
+            <summary>
+            String Parse To Dictionary
+            </summary>
+            <param name="parameter">String</param>
+            <returns>Dictionary</returns>
+        </member>
+        <member name="T:UFX.ExcelIE.Application.Contracts.Helper.JsonHelper">
+            <summary>
+            Json帮助类
+            </summary>
+        </member>
+        <member name="M:UFX.ExcelIE.Application.Contracts.Helper.JsonHelper.ToJsonString(System.Object)">
+            <summary>
+            对象转json字符串
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UFX.ExcelIE.Application.Contracts.Helper.JsonHelper.ToJson``1(System.String)">
+            <summary>
+            字符串转对象
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UFX.ExcelIE.Application.Contracts.Helper.JsonHelper.StrToJarry(System.String)">
+            <summary>
+            字符串转JArray
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="T:UFX.ExcelIE.Application.Contracts.interfaces.IDbService">
+            <summary>
+            同步数据服务接口
+            </summary>
+        </member>
+        <member name="M:UFX.ExcelIE.Application.Contracts.interfaces.IDbService.ChangeConnectionString(UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto)">
+            <summary>
+            修改数据库连接
+            </summary>
+            <param name="tntId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:UFX.ExcelIE.Application.Contracts.interfaces.IExcelIE.IExcelIEService">
+            <summary>
+            ExcelIE操作类
+            </summary>
+        </member>
+        <member name="M:UFX.ExcelIE.Application.Contracts.interfaces.IExcelIE.IExcelIEService.PushExcelExportMsg(UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto)">
+            <summary>
+            ExcelIE消息发送
+            </summary>
+            <param name="ieDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UFX.ExcelIE.Application.Contracts.interfaces.IExcelIE.IExcelIEService.ExcelExport(UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto)">
+            <summary>
+            具体导出操作
+            </summary>
+            <param name="ieDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UFX.ExcelIE.Application.Contracts.interfaces.IExcelIE.IExcelIEService.ClearExcelIECache(UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIECacheDto)">
+            <summary>
+            清除ExcelIE缓存
+            </summary>
+            <param name="excelIECacheDto"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

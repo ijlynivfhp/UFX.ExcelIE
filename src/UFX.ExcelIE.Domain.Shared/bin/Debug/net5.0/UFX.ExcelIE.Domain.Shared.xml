@@ -1,0 +1,234 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UFX.ExcelIE.Domain.Shared</name>
+    </assembly>
+    <members>
+        <member name="T:UFX.ExcelIE.Domain.Shared.Const.CommonConst">
+            <summary>
+            const公共常量
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.CommonConst.BucketName">
+            <summary>
+            OSS-BucketName名称
+            </summary>
+        </member>
+        <member name="T:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts">
+            <summary>
+            ExcelIE常量类
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.FieldEnName">
+            <summary>
+            表头英文名称
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.FieldChName">
+            <summary>
+            表头中文名称
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.IsHide">
+            <summary>
+            表头是否隐藏
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.MainTableSign">
+            <summary>
+            默认主表别名
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.PrimarkKey">
+            <summary>
+            排序默认主键字段
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.RowNumber">
+            <summary>
+            导出分页标识
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.SortAsc">
+            <summary>
+            排序（正序）
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.SortDesc">
+            <summary>
+            排序（倒序）
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.ExecMaxCountPer">
+            <summary>
+            每次执行读取数据库最大行数
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.TopCount">
+            <summary>
+            TopCount
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.OrderBy">
+            <summary>
+            OrderBy排序列
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.SelectSql">
+            <summary>
+            WITH中主查询列
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.MainSql">
+            <summary>
+            WITH中主查询
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.FromSql">
+            <summary>
+            处理特殊From表
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.WithSql">
+            <summary>
+            WITH语句
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.Equal">
+            <summary>
+            等于
+            </summary>
+            
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.NotEqual">
+            <summary>
+            不等于
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.Greater">
+            <summary>
+            大于
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.GreaterEqual">
+            <summary>
+            大于等于
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.Less">
+            <summary>
+            小于
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.LessEqual">
+            <summary>
+            小于等于
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.In">
+            <summary>
+            In
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.NotIn">
+            <summary>
+            NotIn
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.Like">
+            <summary>
+            Like
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.NotLike">
+            <summary>
+            NotLike
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.CommonLike">
+            <summary>
+            CommonLike
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.StartWith">
+            <summary>
+            以StartWith开始
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.EndWith">
+            <summary>
+            以EndWith结束
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.FitNULL">
+            <summary>
+            Is Null
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.NotFitNULL">
+            <summary>
+            Is Not Null
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.CommonQuery">
+            <summary>
+            页面查询通用查询参数
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.PropertitySignName">
+            <summary>
+            属性类型
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.ExcelIEDownUrlSuf">
+            <summary>
+            模板,下载根目录
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.ExcelIESufStr">
+            <summary>
+            模板,下载根目录
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.ExportSufStr">
+            <summary>
+            导出后缀Str
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.TemplateSufStr">
+            <summary>
+            导出后缀Str
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.ExcelSufStr">
+            <summary>
+            Excel后缀
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.ExcelIEConsts.ExcelIERedisPre">
+            <summary>
+            ExcelIE操作redis前缀
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Const.RabbitMq.MqConst.ExcelIETopicName">
+            <summary>
+            MQ--TopicName常量
+            </summary>
+        </member>
+        <member name="T:UFX.ExcelIE.Domain.Shared.Enums.RabbitMq.MqMsgType">
+            <summary>
+            消息类型
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Enums.RabbitMq.MqMsgType.Push">
+            <summary>
+            推送
+            </summary>
+        </member>
+        <member name="F:UFX.ExcelIE.Domain.Shared.Enums.RabbitMq.MqMsgType.Pull">
+            <summary>
+            拉取
+            </summary>
+        </member>
+    </members>
+</doc>

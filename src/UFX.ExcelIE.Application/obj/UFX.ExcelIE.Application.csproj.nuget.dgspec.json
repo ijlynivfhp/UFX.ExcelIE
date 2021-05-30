@@ -1,0 +1,309 @@
+{
+  "format": 1,
+  "restore": {
+    "E:\\软件\\UFX.ExcelIE\\src\\UFX.ExcelIE.Application\\UFX.ExcelIE.Application.csproj": {}
+  },
+  "projects": {
+    "E:\\软件\\UFX.ExcelIE\\src\\UFX.ExcelIE.Application.Contacts\\UFX.ExcelIE.Application.Contracts.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\软件\\UFX.ExcelIE\\src\\UFX.ExcelIE.Application.Contacts\\UFX.ExcelIE.Application.Contracts.csproj",
+        "projectName": "UFX.ExcelIE.Application.Contracts",
+        "projectPath": "E:\\软件\\UFX.ExcelIE\\src\\UFX.ExcelIE.Application.Contacts\\UFX.ExcelIE.Application.Contracts.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "E:\\软件\\UFX.ExcelIE\\src\\UFX.ExcelIE.Application.Contacts\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "http://121.196.106.7:7737/repository/nuget-group/": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "E:\\软件\\UFX.ExcelIE\\src\\UFX.ExcelIE.Domain.Shared\\UFX.ExcelIE.Domain.Shared.csproj": {
+                "projectPath": "E:\\软件\\UFX.ExcelIE\\src\\UFX.ExcelIE.Domain.Shared\\UFX.ExcelIE.Domain.Shared.csproj"
+              },
+              "E:\\软件\\UFX.ExcelIE\\src\\UFX.ExcelIE.Domain\\UFX.ExcelIE.Domain.csproj": {
+                "projectPath": "E:\\软件\\UFX.ExcelIE\\src\\UFX.ExcelIE.Domain\\UFX.ExcelIE.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "Aliyun.OSS.SDK.NetCore": {
+              "target": "Package",
+              "version": "[2.13.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Json": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "MiniExcel": {
+              "target": "Package",
+              "version": "[0.14.1, )"
+            },
+            "UFX.Common.Application.Contracts": {
+              "target": "Package",
+              "version": "[0.0.29.504, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100-preview.3.21202.5\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\软件\\UFX.ExcelIE\\src\\UFX.ExcelIE.Application\\UFX.ExcelIE.Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\软件\\UFX.ExcelIE\\src\\UFX.ExcelIE.Application\\UFX.ExcelIE.Application.csproj",
+        "projectName": "UFX.ExcelIE.Application",
+        "projectPath": "E:\\软件\\UFX.ExcelIE\\src\\UFX.ExcelIE.Application\\UFX.ExcelIE.Application.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "E:\\软件\\UFX.ExcelIE\\src\\UFX.ExcelIE.Application\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "http://121.196.106.7:7737/repository/nuget-group/": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "E:\\软件\\UFX.ExcelIE\\src\\UFX.ExcelIE.Application.Contacts\\UFX.ExcelIE.Application.Contracts.csproj": {
+                "projectPath": "E:\\软件\\UFX.ExcelIE\\src\\UFX.ExcelIE.Application.Contacts\\UFX.ExcelIE.Application.Contracts.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "Magicodes.IE.Excel": {
+              "target": "Package",
+              "version": "[2.5.3.7, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            },
+            "UFX.Common.Application": {
+              "target": "Package",
+              "version": "[0.0.29.504, )"
+            },
+            "UFX.EntityFrameworkCore.UnitOfWork": {
+              "target": "Package",
+              "version": "[0.0.39.505, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100-preview.3.21202.5\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\软件\\UFX.ExcelIE\\src\\UFX.ExcelIE.Domain.Shared\\UFX.ExcelIE.Domain.Shared.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\软件\\UFX.ExcelIE\\src\\UFX.ExcelIE.Domain.Shared\\UFX.ExcelIE.Domain.Shared.csproj",
+        "projectName": "UFX.ExcelIE.Domain.Shared",
+        "projectPath": "E:\\软件\\UFX.ExcelIE\\src\\UFX.ExcelIE.Domain.Shared\\UFX.ExcelIE.Domain.Shared.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "E:\\软件\\UFX.ExcelIE\\src\\UFX.ExcelIE.Domain.Shared\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "http://121.196.106.7:7737/repository/nuget-group/": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "UFX.Common.Domain.Shared": {
+              "target": "Package",
+              "version": "[0.0.29.504, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100-preview.3.21202.5\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\软件\\UFX.ExcelIE\\src\\UFX.ExcelIE.Domain\\UFX.ExcelIE.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\软件\\UFX.ExcelIE\\src\\UFX.ExcelIE.Domain\\UFX.ExcelIE.Domain.csproj",
+        "projectName": "UFX.ExcelIE.Domain",
+        "projectPath": "E:\\软件\\UFX.ExcelIE\\src\\UFX.ExcelIE.Domain\\UFX.ExcelIE.Domain.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "E:\\软件\\UFX.ExcelIE\\src\\UFX.ExcelIE.Domain\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "http://121.196.106.7:7737/repository/nuget-group/": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "E:\\软件\\UFX.ExcelIE\\src\\UFX.ExcelIE.Domain.Shared\\UFX.ExcelIE.Domain.Shared.csproj": {
+                "projectPath": "E:\\软件\\UFX.ExcelIE\\src\\UFX.ExcelIE.Domain.Shared\\UFX.ExcelIE.Domain.Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[5.0.5, )"
+            },
+            "UFX.Common.Domain": {
+              "target": "Package",
+              "version": "[0.0.39.505, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100-preview.3.21202.5\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

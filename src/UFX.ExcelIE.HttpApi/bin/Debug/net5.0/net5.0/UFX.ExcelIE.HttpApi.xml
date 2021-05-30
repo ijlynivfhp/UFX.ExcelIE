@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UFX.ExcelIE.HttpApi</name>
+    </assembly>
+    <members>
+        <member name="M:UFX.ExcelIE.HttpApi.Controllers.HomeController.PushExcelExportMsg(UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIEDto)">
+            <summary>
+            发送消息(导出excel)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UFX.ExcelIE.HttpApi.Controllers.HomeController.ClearExcelIECache(UFX.ExcelIE.Application.Contracts.Dtos.Export.ExcelIECacheDto)">
+            <summary>
+            清除ExcelIE缓存
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UFX.ExcelIE.HttpApi.Startup.ConfigureContainer(Autofac.ContainerBuilder)">
+            <summary>
+            使用autofac
+            </summary>
+            <param name="builder"></param>
+        </member>
+    </members>
+</doc>

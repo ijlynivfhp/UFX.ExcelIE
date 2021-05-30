@@ -1,0 +1,8 @@
+is_global = true
+build_property.TargetFramework = net5.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = UFX.ExcelIE.Application.Contracts
+build_property.ProjectDir = E:\软件\UFX.ExcelIE\src\UFX.ExcelIE.Application.Contacts\
